@@ -4,7 +4,7 @@ import {
 	Switch,
 	Route,
 	withRouter,
-	Redirect,
+	// Redirect,
 } from "react-router-dom";
 
 import Layout from "./components/Layout";
