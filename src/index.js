@@ -9,7 +9,7 @@ import "./index.css";
 
 const history = createBrowserHistory();
 
-axios.defaults.baseURL = "";
+axios.defaults.baseURL = "https://cef-cloud-dev.herokuapp.com/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 ReactDOM.render(

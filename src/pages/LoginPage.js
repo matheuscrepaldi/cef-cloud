@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
+
+import axios from "axios";
 import styled from "styled-components";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { AuthContext } from "../context/AuthContext";
+import Loading from "../components/Loading";
 
 const Container = styled.div`
 	display: flex;
@@ -45,19 +47,18 @@ const Version = styled.span`
 	color: #ccc;
 `;
 
-function LoginPage() {
-	const { session, handleLogin } = useContext(AuthContext);
-	const [loading, setLoading] = useState([]);
+function LoginPage(props) {
+	const [loading, setLoading] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	useEffect(() => {
-		if (session && session.status === 200) {
-			props.history.push("/modules");
-		}
+	// useEffect(() => {
+	// 	if (session && session.status === 200) {
+	// 		props.history.push("/modules");
+	// 	}
 
-		setLoading(false);
-	}, [session, props.history, loading]);
+	// 	setLoading(false);
+	// }, [session, props.history, loading]);
 
 	function handleEmailChange(e) {
 		setEmail(e.target.value);
@@ -67,10 +68,24 @@ function LoginPage() {
 		setPassword(e.target.value);
 	}
 
-	function handleLoginFormSubmit(e) {
+	async function handleLoginFormSubmit(e) {
 		e.preventDefault();
 		setLoading(true);
-		handleLogin(email, password);
+
+		const body = {
+			login: email,
+			senha: password,
+		};
+
+		const response = await axios.post(`login`, body);
+
+		const status = response.status || {};
+		setLoading(false);
+
+		// if (status === 200) {
+		// 	toast.success("Grupo criado com sucesso");
+		// 	props.history.push("/db/settings/groups");
+		// }
 	}
 
 	return (

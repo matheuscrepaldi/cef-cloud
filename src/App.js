@@ -7,6 +7,8 @@ import {
 	// Redirect,
 } from "react-router-dom";
 
+import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
 
@@ -14,26 +16,19 @@ function App() {
 	return (
 		<Router>
 			<Switch>
-				<Route path="/" name="LoginPage" component={LoginPage} />
-
-				{/* <Route
-					path="/modules"
+				<PublicRoute
+					restricted={false}
+					component={LoginPage}
+					path="/"
 					exact
-					name="ModulesPage"
-					component={ModulesPage}
 				/>
-				<Route
-					path="/app-module"
-					name="AppModulePage"
-					component={AppModulePage}
-				/>
-
-				<Redirect
-					push
-					from="/db/settings"
+				{/* <PublicRoute
+					restricted={true}
+					component={SignIn}
+					path="/signin"
 					exact
-					to="/db/settings/computers"
-				/> */}
+				/>
+				<PrivateRoute component={Dashboard} path="/dashboard" exact /> */}
 
 				<Layout>
 					<Switch>
