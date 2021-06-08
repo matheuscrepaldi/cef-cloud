@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import { ToastContainer } from "react-toastify";
 import axios from "axios";
 
 import App from "./App";
@@ -15,7 +16,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 ReactDOM.render(
 	<Router history={history}>
 		<App />
-		{/* <ToastContainer autoClose={3000} /> */}
+		<ToastContainer autoClose={3000} />
 	</Router>,
 	document.getElementById("root")
 );

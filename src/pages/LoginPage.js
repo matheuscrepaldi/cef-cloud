@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import styled from "styled-components";
 import Button from "../components/Button";
 import Input from "../components/Input";
@@ -70,6 +72,12 @@ function LoginPage(props) {
 
 	async function handleLoginFormSubmit(e) {
 		e.preventDefault();
+
+		if (email === "" || password === "") {
+			toast.error("Por favor, informe usuário e senha");
+			return;
+		}
+
 		setLoading(true);
 
 		const body = {
@@ -82,10 +90,12 @@ function LoginPage(props) {
 		const status = response.status || {};
 		setLoading(false);
 
-		// if (status === 200) {
-		// 	toast.success("Grupo criado com sucesso");
-		// 	props.history.push("/db/settings/groups");
-		// }
+		if (status === 200) {
+			toast.success("Login realizado com sucesso");
+			// props.history.push("/db/settings/groups");
+		} else {
+			toast.error("Erro ao realizar login");
+		}
 	}
 
 	return (
@@ -95,11 +105,11 @@ function LoginPage(props) {
 				<Title>Login</Title>
 				<Row>Usuário</Row>
 				<Row>
-					<Input onClick={handleEmailChange} />
+					<Input onChange={handleEmailChange} />
 				</Row>
 				<Row>Senha</Row>
 				<Row>
-					<Input onClick={handlePasswordChange} type="password" />
+					<Input onChange={handlePasswordChange} type="password" />
 				</Row>
 				<Row>
 					<Button onClick={handleLoginFormSubmit}>Entrar</Button>
