@@ -2,12 +2,12 @@ import React from "react";
 import {
 	BrowserRouter as Router,
 	Switch,
-	Route,
+	// Route,
 	withRouter,
 	// Redirect,
 } from "react-router-dom";
 
-import PrivateRoute from "./routes/PrivateRoute";
+// import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
