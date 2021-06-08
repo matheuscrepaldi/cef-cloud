@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { AuthContext } from "../context/AuthContext";
 
 const Container = styled.div`
 	display: flex;
@@ -45,20 +46,48 @@ const Version = styled.span`
 `;
 
 function LoginPage() {
+	const { session, handleLogin } = useContext(AuthContext);
+	const [loading, setLoading] = useState([]);
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	useEffect(() => {
+		if (session && session.status === 200) {
+			props.history.push("/modules");
+		}
+
+		setLoading(false);
+	}, [session, props.history, loading]);
+
+	function handleEmailChange(e) {
+		setEmail(e.target.value);
+	}
+
+	function handlePasswordChange(e) {
+		setPassword(e.target.value);
+	}
+
+	function handleLoginFormSubmit(e) {
+		e.preventDefault();
+		setLoading(true);
+		handleLogin(email, password);
+	}
+
 	return (
 		<Container>
 			<StyledCard>
+				<Loading loading={loading} absolute />
 				<Title>Login</Title>
 				<Row>Usuário</Row>
 				<Row>
-					<Input />
+					<Input onClick={handleEmailChange} />
 				</Row>
 				<Row>Senha</Row>
 				<Row>
-					<Input type="password" />
+					<Input onClick={handlePasswordChange} type="password" />
 				</Row>
 				<Row>
-					<Button>Entrar</Button>
+					<Button onClick={handleLoginFormSubmit}>Entrar</Button>
 				</Row>
 				<Version>v1.0.0</Version>
 			</StyledCard>
