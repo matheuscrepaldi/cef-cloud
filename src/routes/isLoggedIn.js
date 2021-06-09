@@ -1,7 +1,7 @@
 const isLogin = () => {
-	const sessionItem = sessionStorage.getItem("session");
-	if (sessionItem) {
-		return JSON.parse(sessionItem);
+	const session = sessionStorage.getItem("session");
+	if (session) {
+		return JSON.parse(session);
 	}
 
 	return false;

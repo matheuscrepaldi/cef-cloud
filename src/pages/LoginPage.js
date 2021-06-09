@@ -91,8 +91,15 @@ function LoginPage(props) {
 		setLoading(false);
 
 		if (status === 200) {
+			const session = {
+				user: email,
+				status,
+			};
+
+			sessionStorage.setItem("session", JSON.stringify(session));
+
 			toast.success("Login realizado com sucesso");
-			// props.history.push("/db/settings/groups");
+			props.history.push("/home");
 		} else {
 			toast.error("Erro ao realizar login");
 		}

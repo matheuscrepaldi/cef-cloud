@@ -7,10 +7,11 @@ import {
 	// Redirect,
 } from "react-router-dom";
 
-// import PrivateRoute from "./routes/PrivateRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
 	return (
@@ -32,6 +33,7 @@ function App() {
 
 				<Layout>
 					<Switch>
+						<PrivateRoute component={HomePage} path="/home" exact />
 						{/* <Route
 							exact
 							path="/db/settings/computers"

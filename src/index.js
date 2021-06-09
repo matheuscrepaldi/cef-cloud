@@ -7,6 +7,7 @@ import axios from "axios";
 
 import App from "./App";
 import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const history = createBrowserHistory();
 
