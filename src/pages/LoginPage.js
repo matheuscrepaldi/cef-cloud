@@ -78,31 +78,37 @@ function LoginPage(props) {
 			return;
 		}
 
-		setLoading(true);
-
 		const body = {
 			login: email,
 			senha: password,
 		};
 
-		const response = await axios.post(`login`, body);
+		setLoading(true);
 
-		const status = response.status || {};
-		setLoading(false);
+		axios
+			.post("login", body)
+			.then(function (response) {
+				const status = response.status || {};
+				if (status === 200) {
+					const session = {
+						user: email,
+						status,
+					};
 
-		if (status === 200) {
-			const session = {
-				user: email,
-				status,
-			};
-
-			sessionStorage.setItem("session", JSON.stringify(session));
-
-			toast.success("Login realizado com sucesso");
-			props.history.push("/home");
-		} else {
-			toast.error("Erro ao realizar login");
-		}
+					sessionStorage.setItem("session", JSON.stringify(session));
+					setLoading(false);
+					toast.success("Login realizado com sucesso");
+					props.history.push("/home");
+				} else {
+					setLoading(false);
+					toast.error("Erro ao realizar login");
+				}
+			})
+			.catch(function (error) {
+				setLoading(false);
+				console.log(error);
+				toast.error(error);
+			});
 	}
 
 	return (
