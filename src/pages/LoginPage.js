@@ -79,8 +79,8 @@ function LoginPage(props) {
 		}
 
 		const body = {
-			login: email,
-			senha: password,
+			username: email,
+			password,
 		};
 
 		setLoading(true);
@@ -93,6 +93,7 @@ function LoginPage(props) {
 					const session = {
 						user: email,
 						status,
+						token: response.data,
 					};
 
 					sessionStorage.setItem("session", JSON.stringify(session));
