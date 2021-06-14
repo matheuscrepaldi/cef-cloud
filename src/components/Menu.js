@@ -35,7 +35,12 @@ const List = styled.div`
 	align-items: center;
 `;
 
-function Menu() {
+function Menu(props) {
+	const handleLogout = () => {
+		sessionStorage.removeItem("session");
+		props.history.push("/");
+	};
+
 	return (
 		<Navbar>
 			<Row>
@@ -46,6 +51,9 @@ function Menu() {
 					<Link href="#home">Home</Link>
 					<Link href="#about">About</Link>
 					<Link href="#contact">Contact</Link>
+					<Link onClick={handleLogout} href="#contact">
+						Sair
+					</Link>
 				</List>
 			</Row>
 		</Navbar>

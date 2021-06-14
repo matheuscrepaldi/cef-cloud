@@ -54,13 +54,13 @@ function LoginPage(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	// useEffect(() => {
-	// 	if (session && session.status === 200) {
-	// 		props.history.push("/modules");
-	// 	}
+	useEffect(() => {
+		if (session && session.status === 200) {
+			props.history.push("/home");
+		}
 
-	// 	setLoading(false);
-	// }, [session, props.history, loading]);
+		setLoading(false);
+	}, [session, props.history, loading]);
 
 	function handleEmailChange(e) {
 		setEmail(e.target.value);
