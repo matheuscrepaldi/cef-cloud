@@ -1,9 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-
-// import Sidebar from "../Layout/Sidebar/Sidebar";
-
 import styled from "styled-components";
+
+import Menu from "./Menu";
 
 function Layout(props) {
 	const Container = styled.div`
@@ -12,51 +11,22 @@ function Layout(props) {
 		overflow: auto;
 		background: #f2f2f2;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		margin: 0;
 	`;
 
-	const LeftPanel = styled.div`
-		height: 100vh;
-		position: sticky;
-		top: 0;
-		width: 3%;
-		min-width: 50px;
-	`;
-
-	const RightPanel = styled.div`
+	const Body = styled.div`
 		flex-grow: 1;
 		padding: 30px;
-		width: calc(100% - 110px);
+		max-width: 100%;
+		margin-top: 80px;
 	`;
-
-	// const { session } = useContext(AuthContext);
-	// const [user, setUser] = useState({ name: "", initials: "" });
-
-	// useEffect(() => {
-	// 	function getInitials(name) {
-	// 		let initials = name.match(/\b\w/g) || [];
-	// 		initials = (
-	// 			(initials.shift() || "") + (initials.pop() || "")
-	// 		).toUpperCase();
-	// 		return initials;
-	// 	}
-
-	// 	if (!session) {
-	// 		props.history.push("/login");
-	// 	} else {
-	// 		setUser({
-	// 			name: session.name,
-	// 			initials: getInitials(session.name),
-	// 		});
-	// 	}
-	// }, [session, props]);
 
 	return (
 		<>
 			<Container>
-				<LeftPanel>{/* <Sidebar user={user} /> */}</LeftPanel>
-				<RightPanel>{props.children}</RightPanel>
+				<Menu />
+				<Body>{props.children}</Body>
 			</Container>
 		</>
 	);
