@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -55,12 +55,14 @@ function LoginPage(props) {
 	const [password, setPassword] = useState("");
 
 	useEffect(() => {
+		const session = JSON.parse(sessionStorage.getItem("session"));
+		console.log(session);
 		if (session && session.status === 200) {
 			props.history.push("/home");
 		}
 
 		setLoading(false);
-	}, [session, props.history, loading]);
+	}, [props.history]);
 
 	function handleEmailChange(e) {
 		setEmail(e.target.value);

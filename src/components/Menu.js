@@ -38,7 +38,6 @@ const List = styled.div`
 function Menu(props) {
 	const handleLogout = () => {
 		sessionStorage.removeItem("session");
-		props.history.push("/");
 	};
 
 	return (
