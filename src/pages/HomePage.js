@@ -28,30 +28,7 @@ function HomePage() {
 					</>
 				);
 			})}
-			{data.map((dt) => {
-				return (
-					<>
-						<br />
-						{dt.id} - {dt.nome_urna}
-					</>
-				);
-			})}
-			{data.map((dt) => {
-				return (
-					<>
-						<br />
-						{dt.id} - {dt.nome_urna}
-					</>
-				);
-			})}
-			{data.map((dt) => {
-				return (
-					<>
-						<br />
-						{dt.id} - {dt.nome_urna}
-					</>
-				);
-			})}
+			
 		</>
 	);
 }
