@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { BsBoxArrowLeft } from "react-icons/bs";
 import Row from "./Row";
 import HeaderTitle from "./HeaderTitle";

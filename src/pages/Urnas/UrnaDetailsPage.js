@@ -27,7 +27,7 @@ function UrnaDetailsPage(props) {
 			.catch(function (error) {
 				console.log(error);
 			});
-	}, []);
+	}, [id, setFields]);
 
 	const handlePost = () => {
 		const body = { ...fields };
