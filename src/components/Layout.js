@@ -23,12 +23,10 @@ function Layout(props) {
 	`;
 
 	return (
-		<>
-			<Container>
-				<Menu />
-				<Body>{props.children}</Body>
-			</Container>
-		</>
+		<Container>
+			<Menu />
+			<Body>{props.children}</Body>
+		</Container>
 	);
 }
 export default withRouter(Layout);

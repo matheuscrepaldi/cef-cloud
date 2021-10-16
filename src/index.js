@@ -14,6 +14,7 @@ const history = createBrowserHistory();
 
 axios.defaults.baseURL = "https://cef-cloud-dev.herokuapp.com/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.put["Content-Type"] = "application/json";
 
 axios.interceptors.request.use(function (config) {
 	const session = isLogin();

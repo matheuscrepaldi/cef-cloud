@@ -12,6 +12,8 @@ import PublicRoute from "./routes/PublicRoute";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import UrnasListPage from "./pages/Urnas/UrnasListPage";
+import UrnaDetailsPage from "./pages/Urnas/UrnaDetailsPage";
 
 function App() {
 	return (
@@ -34,6 +36,16 @@ function App() {
 				<Layout>
 					<Switch>
 						<PrivateRoute component={HomePage} path="/home" exact />
+						<PrivateRoute
+							component={UrnasListPage}
+							path="/urnas"
+							exact
+						/>
+						<PrivateRoute
+							component={UrnaDetailsPage}
+							path="/urnas/:id"
+							exact
+						/>
 						{/* <Route
 							exact
 							path="/db/settings/computers"

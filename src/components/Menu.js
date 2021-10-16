@@ -1,12 +1,16 @@
 import React from "react";
 
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 import LogoImage from "../img/logo192.png";
 
-const Link = styled.a`
-	color: inherit;
+const StyledLink = styled(Link)`
+	color: #f2f2f2;
 	text-decoration: none;
+	margin: 0px 10px;
+	:hover {
+		cursor: pointer;
+	}
 `;
 
 const Navbar = styled.div`
@@ -35,7 +39,7 @@ const List = styled.div`
 	align-items: center;
 `;
 
-function Menu(props) {
+function Menu() {
 	const handleLogout = () => {
 		sessionStorage.removeItem("session");
 	};
@@ -47,12 +51,9 @@ function Menu(props) {
 					<img src={LogoImage} width="40" height="40" alt="logo" />
 				</Logo>
 				<List>
-					<Link href="#home">Home</Link>
-					<Link href="#about">About</Link>
-					<Link href="#contact">Contact</Link>
-					<Link onClick={handleLogout} href="#contact">
-						Sair
-					</Link>
+					<StyledLink to={"/home"}>Home</StyledLink>
+					<StyledLink to={"/urnas"}>Urnas</StyledLink>
+					<StyledLink onClick={handleLogout}>Sair</StyledLink>
 				</List>
 			</Row>
 		</Navbar>

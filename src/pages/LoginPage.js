@@ -56,7 +56,7 @@ function LoginPage(props) {
 
 	useEffect(() => {
 		const session = JSON.parse(sessionStorage.getItem("session"));
-		console.log(session);
+
 		if (session && session.status === 200) {
 			props.history.push("/home");
 		}
@@ -92,15 +92,17 @@ function LoginPage(props) {
 			.then(function (response) {
 				const status = response.status || {};
 				if (status === 200) {
+					const data = response.data || {};
+
 					const session = {
 						user: email,
 						status,
-						token: response.data,
+						token: data.Token,
+						owner: data.Owner,
 					};
 
 					sessionStorage.setItem("session", JSON.stringify(session));
 					setLoading(false);
-					toast.success("Login realizado com sucesso");
 					props.history.push("/home");
 				} else {
 					setLoading(false);
