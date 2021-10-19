@@ -20,14 +20,12 @@ function Loading(props) {
 		height = "40px",
 		viewBox = "0 0 50 50",
 		fill = "#59bfff",
-		className = "loading",
 	}) => (
 		<svg
 			width={width}
 			height={height}
 			fill={fill}
 			viewBox={viewBox}
-			className={className}
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			<path

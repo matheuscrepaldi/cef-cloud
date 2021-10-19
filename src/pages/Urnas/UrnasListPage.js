@@ -19,7 +19,7 @@ function UrnasListPage(props) {
 			.catch(function (error) {
 				console.log(error);
 			});
-	}, [data]);
+	}, []);
 
 	const handleCardClick = (id) => {
 		props.history.push(`/urnas/${id}`);

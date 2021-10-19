@@ -85,7 +85,7 @@ function LoginPage(props) {
 			password,
 		};
 
-		// setLoading(true);
+		setLoading(true);
 
 		axios
 			.post("login", body)
@@ -102,15 +102,15 @@ function LoginPage(props) {
 					};
 
 					sessionStorage.setItem("session", JSON.stringify(session));
-					// setLoading(false);
+					setLoading(false);
 					props.history.push("/home");
 				} else {
-					// setLoading(false);
+					setLoading(false);
 					toast.error("Erro ao realizar login");
 				}
 			})
 			.catch(function (error) {
-				// setLoading(false);
+				setLoading(false);
 				console.log(error);
 				toast.error(error);
 			});
