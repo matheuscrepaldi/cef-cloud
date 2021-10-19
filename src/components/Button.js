@@ -1,6 +1,11 @@
 import styled, { css } from "styled-components";
 
 const Button = styled.button`
+	display: inline-block;
+	line-height: 50%;
+	font-family: Poppins;
+	text-decoration: none;
+	margin: 5px 5px 5px 5px;
 	font-weight: 600;
 	text-align: center;
 	font-size: 14px;
@@ -9,7 +14,7 @@ const Button = styled.button`
 	width: 100%;
 	height: 40px;
 	border: none;
-	border-radius: 4px;
+	border-radius: 10px;
 	padding: 5px;
 	cursor: pointer;
 	overflow: hidden;
@@ -50,6 +55,18 @@ const Button = styled.button`
 				background: #18873f;
 			}
 		`}
+
+
+	${(props) =>
+		props.cancel &&
+		css`
+			color: #888888;
+			background: #efefef;
+
+			:hover {
+				background: #c9c9c9;
+			}
+		`};
 `;
 
 export default Button;

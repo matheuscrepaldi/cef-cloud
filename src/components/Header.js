@@ -1,5 +1,4 @@
 import { BsBoxArrowLeft } from "react-icons/bs";
-import Row from "./Row";
 import HeaderTitle from "./HeaderTitle";
 import Button from "./Button";
 import styled from "styled-components";

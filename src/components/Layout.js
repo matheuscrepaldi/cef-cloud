@@ -8,7 +8,7 @@ function Layout(props) {
 	const Container = styled.div`
 		min-height: 100vh;
 		max-height: 100vh;
-		overflow: auto;
+		overflow: hidden;
 		background: #f2f2f2;
 		display: flex;
 		flex-direction: column;
@@ -20,6 +20,8 @@ function Layout(props) {
 		padding: 30px;
 		max-width: 100%;
 		margin-top: 80px;
+		height: calc(100vh - 80px);
+		overflow: auto;
 	`;
 
 	return (
