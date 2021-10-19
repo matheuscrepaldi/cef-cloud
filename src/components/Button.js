@@ -7,7 +7,6 @@ const Button = styled.button`
 	color: #fff;
 	background-color: #59bfff;
 	width: 100%;
-	max-width: 400px;
 	height: 40px;
 	border: none;
 	border-radius: 4px;
@@ -18,6 +17,18 @@ const Button = styled.button`
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 	:hover {
 		box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+	}
+
+	@media (min-width: 1024px) {
+		max-width: 400px;
+	}
+
+	@media (min-width: 768px) and (max-width: 1023px) {
+		max-width: 300%;
+	}
+
+	@media (max-width: 767px) {
+		max-width: 100%;
 	}
 
 	${(props) =>

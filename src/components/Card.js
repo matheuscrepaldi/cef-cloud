@@ -10,6 +10,7 @@ const Card = styled.div`
 	padding: 10px;
 	border: 1px solid #59bfff;
 	border-radius: 10px;
+	background: #fff;
 
 	:hover {
 		cursor: pointer;

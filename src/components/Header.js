@@ -2,19 +2,57 @@ import { BsBoxArrowLeft } from "react-icons/bs";
 import Row from "./Row";
 import HeaderTitle from "./HeaderTitle";
 import Button from "./Button";
+import styled from "styled-components";
+import { withRouter } from "react-router";
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 10px;
+	align-items: center;
+	flex: 1;
+	padding: 10px;
+`;
+
+const LeftPanel = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 50%;
+`;
+const RightPanel = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	width: 50%;
+`;
+
+const ArrowLeft = styled(BsBoxArrowLeft)`
+	:hover {
+		cursor: pointer;
+		fill: #0da2ff;
+	}
+`;
 
 const Header = (props) => {
 	return (
-		<Row>
-			<BsBoxArrowLeft
-				size={28}
-				color={"59bfff"}
-				// onClick={() => props.history.goBack()} // arrumar desgraça
-			/>
-			<HeaderTitle>{props.title}</HeaderTitle>
-			<Button onClick={props.handleNew}>Novo Cadastro</Button>
-		</Row>
+		<Container>
+			<LeftPanel>
+				<ArrowLeft
+					size={28}
+					color={"59bfff"}
+					onClick={() => props.history.goBack()} // arrumar desgraça
+				/>
+				<HeaderTitle>{props.title}</HeaderTitle>
+			</LeftPanel>
+			{props.showNewButton && (
+				<RightPanel>
+					<Button onClick={props.handleNew}>Novo Cadastro</Button>
+				</RightPanel>
+			)}
+		</Container>
 	);
 };
 
-export default Header;
+export default withRouter(Header);

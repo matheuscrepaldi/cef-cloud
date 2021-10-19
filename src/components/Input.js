@@ -16,6 +16,18 @@ const Input = styled.input`
 		rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
 		rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
 
+	@media (min-width: 1024px) {
+		max-width: 400px;
+	}
+
+	@media (min-width: 768px) and (max-width: 1023px) {
+		max-width: 300%;
+	}
+
+	@media (max-width: 767px) {
+		max-width: 100%;
+	}
+
 	::-webkit-inner-spin-button {
 		-webkit-appearance: none;
 		margin: 0;

@@ -30,6 +30,7 @@ function UrnasListPage(props) {
 			<Header
 				title="Lista de Urnas"
 				handleNew={() => props.history.push("/urnas/new")}
+				showNewButton
 			/>
 			{data.map((dt) => {
 				return (

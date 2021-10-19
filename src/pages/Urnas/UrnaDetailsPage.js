@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import Header from "../../components/HeaderTitle";
+import Header from "../../components/Header";
 import CardDetails from "../../components/CardDetails";
 import Row from "../../components/Row";
 import Column from "../../components/Column";
@@ -83,7 +83,7 @@ function UrnaDetailsPage(props) {
 
 	return (
 		<>
-			<Header>Cadastro da Urna</Header>
+			<Header title="Cadastro da Urna" />
 			<CardDetails>
 				<Row>
 					<Column>
@@ -145,14 +145,18 @@ function UrnaDetailsPage(props) {
 				</Row>
 				<Row>
 					{!isNew && (
-						<Button onClick={handleDelete} danger>
-							Excluir
-						</Button>
+						<Column style={{ alignItems: "flex-end" }}>
+							<Button onClick={handleDelete} danger>
+								Excluir
+							</Button>
+						</Column>
 					)}
 
-					<Button onClick={handleSaveUrna} success>
-						Salvar
-					</Button>
+					<Column style={{ alignItems: "flex-start" }}>
+						<Button onClick={handleSaveUrna} success>
+							Salvar
+						</Button>
+					</Column>
 				</Row>
 			</CardDetails>
 		</>
