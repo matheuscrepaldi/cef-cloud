@@ -25,18 +25,20 @@ function UrnaDetailsPage(props) {
 	const session = JSON.parse(sessionStorage.getItem("session"));
 
 	useEffect(() => {
-		setLoading(true);
+		if (!isNew) {
+			setLoading(true);
 
-		axios
-			.get(`listarUrnaById/${id}`)
-			.then(function (response) {
-				setFields(response.data);
-				setLoading(false);
-			})
-			.catch(function (error) {
-				console.log(error);
-				setLoading(false);
-			});
+			axios
+				.get(`listarUrnaById/${id}`)
+				.then(function (response) {
+					setFields(response.data);
+					setLoading(false);
+				})
+				.catch(function (error) {
+					console.log(error);
+					setLoading(false);
+				});
+		}
 	}, [id, setFields]);
 
 	const handlePost = () => {
@@ -154,8 +156,6 @@ function UrnaDetailsPage(props) {
 								onChange={handleInputChange}
 							/>
 						</Column>
-					</Row>
-					<Row>
 						<Column>
 							<Text>Cor:</Text>
 							<Input
@@ -165,6 +165,8 @@ function UrnaDetailsPage(props) {
 								onChange={handleInputChange}
 							/>
 						</Column>
+					</Row>
+					<Row>
 						<Column>
 							<Text>Tipo:</Text>
 							<Input
@@ -181,6 +183,25 @@ function UrnaDetailsPage(props) {
 								type="number"
 								defaultValue={fields.quantidade}
 								onChange={handleInputChange}
+							/>
+						</Column>
+						<Column>
+							<Text>Valor unitário:</Text>
+							<Input
+								id={"val_unit"}
+								type="number"
+								defaultValue={fields.val_unit}
+								onChange={handleInputChange}
+							/>
+						</Column>
+						<Column>
+							<Text>Valor total:</Text>
+							<Input
+								id={"val_total"}
+								type="number"
+								defaultValue={fields.val_total}
+								onChange={handleInputChange}
+								disabled
 							/>
 						</Column>
 					</Row>

@@ -39,6 +39,17 @@ function UrnasListPage(props) {
 				showNewButton
 			/>
 
+			<Card>
+				<Row>
+					<Title>Referência</Title>
+					<Title>Nome</Title>
+					<Title>Tamanho</Title>
+					<Title>Cor</Title>
+					<Title>Tipo</Title>
+					<Title>Estoque</Title>
+				</Row>
+			</Card>
+
 			{loading ? (
 				<Card>
 					<Loading loading={loading} absolute />
@@ -48,12 +59,12 @@ function UrnasListPage(props) {
 					return (
 						<Card onClick={() => handleCardClick(dt.id)}>
 							<Row>
-								<Title>Referência: {dt.ref_urna}</Title>
-								<Text>Nome: {dt.nome_urna}</Text>
-								<Text>Tamanho: {dt.tamanho_urna}</Text>
-								<Text>Cor: {dt.cor_urna}</Text>
-								<Text>Tipo: {dt.classe_urna}</Text>
-								<Text>Estoque: {dt.quantidade}</Text>
+								<Text>{dt.ref_urna}</Text>
+								<Text>{dt.nome_urna}</Text>
+								<Text>{dt.tamanho_urna}</Text>
+								<Text>{dt.cor_urna}</Text>
+								<Text>{dt.classe_urna}</Text>
+								<Text>{dt.quantidade}</Text>
 							</Row>
 						</Card>
 					);

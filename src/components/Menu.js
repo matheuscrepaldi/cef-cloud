@@ -8,8 +8,10 @@ const StyledLink = styled(Link)`
 	color: #f2f2f2;
 	text-decoration: none;
 	margin: 0px 10px;
+
 	:hover {
 		cursor: pointer;
+		color: #cccccc;
 	}
 `;
 
@@ -28,6 +30,7 @@ const Row = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	height: 100%;
+	margin-right: 50px;
 `;
 
 const Logo = styled.div`
