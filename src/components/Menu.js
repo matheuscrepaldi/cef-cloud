@@ -21,7 +21,12 @@ const Navbar = styled.div`
 	left: 0;
 	margin: auto;
 	width: 100%;
-	background-color: #59bfff;
+	background: linear-gradient(
+		90deg,
+		rgba(0, 117, 191, 1) 0%,
+		rgba(13, 162, 255, 1) 44%,
+		rgba(89, 191, 255, 1) 100%
+	);
 	height: 80px;
 `;
 

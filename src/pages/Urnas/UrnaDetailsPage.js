@@ -39,7 +39,7 @@ function UrnaDetailsPage(props) {
 					setLoading(false);
 				});
 		}
-	}, [id, setFields]);
+	}, [id, setFields, isNew]);
 
 	const handlePost = () => {
 		const body = { ...fields };
