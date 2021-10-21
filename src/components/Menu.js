@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import LogoImage from "../img/logo192.png";
 
 const StyledLink = styled(Link)`
-	color: #f2f2f2;
+	color: #ffffff;
 	text-decoration: none;
 	margin: 0px 10px;
 
 	:hover {
 		cursor: pointer;
-		color: #cccccc;
+		color: #d9d9d9;
 	}
 `;
 

@@ -1,4 +1,4 @@
-import { BsBoxArrowLeft } from "react-icons/bs";
+import { BsBoxArrowLeft, BsPlusLg } from "react-icons/bs";
 import HeaderTitle from "./HeaderTitle";
 import Button from "./Button";
 import styled from "styled-components";
@@ -24,6 +24,24 @@ const RightPanel = styled.div`
 	align-items: center;
 	justify-content: flex-end;
 	width: 50%;
+
+	&.showBigButton {
+		display: flex;
+	}
+
+	&.showSmallButton {
+		display: none;
+	}
+
+	@media (max-width: 767px) {
+		&.showBigButton {
+			display: none;
+		}
+
+		&.showSmallButton {
+			display: flex;
+		}
+	}
 `;
 
 const ArrowLeft = styled(BsBoxArrowLeft)`
@@ -45,9 +63,16 @@ const Header = (props) => {
 				<HeaderTitle>{props.title}</HeaderTitle>
 			</LeftPanel>
 			{props.showNewButton && (
-				<RightPanel>
-					<Button onClick={props.handleNew}>Novo Cadastro</Button>
-				</RightPanel>
+				<>
+					<RightPanel className="showBigButton">
+						<Button onClick={props.handleNew}>Novo Cadastro</Button>
+					</RightPanel>
+					<RightPanel className="showSmallButton">
+						<Button small onClick={props.handleNew}>
+							<BsPlusLg color={"ffffff"} />
+						</Button>
+					</RightPanel>
+				</>
 			)}
 		</Container>
 	);

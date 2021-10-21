@@ -11,7 +11,7 @@ const Button = styled.button`
 	font-size: 14px;
 	color: #fff;
 	background-color: #59bfff;
-	width: 100%;
+	width: ${(props) => (props.small ? "40px" : "100%")};
 	height: 40px;
 	border: none;
 	border-radius: 10px;

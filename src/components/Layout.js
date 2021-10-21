@@ -9,7 +9,7 @@ function Layout(props) {
 		min-height: 100vh;
 		max-height: 100vh;
 		overflow: hidden;
-		background: #f2f2f2;
+		background: #e5e5e5;
 		display: flex;
 		flex-direction: column;
 		margin: 0;

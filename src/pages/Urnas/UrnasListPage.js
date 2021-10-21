@@ -31,6 +31,11 @@ const TableRow = styled(Row)`
 			flex-direction: column;
 			border: 1px solid #59bfff;
 			border-radius: 10px;
+			background: #ffffff;
+
+			:hover {
+				background: #d9d9d9;
+			}
 		}
 	}
 
