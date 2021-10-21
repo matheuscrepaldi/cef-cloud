@@ -77,7 +77,7 @@ function UrnaDetailsPage(props) {
 			})
 			.catch(function (error) {
 				setLoading(false);
-				console.log(error);
+				toast.error(error);
 			});
 	};
 
@@ -165,8 +165,7 @@ function UrnaDetailsPage(props) {
 								onChange={handleInputChange}
 							/>
 						</Column>
-					</Row>
-					<Row>
+
 						<Column>
 							<Text>Tipo:</Text>
 							<Input

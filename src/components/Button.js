@@ -22,6 +22,7 @@ const Button = styled.button`
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 	:hover {
 		box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+		background-color: #0da2ff;
 	}
 
 	@media (min-width: 1024px) {

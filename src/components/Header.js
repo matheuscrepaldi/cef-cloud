@@ -10,7 +10,6 @@ const Container = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	flex: 1;
-	padding: 10px;
 `;
 
 const LeftPanel = styled.div`
@@ -18,6 +17,7 @@ const LeftPanel = styled.div`
 	align-items: center;
 	justify-content: flex-start;
 	width: 50%;
+	margin-left: 15px;
 `;
 const RightPanel = styled.div`
 	display: flex;

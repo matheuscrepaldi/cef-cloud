@@ -30,16 +30,18 @@ const Row = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	height: 100%;
-	margin-right: 50px;
+	margin-right: 25px;
 `;
 
 const Logo = styled.div`
 	padding: 15px;
+	margin-left: 30px;
 `;
 
 const List = styled.div`
 	display: flex;
 	align-items: center;
+	margin-right: 15px;
 `;
 
 function Menu() {
