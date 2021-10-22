@@ -56,7 +56,7 @@ const TableTitle = styled(Title)`
 	}
 `;
 
-function UrnasListPage(props) {
+function MovimentacoesListPage(props) {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -76,23 +76,20 @@ function UrnasListPage(props) {
 	}, []);
 
 	const handleCardClick = (id) => {
-		props.history.push(`/urnas/${id}`);
+		props.history.push(`/movimentacoes/${id}`);
 	};
 
 	return (
 		<>
 			<Header
-				title="Lista de Urnas"
-				handleNew={() => props.history.push("/urnas/new")}
+				title="Histórico de Movimentações"
+				handleNew={() => props.history.push("/movimentacoes/new")}
 				showNewButton
 			/>
 
 			<TableRow className="header">
 				<TableColumn>
 					<Title>Referência</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Nome</Title>
 				</TableColumn>
 				<TableColumn>
 					<Title>Tamanho</Title>
@@ -105,6 +102,12 @@ function UrnasListPage(props) {
 				</TableColumn>
 				<TableColumn>
 					<Title>Tipo</Title>
+				</TableColumn>
+				<TableColumn>
+					<Title>Movimentação</Title>
+				</TableColumn>
+				<TableColumn>
+					<Title>Data/Hora</Title>
 				</TableColumn>
 			</TableRow>
 
@@ -125,10 +128,6 @@ function UrnasListPage(props) {
 								<Text>{dt.ref_urna}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Nome:</TableTitle>
-								<Text>{dt.nome_urna}</Text>
-							</TableColumn>
-							<TableColumn>
 								<TableTitle>Tamanho:</TableTitle>
 								<Text>{dt.tamanho_urna}</Text>
 							</TableColumn>
@@ -144,6 +143,12 @@ function UrnasListPage(props) {
 								<TableTitle>Tipo:</TableTitle>
 								<Text>{dt.classe_urna}</Text>
 							</TableColumn>
+							<TableColumn>
+								<TableTitle>Movimentação:</TableTitle>
+							</TableColumn>
+							<TableColumn>
+								<TableTitle>Data/Hora:</TableTitle>
+							</TableColumn>
 						</TableRow>
 					);
 				})
@@ -152,4 +157,4 @@ function UrnasListPage(props) {
 	);
 }
 
-export default UrnasListPage;
+export default MovimentacoesListPage;

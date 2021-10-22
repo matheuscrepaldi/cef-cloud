@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 import styled from "styled-components";
 import Button from "../components/Button";
-import Input from "../components/Input";
+import { Input } from "../components/Input";
 import Loading from "../components/Loading";
 
 const Container = styled.div`

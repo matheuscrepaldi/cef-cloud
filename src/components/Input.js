@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Input = styled.input`
+const defaultProps = `
 	min-width: 200px;
 	font-size: 16px;
 	line-height: 28px;
@@ -17,17 +17,9 @@ const Input = styled.input`
 		rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
 		rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
 
-	/* @media (min-width: 1024px) {
-		max-width: 100%;
+	:disabled {
+		background: #e8e8e8;
 	}
-
-	@media (min-width: 768px) and (max-width: 1023px) {
-		max-width: 300px;
-	}
-
-	@media (max-width: 767px) {
-		max-width: 100%;
-	} */
 
 	::-webkit-inner-spin-button {
 		-webkit-appearance: none;
@@ -37,6 +29,25 @@ const Input = styled.input`
 		-webkit-appearance: none;
 		margin: 0;
 	}
+
+	@media (min-width: 1024px) {
+		min-width: 300px;
+	}
 `;
 
-export default Input;
+const Input = styled.input`
+	${defaultProps}
+`;
+
+const Select = styled.select`
+	${defaultProps};
+	height: 50px;
+`;
+
+const TextArea = styled.textarea`
+	${defaultProps};
+	flex: 1;
+	resize: none;
+`;
+
+export { Input, Select, TextArea };

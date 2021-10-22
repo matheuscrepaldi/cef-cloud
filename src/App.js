@@ -14,6 +14,10 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import UrnasListPage from "./pages/Urnas/UrnasListPage";
 import UrnaDetailsPage from "./pages/Urnas/UrnaDetailsPage";
+import MovimentacoesListPage from "./pages/Movimentacoes/MovimentacoesListPage";
+import MovimentacaoDetailsPage from "./pages/Movimentacoes/MovimentacaoDetailsPage";
+import ClientesListPage from "./pages/Clientes/ClientesListPage";
+import ClienteDetailsPage from "./pages/Clientes/ClienteDetailsPage";
 
 function App() {
 	return (
@@ -44,6 +48,26 @@ function App() {
 						<PrivateRoute
 							component={UrnaDetailsPage}
 							path="/urnas/:id"
+							exact
+						/>
+						<PrivateRoute
+							component={MovimentacoesListPage}
+							path="/movimentacoes"
+							exact
+						/>
+						<PrivateRoute
+							component={MovimentacaoDetailsPage}
+							path="/movimentacoes/:id"
+							exact
+						/>
+						<PrivateRoute
+							component={ClientesListPage}
+							path="/clientes"
+							exact
+						/>
+						<PrivateRoute
+							component={ClienteDetailsPage}
+							path="/clientes/:id"
 							exact
 						/>
 						{/* <Route

@@ -16,7 +16,7 @@ import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
 import ButtonGroup from "../../components/ButtonGroup";
 
-function UrnaDetailsPage(props) {
+function MovimentacaoDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [showModal, setShowModal] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -64,6 +64,7 @@ function UrnaDetailsPage(props) {
 	const handlePut = () => {
 		const body = { ...fields };
 		body.cdOwner = session && session.owner;
+		// delete body.id;
 
 		setLoading(true);
 
@@ -124,7 +125,7 @@ function UrnaDetailsPage(props) {
 				handleConfirmModalButton={handleConfirmModalButton}
 			/>
 			<Container showModal={showModal}>
-				<Header title="Cadastro da Urna" />
+				<Header title="Nova Movimentação" />
 				<CardDetails>
 					<Loading loading={loading} absolute />
 					<Row>
@@ -225,4 +226,4 @@ function UrnaDetailsPage(props) {
 	);
 }
 
-export default UrnaDetailsPage;
+export default MovimentacaoDetailsPage;

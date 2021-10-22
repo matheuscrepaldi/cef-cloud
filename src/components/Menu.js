@@ -63,7 +63,11 @@ function Menu() {
 				<List>
 					<StyledLink to={"/home"}>Home</StyledLink>
 					<StyledLink to={"/urnas"}>Urnas</StyledLink>
-					<StyledLink onClick={handleLogout}>Sair</StyledLink>
+					<StyledLink to={"/movimentacoes"}>Movimentações</StyledLink>
+					<StyledLink to={"/clientes"}>Clientes</StyledLink>
+					<StyledLink to={""} onClick={handleLogout}>
+						Sair
+					</StyledLink>
 				</List>
 			</Row>
 		</Navbar>

@@ -56,7 +56,7 @@ const TableTitle = styled(Title)`
 	}
 `;
 
-function UrnasListPage(props) {
+function ClientesListPage(props) {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -64,7 +64,7 @@ function UrnasListPage(props) {
 		setLoading(true);
 
 		axios
-			.get("listarUrnas")
+			.get("listarClientes")
 			.then(function (response) {
 				setData(response.data);
 				setLoading(false);
@@ -76,35 +76,29 @@ function UrnasListPage(props) {
 	}, []);
 
 	const handleCardClick = (id) => {
-		props.history.push(`/urnas/${id}`);
+		props.history.push(`/clientes/${id}`);
 	};
 
 	return (
 		<>
 			<Header
-				title="Lista de Urnas"
-				handleNew={() => props.history.push("/urnas/new")}
+				title="Lista de Clientes"
+				handleNew={() => props.history.push("/clientes/new")}
 				showNewButton
 			/>
 
 			<TableRow className="header">
 				<TableColumn>
-					<Title>Referência</Title>
+					<Title>Código</Title>
 				</TableColumn>
 				<TableColumn>
 					<Title>Nome</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Tamanho</Title>
+					<Title>CPF/CNPJ</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Cor</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Estoque</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Tipo</Title>
+					<Title>Telefone</Title>
 				</TableColumn>
 			</TableRow>
 
@@ -117,32 +111,24 @@ function UrnasListPage(props) {
 					return (
 						<TableRow
 							className="line"
-							onClick={() => handleCardClick(dt.id)}
+							onClick={() => handleCardClick(dt.id_cli)}
 							key={i}
 						>
 							<TableColumn>
-								<TableTitle>Referência:</TableTitle>
-								<Text>{dt.ref_urna}</Text>
+								<TableTitle>Código:</TableTitle>
+								<Text>{dt.id_cli}</Text>
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Nome:</TableTitle>
-								<Text>{dt.nome_urna}</Text>
+								<Text>{dt.nome_cli}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Tamanho:</TableTitle>
-								<Text>{dt.tamanho_urna}</Text>
+								<TableTitle>CPF/CNPJ:</TableTitle>
+								<Text>{dt.doc_cli}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Cor:</TableTitle>
-								<Text>{dt.cor_urna}</Text>
-							</TableColumn>
-							<TableColumn>
-								<TableTitle>Estoque:</TableTitle>
-								<Text>{dt.quantidade}</Text>
-							</TableColumn>
-							<TableColumn>
-								<TableTitle>Tipo:</TableTitle>
-								<Text>{dt.classe_urna}</Text>
+								<TableTitle>Telefone:</TableTitle>
+								<Text>{dt.tel_cli}</Text>
 							</TableColumn>
 						</TableRow>
 					);
@@ -152,4 +138,4 @@ function UrnasListPage(props) {
 	);
 }
 
-export default UrnasListPage;
+export default ClientesListPage;

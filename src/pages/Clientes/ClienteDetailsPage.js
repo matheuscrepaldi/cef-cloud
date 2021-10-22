@@ -6,9 +6,8 @@ import Header from "../../components/Header";
 import CardDetails from "../../components/CardDetails";
 import Row from "../../components/Row";
 import Column from "../../components/Column";
-import { Input } from "../../components/Input";
+import { Input, Select, TextArea } from "../../components/Input";
 import Text from "../../components/Text";
-import Title from "../../components/Title";
 import useDynamicForm from "../../hooks/useDynamicForm";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
@@ -16,7 +15,7 @@ import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
 import ButtonGroup from "../../components/ButtonGroup";
 
-function UrnaDetailsPage(props) {
+function ClienteDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [showModal, setShowModal] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -29,7 +28,7 @@ function UrnaDetailsPage(props) {
 			setLoading(true);
 
 			axios
-				.get(`listarUrnaById/${id}`)
+				.get(`listarClienteById/${id}`)
 				.then(function (response) {
 					setFields(response.data);
 					setLoading(false);
@@ -41,6 +40,22 @@ function UrnaDetailsPage(props) {
 		}
 	}, [id, setFields, isNew]);
 
+	useEffect(() => {
+		if (fields.cep_cli && fields.cep_cli.length === 8) {
+			// axios
+			// 	.get(`http://viacep.com.br/ws/${fields.cep_cli}/json/`)
+			// 	.then(function (response) {
+			// 		// setFields(response.data);
+			// 		console.log(response.data);
+			// 		setLoading(false);
+			// 	})
+			// 	.catch(function (error) {
+			// 		console.log(error);
+			// 		setLoading(false);
+			// 	});
+		}
+	}, [fields.cep_cli]);
+
 	const handlePost = () => {
 		const body = { ...fields };
 		body.cdOwner = session && session.owner;
@@ -49,10 +64,10 @@ function UrnaDetailsPage(props) {
 		setLoading(true);
 
 		axios
-			.post(`cadastrarUrna`, body)
+			.post(`cadastrarCliente`, body)
 			.then(function (response) {
-				toast.success("Urna cadastrada com sucesso");
-				props.history.push("/urnas");
+				toast.success("Cliente cadastrado com sucesso");
+				props.history.push("/clientes");
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -68,10 +83,10 @@ function UrnaDetailsPage(props) {
 		setLoading(true);
 
 		axios
-			.put(`atualizarUrna/${id}`, body)
+			.put(`atualizarCliente/${id}`, body)
 			.then(function (response) {
-				toast.success("Urna atualizada com sucesso");
-				props.history.push("/urnas");
+				toast.success("Cliente atualizado com sucesso");
+				props.history.push("/clientes");
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -84,10 +99,10 @@ function UrnaDetailsPage(props) {
 		setLoading(true);
 
 		axios
-			.delete(`deletarUrna/${id}`)
+			.delete(`deletarCliente/${id}`)
 			.then(function (response) {
-				toast.success("Urna excluída com sucesso");
-				props.history.push("/urnas");
+				toast.success("Cliente excluído com sucesso");
+				props.history.push("/clientes");
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -124,85 +139,95 @@ function UrnaDetailsPage(props) {
 				handleConfirmModalButton={handleConfirmModalButton}
 			/>
 			<Container showModal={showModal}>
-				<Header title="Cadastro da Urna" />
+				<Header title="Cadastro de Cliente" />
 				<CardDetails>
 					<Loading loading={loading} absolute />
 					<Row>
 						<Column>
-							<Title>Referência: </Title>
+							<Text>Código: </Text>
 							<Input
-								id={"ref_urna"}
+								id={"id_cli"}
 								type="text"
-								defaultValue={fields.ref_urna}
+								defaultValue={fields.id_cli}
+								onChange={handleInputChange}
+								disabled
+							/>
+						</Column>
+						<Column>
+							<Text>Tipo:</Text>
+							<Select
+								id={"tipo_cli"}
+								value={fields.tipo_cli}
+								onChange={handleInputChange}
+							>
+								<option value="">Selecione</option>
+								<option value="fisica">Pessoa Física</option>
+								<option value="juridica">
+									Pessoa Jurídica
+								</option>
+							</Select>
+						</Column>
+						<Column>
+							<Text>CPF/CNPJ:</Text>
+							<Input
+								id={"doc_cli"}
+								type="text"
+								maxLength={18}
+								value={fields.doc_cli}
 								onChange={handleInputChange}
 							/>
 						</Column>
 						<Column>
 							<Text>Nome:</Text>
 							<Input
-								id={"nome_urna"}
+								id={"nome_cli"}
 								type="text"
-								defaultValue={fields.nome_urna}
+								defaultValue={fields.nome_cli}
 								onChange={handleInputChange}
 							/>
 						</Column>
 						<Column>
-							<Text>Tamanho:</Text>
+							<Text>CEP:</Text>
 							<Input
-								id={"tamanho_urna"}
-								type="text"
-								defaultValue={fields.tamanho_urna}
-								onChange={handleInputChange}
-							/>
-						</Column>
-						<Column>
-							<Text>Cor:</Text>
-							<Input
-								id={"cor_urna"}
-								type="text"
-								defaultValue={fields.cor_urna}
-								onChange={handleInputChange}
-							/>
-						</Column>
-
-						<Column>
-							<Text>Tipo:</Text>
-							<Input
-								id={"classe_urna"}
-								type="text"
-								defaultValue={fields.classe_urna}
-								onChange={handleInputChange}
-							/>
-						</Column>
-						<Column>
-							<Text>Estoque:</Text>
-							<Input
-								id={"quantidade"}
+								id={"cep_cli"}
 								type="number"
-								defaultValue={fields.quantidade}
+								defaultValue={fields.cep_cli}
 								onChange={handleInputChange}
 							/>
 						</Column>
 						<Column>
-							<Text>Valor unitário:</Text>
+							<Text>Endereço:</Text>
 							<Input
-								id={"val_unit"}
-								type="number"
-								defaultValue={fields.val_unit}
+								id={"end_cli"}
+								type="text"
+								defaultValue={fields.end_cli}
 								onChange={handleInputChange}
 							/>
 						</Column>
 						<Column>
-							<Text>Valor total:</Text>
+							<Text>Telefone:</Text>
 							<Input
-								id={"val_total"}
-								type="number"
-								defaultValue={
-									fields.val_total &&
-									fields.val_total.toFixed(2)
-								}
+								id={"tel_cli"}
+								type="tel"
+								defaultValue={fields.tel_cli}
 								onChange={handleInputChange}
-								disabled
+							/>
+						</Column>
+						<Column>
+							<Text>E-mail:</Text>
+							<Input
+								id={"email_cli"}
+								type="email"
+								defaultValue={fields.email_cli}
+								onChange={handleInputChange}
+							/>
+						</Column>
+						<Column>
+							<Text>Obs:</Text>
+							<TextArea
+								id={"obs_cli"}
+								defaultValue={fields.obs_cli}
+								onChange={handleInputChange}
 							/>
 						</Column>
 					</Row>
@@ -225,4 +250,4 @@ function UrnaDetailsPage(props) {
 	);
 }
 
-export default UrnaDetailsPage;
+export default ClienteDetailsPage;
