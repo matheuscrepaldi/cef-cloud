@@ -164,7 +164,6 @@ function UrnaDetailsPage(props) {
 								onChange={handleInputChange}
 							/>
 						</Column>
-
 						<Column>
 							<Text>Tipo:</Text>
 							<Input
@@ -175,12 +174,23 @@ function UrnaDetailsPage(props) {
 							/>
 						</Column>
 						<Column>
+							<Text>Data/Hora:</Text>
+							<Input
+								id={"dt_hr_entrada"}
+								type="datetime-local"
+								defaultValue={fields.dt_hr_entrada}
+								onChange={handleInputChange}
+								disabled={!isNew}
+							/>
+						</Column>
+						<Column>
 							<Text>Estoque:</Text>
 							<Input
 								id={"quantidade"}
 								type="number"
 								defaultValue={fields.quantidade}
 								onChange={handleInputChange}
+								disabled={!isNew}
 							/>
 						</Column>
 						<Column>

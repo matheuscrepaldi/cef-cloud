@@ -9,6 +9,7 @@ import Title from "../../components/Title";
 import Text from "../../components/Text";
 import Loading from "../../components/Loading";
 import Column from "../../components/Column";
+import convertDate from "../../utils/convertDate";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -95,7 +96,7 @@ function UrnasListPage(props) {
 					<Title>Nome</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Tamanho</Title>
+					<Title>Tipo</Title>
 				</TableColumn>
 				<TableColumn>
 					<Title>Cor</Title>
@@ -104,7 +105,7 @@ function UrnasListPage(props) {
 					<Title>Estoque</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Tipo</Title>
+					<Title>Data</Title>
 				</TableColumn>
 			</TableRow>
 
@@ -129,8 +130,8 @@ function UrnasListPage(props) {
 								<Text>{dt.nome_urna}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Tamanho:</TableTitle>
-								<Text>{dt.tamanho_urna}</Text>
+								<TableTitle>Tipo:</TableTitle>
+								<Text>{dt.classe_urna}</Text>
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Cor:</TableTitle>
@@ -141,8 +142,8 @@ function UrnasListPage(props) {
 								<Text>{dt.quantidade}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Tipo:</TableTitle>
-								<Text>{dt.classe_urna}</Text>
+								<TableTitle>Data:</TableTitle>
+								<Text>{convertDate(dt.dt_hr_entrada)}</Text>
 							</TableColumn>
 						</TableRow>
 					);

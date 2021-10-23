@@ -7,6 +7,7 @@ const defaultProps = `
 	padding: 5px;
 	width: 100%;
 	max-width: 100%;
+	font-family: 'Poppins';
 	height: 40px;
 	border: unset;
 	border-radius: 4px;
