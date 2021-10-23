@@ -72,9 +72,7 @@ function LoginPage(props) {
 		setPassword(e.target.value);
 	}
 
-	async function handleLoginFormSubmit(e) {
-		e.preventDefault();
-
+	async function handleLoginFormSubmit() {
 		if (email === "" || password === "") {
 			toast.error("Por favor, informe usuário e senha");
 			return;

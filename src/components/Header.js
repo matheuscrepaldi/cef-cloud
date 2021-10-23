@@ -65,7 +65,7 @@ const Header = (props) => {
 			{props.showNewButton && (
 				<>
 					<RightPanel className="showBigButton">
-						<Button onClick={props.handleNew}>Novo</Button>
+						<Button onClick={props.handleNew}>Novo(a)</Button>
 					</RightPanel>
 					<RightPanel className="showSmallButton">
 						<Button small onClick={props.handleNew}>

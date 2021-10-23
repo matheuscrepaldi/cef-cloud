@@ -199,8 +199,8 @@ function UrnaDetailsPage(props) {
 						<Column>
 							<Text>Fornecedor:</Text>
 							<Select
-								id={"fornec_urna"}
-								value={fields.fornec_urna}
+								id={"idForn"}
+								value={fields.idForn}
 								onChange={handleInputChange}
 							>
 								<option value="">Selecione</option>

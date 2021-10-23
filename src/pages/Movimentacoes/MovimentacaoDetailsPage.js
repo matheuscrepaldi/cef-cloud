@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import CardDetails from "../../components/CardDetails";
 import Row from "../../components/Row";
 import Column from "../../components/Column";
-import { Input } from "../../components/Input";
+import { Input, Select } from "../../components/Input";
 import Text from "../../components/Text";
 import Title from "../../components/Title";
 import useDynamicForm from "../../hooks/useDynamicForm";
@@ -20,6 +20,10 @@ function MovimentacaoDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [showModal, setShowModal] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [urnas, setUrnas] = useState([]);
+	const [clientes, setClientes] = useState([]);
+	const [fornecedores, setFornecedores] = useState([]);
+
 	const id = props.match.params.id;
 	const isNew = id === "new";
 	const session = JSON.parse(sessionStorage.getItem("session"));
@@ -29,7 +33,7 @@ function MovimentacaoDetailsPage(props) {
 			setLoading(true);
 
 			axios
-				.get(`listarUrnaById/${id}`)
+				.get(`listarMovimentacao/${id}`)
 				.then(function (response) {
 					setFields(response.data);
 					setLoading(false);
@@ -39,7 +43,75 @@ function MovimentacaoDetailsPage(props) {
 					setLoading(false);
 				});
 		}
+
+		async function getUrnas() {
+			axios
+				.get(`listarUrnas/`)
+				.then(function (response) {
+					setUrnas(response.data);
+					setLoading(false);
+				})
+				.catch(function (error) {
+					console.log(error);
+					setLoading(false);
+				});
+		}
+
+		setLoading(true);
+		getUrnas();
 	}, [id, setFields, isNew]);
+
+	useEffect(() => {
+		if (fields.tipo_mov === "Saída" && clientes.length === 0) {
+			setLoading(true);
+			axios
+				.get(`listarClientes/`)
+				.then(function (response) {
+					setClientes(response.data);
+					setLoading(false);
+				})
+				.catch(function (error) {
+					console.log(error);
+					setLoading(false);
+				});
+		} else if (fields.tipo_mov === "Entrada" && fornecedores.length === 0) {
+			setLoading(true);
+			axios
+				.get(`listarFornecedores/`)
+				.then(function (response) {
+					setFornecedores(response.data);
+					setLoading(false);
+				})
+				.catch(function (error) {
+					console.log(error);
+					setLoading(false);
+				});
+		}
+	}, [fields.tipo_mov]);
+
+	useEffect(() => {
+		if (fields.idUrna !== "") {
+			const result = urnas.find(
+				(urna) => urna.id === Number(fields.idUrna)
+			);
+
+			if (result) {
+				setFields({
+					...fields,
+					nome_urna: result.nome_urna,
+					tamanho_urna: result.tamanho_urna,
+					classe_urna: result.classe_urna,
+				});
+			}
+		} else {
+			setFields({
+				...fields,
+				nome_urna: "",
+				tamanho_urna: "",
+				classe_urna: "",
+			});
+		}
+	}, [fields.idUrna]);
 
 	const handlePost = () => {
 		const body = { ...fields };
@@ -130,21 +202,80 @@ function MovimentacaoDetailsPage(props) {
 					<Loading loading={loading} absolute />
 					<Row>
 						<Column>
-							<Title>Referência: </Title>
-							<Input
-								id={"ref_urna"}
-								type="text"
-								defaultValue={fields.ref_urna}
+							<Text>Movimentação:</Text>
+							<Select
+								id={"tipo_mov"}
+								value={fields.tipo_mov}
 								onChange={handleInputChange}
-							/>
+							>
+								<option value="">Selecione</option>
+								<option value="Entrada">Entrada</option>
+								<option value="Saída">Saída</option>
+							</Select>
+						</Column>
+						{fields.tipo_mov === "Entrada" && (
+							<Column>
+								<Text>Fornecedor:</Text>
+								<Select
+									id={"idForn"}
+									value={fields.idForn}
+									onChange={handleInputChange}
+								>
+									<option value="">Selecione</option>
+									{fornecedores.map((forn) => {
+										return (
+											<option value={forn.id_forn}>
+												{forn.rz_forn}
+											</option>
+										);
+									})}
+								</Select>
+							</Column>
+						)}
+						{fields.tipo_mov === "Saída" && (
+							<Column>
+								<Text>Cliente:</Text>
+								<Select
+									id={"idCli"}
+									value={fields.idCli}
+									onChange={handleInputChange}
+								>
+									<option value="">Selecione</option>
+									{clientes.map((cli) => {
+										return (
+											<option value={cli.id_cli}>
+												{cli.nome_cli}
+											</option>
+										);
+									})}
+								</Select>
+							</Column>
+						)}
+						<Column>
+							<Text>Referência:</Text>
+							<Select
+								id={"idUrna"}
+								value={fields.idUrna}
+								onChange={handleInputChange}
+							>
+								<option value="">Selecione</option>
+								{urnas.map((urna) => {
+									return (
+										<option
+											value={urna.id}
+										>{`${urna.ref_urna} - ${urna.cor_urna}`}</option>
+									);
+								})}
+							</Select>
 						</Column>
 						<Column>
-							<Text>Nome:</Text>
+							<Text>Descrição:</Text>
 							<Input
 								id={"nome_urna"}
 								type="text"
 								defaultValue={fields.nome_urna}
 								onChange={handleInputChange}
+								disabled
 							/>
 						</Column>
 						<Column>
@@ -154,18 +285,9 @@ function MovimentacaoDetailsPage(props) {
 								type="text"
 								defaultValue={fields.tamanho_urna}
 								onChange={handleInputChange}
+								disabled
 							/>
 						</Column>
-						<Column>
-							<Text>Cor:</Text>
-							<Input
-								id={"cor_urna"}
-								type="text"
-								defaultValue={fields.cor_urna}
-								onChange={handleInputChange}
-							/>
-						</Column>
-
 						<Column>
 							<Text>Tipo:</Text>
 							<Input
@@ -173,37 +295,16 @@ function MovimentacaoDetailsPage(props) {
 								type="text"
 								defaultValue={fields.classe_urna}
 								onChange={handleInputChange}
-							/>
-						</Column>
-						<Column>
-							<Text>Estoque:</Text>
-							<Input
-								id={"quantidade"}
-								type="number"
-								defaultValue={fields.quantidade}
-								onChange={handleInputChange}
-							/>
-						</Column>
-						<Column>
-							<Text>Valor unitário:</Text>
-							<Input
-								id={"val_unit"}
-								type="number"
-								defaultValue={fields.val_unit}
-								onChange={handleInputChange}
-							/>
-						</Column>
-						<Column>
-							<Text>Valor total:</Text>
-							<Input
-								id={"val_total"}
-								type="number"
-								defaultValue={
-									fields.val_total &&
-									fields.val_total.toFixed(2)
-								}
-								onChange={handleInputChange}
 								disabled
+							/>
+						</Column>
+						<Column>
+							<Text>Quantidade:</Text>
+							<Input
+								id={"qtde_mov"}
+								type="number"
+								defaultValue={fields.qtde_mov}
+								onChange={handleInputChange}
 							/>
 						</Column>
 					</Row>
