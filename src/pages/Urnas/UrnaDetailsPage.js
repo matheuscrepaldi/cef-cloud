@@ -15,6 +15,7 @@ import Container from "../../components/Container";
 import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
 import ButtonGroup from "../../components/ButtonGroup";
+import { today } from "../../utils/convertDate";
 
 function UrnaDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
@@ -27,7 +28,7 @@ function UrnaDetailsPage(props) {
 	const session = JSON.parse(sessionStorage.getItem("session"));
 
 	useEffect(() => {
-		if (!isNew) {
+		async function getUrna() {
 			setLoading(true);
 
 			axios
@@ -57,6 +58,12 @@ function UrnaDetailsPage(props) {
 
 		setLoading(true);
 		listarFornecedores();
+
+		if (!isNew) {
+			getUrna();
+		} else {
+			setFields({ dt_hr_entrada: today() });
+		}
 	}, [id, setFields, isNew]);
 
 	const handlePost = () => {

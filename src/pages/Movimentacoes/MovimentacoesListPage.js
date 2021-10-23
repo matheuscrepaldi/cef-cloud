@@ -56,6 +56,10 @@ const TableTitle = styled(Title)`
 	}
 `;
 
+const NoData = styled(Row)`
+	justify-content: center;
+`;
+
 function MovimentacoesListPage(props) {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -64,7 +68,7 @@ function MovimentacoesListPage(props) {
 		setLoading(true);
 
 		axios
-			.get("listarUrnas")
+			.get("listarMovimentacoes")
 			.then(function (response) {
 				setData(response.data);
 				setLoading(false);
@@ -89,22 +93,19 @@ function MovimentacoesListPage(props) {
 
 			<TableRow className="header">
 				<TableColumn>
-					<Title>Referência</Title>
+					<Title>Código</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Tamanho</Title>
+					<Title>Movimentação</Title>
+				</TableColumn>
+				<TableColumn>
+					<Title>Referência</Title>
 				</TableColumn>
 				<TableColumn>
 					<Title>Cor</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Estoque</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Tipo</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Movimentação</Title>
+					<Title>Quantidade</Title>
 				</TableColumn>
 				<TableColumn>
 					<Title>Data/Hora</Title>
@@ -115,7 +116,7 @@ function MovimentacoesListPage(props) {
 				<Card>
 					<Loading loading={loading} absolute />
 				</Card>
-			) : (
+			) : data.length > 0 ? (
 				data.map((dt, i) => {
 					return (
 						<TableRow
@@ -124,34 +125,34 @@ function MovimentacoesListPage(props) {
 							key={i}
 						>
 							<TableColumn>
-								<TableTitle>Referência:</TableTitle>
-								<Text>{dt.ref_urna}</Text>
+								<TableTitle>Código:</TableTitle>
+								<Text>{dt.id_mov}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Tamanho:</TableTitle>
-								<Text>{dt.tamanho_urna}</Text>
+								<TableTitle>Movimentação:</TableTitle>
+								<Text>{dt.tipo_mov}</Text>
+							</TableColumn>
+							<TableColumn>
+								<TableTitle>Referência:</TableTitle>
+								<Text>{dt.idUrna}</Text>
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Cor:</TableTitle>
 								<Text>{dt.cor_urna}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Estoque:</TableTitle>
-								<Text>{dt.quantidade}</Text>
-							</TableColumn>
-							<TableColumn>
-								<TableTitle>Tipo:</TableTitle>
-								<Text>{dt.classe_urna}</Text>
-							</TableColumn>
-							<TableColumn>
-								<TableTitle>Movimentação:</TableTitle>
+								<TableTitle>Quantidade:</TableTitle>
+								<Text>{dt.qtde_mov}</Text>
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Data/Hora:</TableTitle>
+								<Text>{dt.dt_hr_mov}</Text>
 							</TableColumn>
 						</TableRow>
 					);
 				})
+			) : (
+				<NoData>Sem dados</NoData>
 			)}
 		</>
 	);

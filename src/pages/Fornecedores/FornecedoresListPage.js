@@ -56,6 +56,10 @@ const TableTitle = styled(Title)`
 	}
 `;
 
+const NoData = styled(Row)`
+	justify-content: center;
+`;
+
 function FornecedoresListPage(props) {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -106,7 +110,7 @@ function FornecedoresListPage(props) {
 				<Card>
 					<Loading loading={loading} absolute />
 				</Card>
-			) : (
+			) : data.length > 0 ? (
 				data.map((dt, i) => {
 					return (
 						<TableRow
@@ -133,6 +137,8 @@ function FornecedoresListPage(props) {
 						</TableRow>
 					);
 				})
+			) : (
+				<NoData>Sem dados</NoData>
 			)}
 		</>
 	);

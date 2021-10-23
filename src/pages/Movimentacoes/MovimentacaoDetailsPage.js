@@ -8,13 +8,13 @@ import Row from "../../components/Row";
 import Column from "../../components/Column";
 import { Input, Select } from "../../components/Input";
 import Text from "../../components/Text";
-import Title from "../../components/Title";
 import useDynamicForm from "../../hooks/useDynamicForm";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
 import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
 import ButtonGroup from "../../components/ButtonGroup";
+import { today } from "../../utils/convertDate";
 
 function MovimentacaoDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
@@ -28,8 +28,14 @@ function MovimentacaoDetailsPage(props) {
 	const isNew = id === "new";
 	const session = JSON.parse(sessionStorage.getItem("session"));
 
+	const podeCalcular =
+		fields.tipo_mov &&
+		fields.tipo_mov !== "" &&
+		fields.idUrna &&
+		fields.idUrna !== "";
+
 	useEffect(() => {
-		if (!isNew) {
+		async function getMovimentacao() {
 			setLoading(true);
 
 			axios
@@ -59,9 +65,23 @@ function MovimentacaoDetailsPage(props) {
 
 		setLoading(true);
 		getUrnas();
+
+		if (!isNew) {
+			getMovimentacao();
+		} else {
+			setFields({ dt_hr_mov: today(), qtde_mov: 0 });
+		}
 	}, [id, setFields, isNew]);
 
 	useEffect(() => {
+		if (fields.tipo_mov !== "") {
+			const result = handleEntradaSaida(
+				fields.quantidade,
+				fields.qtde_mov
+			);
+			setFields({ ...fields, resumo_estoque: result });
+		}
+
 		if (fields.tipo_mov === "Saída" && clientes.length === 0) {
 			setLoading(true);
 			axios
@@ -101,6 +121,11 @@ function MovimentacaoDetailsPage(props) {
 					nome_urna: result.nome_urna,
 					tamanho_urna: result.tamanho_urna,
 					classe_urna: result.classe_urna,
+					quantidade: result.quantidade,
+					resumo_estoque: handleEntradaSaida(
+						result.quantidade,
+						fields.qtde_mov
+					),
 				});
 			}
 		} else {
@@ -109,9 +134,35 @@ function MovimentacaoDetailsPage(props) {
 				nome_urna: "",
 				tamanho_urna: "",
 				classe_urna: "",
+				quantidade: "",
+				resumo_estoque: "",
 			});
 		}
 	}, [fields.idUrna]);
+
+	useEffect(() => {
+		if (fields.qtde_mov > 0) {
+			const result = handleEntradaSaida(
+				fields.quantidade,
+				fields.qtde_mov
+			);
+			setFields({ ...fields, resumo_estoque: result });
+		}
+	}, [fields.qtde_mov]);
+
+	const handleEntradaSaida = (val1, val2) => {
+		let result = 0;
+
+		if (fields.tipo_mov && fields.tipo_mov !== "") {
+			if (fields.tipo_mov === "Entrada") {
+				result = Number(val1) + Number(val2);
+			} else {
+				result = Number(val1) - Number(val2);
+			}
+		}
+
+		return result;
+	};
 
 	const handlePost = () => {
 		const body = { ...fields };
@@ -222,9 +273,12 @@ function MovimentacaoDetailsPage(props) {
 									onChange={handleInputChange}
 								>
 									<option value="">Selecione</option>
-									{fornecedores.map((forn) => {
+									{fornecedores.map((forn, i) => {
 										return (
-											<option value={forn.id_forn}>
+											<option
+												key={i}
+												value={forn.id_forn}
+											>
 												{forn.rz_forn}
 											</option>
 										);
@@ -241,9 +295,9 @@ function MovimentacaoDetailsPage(props) {
 									onChange={handleInputChange}
 								>
 									<option value="">Selecione</option>
-									{clientes.map((cli) => {
+									{clientes.map((cli, i) => {
 										return (
-											<option value={cli.id_cli}>
+											<option key={i} value={cli.id_cli}>
 												{cli.nome_cli}
 											</option>
 										);
@@ -259,9 +313,10 @@ function MovimentacaoDetailsPage(props) {
 								onChange={handleInputChange}
 							>
 								<option value="">Selecione</option>
-								{urnas.map((urna) => {
+								{urnas.map((urna, i) => {
 									return (
 										<option
+											key={i}
 											value={urna.id}
 										>{`${urna.ref_urna} - ${urna.cor_urna}`}</option>
 									);
@@ -299,12 +354,49 @@ function MovimentacaoDetailsPage(props) {
 							/>
 						</Column>
 						<Column>
-							<Text>Quantidade:</Text>
+							<Text>Estoque atual:</Text>
+							<Input
+								id={"quantidade"}
+								type="number"
+								defaultValue={fields.quantidade}
+								onChange={handleInputChange}
+								disabled
+							/>
+						</Column>
+						<Column>
+							<Text>
+								Quantidade
+								{fields.tipo_mov &&
+									fields.tipo_mov !== "" &&
+									` para ${fields.tipo_mov}`}
+								:
+							</Text>
 							<Input
 								id={"qtde_mov"}
 								type="number"
 								defaultValue={fields.qtde_mov}
 								onChange={handleInputChange}
+								disabled={!podeCalcular}
+							/>
+						</Column>
+						<Column>
+							<Text>Resumo estoque:</Text>
+							<Input
+								id={"resumo_estoque"}
+								type="number"
+								defaultValue={fields.resumo_estoque}
+								onChange={handleInputChange}
+								disabled
+							/>
+						</Column>
+						<Column>
+							<Text>Data/Hora:</Text>
+							<Input
+								id={"dt_hr_mov"}
+								type="datetime-local"
+								defaultValue={fields.dt_hr_mov}
+								onChange={handleInputChange}
+								disabled={!isNew}
 							/>
 						</Column>
 					</Row>

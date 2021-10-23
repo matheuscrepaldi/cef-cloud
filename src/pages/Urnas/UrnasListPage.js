@@ -9,7 +9,7 @@ import Title from "../../components/Title";
 import Text from "../../components/Text";
 import Loading from "../../components/Loading";
 import Column from "../../components/Column";
-import convertDate from "../../utils/convertDate";
+import { convertDate } from "../../utils/convertDate";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -56,6 +56,10 @@ const TableTitle = styled(Title)`
 		margin-left: 15px;
 		display: flex;
 	}
+`;
+
+const NoData = styled(Row)`
+	justify-content: center;
 `;
 
 function UrnasListPage(props) {
@@ -114,7 +118,7 @@ function UrnasListPage(props) {
 				<Card>
 					<Loading loading={loading} absolute />
 				</Card>
-			) : (
+			) : data.length > 0 ? (
 				data.map((dt, i) => {
 					return (
 						<TableRow
@@ -149,6 +153,8 @@ function UrnasListPage(props) {
 						</TableRow>
 					);
 				})
+			) : (
+				<NoData>Sem dados</NoData>
 			)}
 		</>
 	);
