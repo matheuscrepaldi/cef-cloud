@@ -40,21 +40,43 @@ function ClienteDetailsPage(props) {
 		}
 	}, [id, setFields, isNew]);
 
-	useEffect(() => {
-		if (fields.cep_cli && fields.cep_cli.length === 8) {
-			// axios
-			// 	.get(`http://viacep.com.br/ws/${fields.cep_cli}/json/`)
-			// 	.then(function (response) {
-			// 		// setFields(response.data);
-			// 		console.log(response.data);
-			// 		setLoading(false);
-			// 	})
-			// 	.catch(function (error) {
-			// 		console.log(error);
-			// 		setLoading(false);
-			// 	});
+	const checkCep = () => {
+		//Nova variável "cep" somente com dígitos.
+		const cep = fields.cep_cli.replace(/\D/g, "");
+
+		//Verifica se campo cep possui valor informado.
+		if (cep !== "") {
+			//Expressão regular para validar o CEP.
+			const validacep = /^[0-9]{8}$/;
+
+			//Valida o formato do CEP.
+			if (validacep.test(cep)) {
+				setLoading(true);
+
+				fetch(`http://viacep.com.br/ws/${fields.cep_cli}/json/`)
+					.then((response) => response.json())
+					.then((result) => {
+						setFields({
+							...fields,
+							cep_cli: result.cep,
+							cidade_cli: result.localidade,
+							bairro_cli: result.bairro,
+							end_cli: result.logradouro,
+							uf_cli: result.uf,
+						});
+						setLoading(false);
+					})
+					.catch((e) => {
+						console.log(e);
+						setLoading(false);
+					});
+			} //end if.
+			else {
+				//cep é inválido.
+				toast.error("Formato de CEP inválido");
+			}
 		}
-	}, [fields.cep_cli]);
+	};
 
 	const handlePost = () => {
 		const body = { ...fields };
@@ -190,7 +212,9 @@ function ClienteDetailsPage(props) {
 							<Text>CEP:</Text>
 							<Input
 								id={"cep_cli"}
-								type="number"
+								type="text"
+								maxLength={9}
+								onBlur={checkCep}
 								defaultValue={fields.cep_cli}
 								onChange={handleInputChange}
 							/>
@@ -203,6 +227,60 @@ function ClienteDetailsPage(props) {
 								defaultValue={fields.end_cli}
 								onChange={handleInputChange}
 							/>
+						</Column>
+						<Column>
+							<Text>Bairro:</Text>
+							<Input
+								id={"bairro_cli"}
+								type="text"
+								defaultValue={fields.bairro_cli}
+								onChange={handleInputChange}
+							/>
+						</Column>
+						<Column>
+							<Text>Cidade:</Text>
+							<Input
+								id={"cidade_cli"}
+								type="text"
+								defaultValue={fields.cidade_cli}
+								onChange={handleInputChange}
+							/>
+						</Column>
+						<Column>
+							<Text>Estado:</Text>
+							<Select
+								id={"uf_cli"}
+								value={fields.uf_cli}
+								onChange={handleInputChange}
+							>
+								<option value="AC">Acre</option>
+								<option value="AL">Alagoas</option>
+								<option value="AP">Amapá</option>
+								<option value="AM">Amazonas</option>
+								<option value="BA">Bahia</option>
+								<option value="CE">Ceará</option>
+								<option value="DF">Distrito Federal</option>
+								<option value="ES">Espírito Santo</option>
+								<option value="GO">Goiás</option>
+								<option value="MA">Maranhão</option>
+								<option value="MT">Mato Grosso</option>
+								<option value="MS">Mato Grosso do Sul</option>
+								<option value="MG">Minas Gerais</option>
+								<option value="PA">Pará</option>
+								<option value="PB">Paraíba</option>
+								<option value="PR">Paraná</option>
+								<option value="PE">Pernambuco</option>
+								<option value="PI">Piauí</option>
+								<option value="RJ">Rio de Janeiro</option>
+								<option value="RN">Rio Grande do Norte</option>
+								<option value="RS">Rio Grande do Sul</option>
+								<option value="RO">Rondônia</option>
+								<option value="RR">Roraima</option>
+								<option value="SC">Santa Catarina</option>
+								<option value="SP">São Paulo</option>
+								<option value="SE">Sergipe</option>
+								<option value="TO">Tocantins</option>
+							</Select>
 						</Column>
 						<Column>
 							<Text>Telefone:</Text>
@@ -222,10 +300,13 @@ function ClienteDetailsPage(props) {
 								onChange={handleInputChange}
 							/>
 						</Column>
+					</Row>
+					<Row>
 						<Column>
 							<Text>Obs:</Text>
 							<TextArea
 								id={"obs_cli"}
+								maxLength={255}
 								defaultValue={fields.obs_cli}
 								onChange={handleInputChange}
 							/>
