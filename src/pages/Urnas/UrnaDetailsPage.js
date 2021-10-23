@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import CardDetails from "../../components/CardDetails";
 import Row from "../../components/Row";
 import Column from "../../components/Column";
-import { Input } from "../../components/Input";
+import { Input, Select } from "../../components/Input";
 import Text from "../../components/Text";
 import Title from "../../components/Title";
 import useDynamicForm from "../../hooks/useDynamicForm";
@@ -20,6 +20,8 @@ function UrnaDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [showModal, setShowModal] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [fornecedores, setFornecedores] = useState([]);
+
 	const id = props.match.params.id;
 	const isNew = id === "new";
 	const session = JSON.parse(sessionStorage.getItem("session"));
@@ -39,12 +41,33 @@ function UrnaDetailsPage(props) {
 					setLoading(false);
 				});
 		}
+
+		async function listarFornecedores() {
+			axios
+				.get(`listarFornecedores`)
+				.then(function (response) {
+					setFornecedores(response.data);
+					setLoading(false);
+				})
+				.catch(function (error) {
+					console.log(error);
+					setLoading(false);
+				});
+		}
+
+		setLoading(true);
+		listarFornecedores();
 	}, [id, setFields, isNew]);
 
 	const handlePost = () => {
 		const body = { ...fields };
 		body.cdOwner = session && session.owner;
 		delete body.id;
+
+		if (!body.dt_hr_entrada || body.dt_hr_entrada === "") {
+			toast.error("Preencha a data");
+			return;
+		}
 
 		setLoading(true);
 
@@ -172,6 +195,23 @@ function UrnaDetailsPage(props) {
 								defaultValue={fields.classe_urna}
 								onChange={handleInputChange}
 							/>
+						</Column>
+						<Column>
+							<Text>Fornecedor:</Text>
+							<Select
+								id={"fornec_urna"}
+								value={fields.fornec_urna}
+								onChange={handleInputChange}
+							>
+								<option value="">Selecione</option>
+								{fornecedores.map((fornec) => {
+									return (
+										<option value={fornec.id_forn}>
+											{fornec.rz_forn}
+										</option>
+									);
+								})}
+							</Select>
 						</Column>
 						<Column>
 							<Text>Data/Hora:</Text>

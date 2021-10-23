@@ -65,6 +65,7 @@ function Menu() {
 					<StyledLink to={"/urnas"}>Urnas</StyledLink>
 					<StyledLink to={"/movimentacoes"}>Movimentações</StyledLink>
 					<StyledLink to={"/clientes"}>Clientes</StyledLink>
+					<StyledLink to={"/fornecedores"}>Fornecedores</StyledLink>
 					<StyledLink to={""} onClick={handleLogout}>
 						Sair
 					</StyledLink>

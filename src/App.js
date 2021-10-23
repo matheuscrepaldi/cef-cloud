@@ -18,6 +18,8 @@ import MovimentacoesListPage from "./pages/Movimentacoes/MovimentacoesListPage";
 import MovimentacaoDetailsPage from "./pages/Movimentacoes/MovimentacaoDetailsPage";
 import ClientesListPage from "./pages/Clientes/ClientesListPage";
 import ClienteDetailsPage from "./pages/Clientes/ClienteDetailsPage";
+import FornecedoresListPage from "./pages/Fornecedores/FornecedoresListPage";
+import FornecedorDetailsPage from "./pages/Fornecedores/FornecedorDetailsPage";
 
 function App() {
 	return (
@@ -68,6 +70,16 @@ function App() {
 						<PrivateRoute
 							component={ClienteDetailsPage}
 							path="/clientes/:id"
+							exact
+						/>
+						<PrivateRoute
+							component={FornecedoresListPage}
+							path="/fornecedores"
+							exact
+						/>
+						<PrivateRoute
+							component={FornecedorDetailsPage}
+							path="/fornecedores/:id"
 							exact
 						/>
 						{/* <Route

@@ -9,7 +9,6 @@ import Title from "../../components/Title";
 import Text from "../../components/Text";
 import Loading from "../../components/Loading";
 import Column from "../../components/Column";
-import convertDate from "../../utils/convertDate";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -33,7 +32,6 @@ const TableRow = styled(Row)`
 			border: 1px solid #59bfff;
 			border-radius: 10px;
 			background: #ffffff;
-			box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
 
 			:hover {
 				background: #d9d9d9;
@@ -58,7 +56,7 @@ const TableTitle = styled(Title)`
 	}
 `;
 
-function UrnasListPage(props) {
+function FornecedoresListPage(props) {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -66,7 +64,7 @@ function UrnasListPage(props) {
 		setLoading(true);
 
 		axios
-			.get("listarUrnas")
+			.get("listarFornecedores")
 			.then(function (response) {
 				setData(response.data);
 				setLoading(false);
@@ -78,35 +76,29 @@ function UrnasListPage(props) {
 	}, []);
 
 	const handleCardClick = (id) => {
-		props.history.push(`/urnas/${id}`);
+		props.history.push(`/fornecedores/${id}`);
 	};
 
 	return (
 		<>
 			<Header
-				title="Lista de Urnas"
-				handleNew={() => props.history.push("/urnas/new")}
+				title="Lista de Fornecedores"
+				handleNew={() => props.history.push("/fornecedores/new")}
 				showNewButton
 			/>
 
 			<TableRow className="header">
 				<TableColumn>
-					<Title>Referência</Title>
+					<Title>Código</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Nome</Title>
+					<Title>Razão Social</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Tipo</Title>
+					<Title>CNPJ</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Cor</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Estoque</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Data</Title>
+					<Title>Telefone</Title>
 				</TableColumn>
 			</TableRow>
 
@@ -119,32 +111,24 @@ function UrnasListPage(props) {
 					return (
 						<TableRow
 							className="line"
-							onClick={() => handleCardClick(dt.id)}
+							onClick={() => handleCardClick(dt.id_forn)}
 							key={i}
 						>
 							<TableColumn>
-								<TableTitle>Referência:</TableTitle>
-								<Text>{dt.ref_urna}</Text>
+								<TableTitle>Código:</TableTitle>
+								<Text>{dt.id_forn}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Nome:</TableTitle>
-								<Text>{dt.nome_urna}</Text>
+								<TableTitle>Razão Social:</TableTitle>
+								<Text>{dt.rz_forn}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Tipo:</TableTitle>
-								<Text>{dt.classe_urna}</Text>
+								<TableTitle>CNPJ:</TableTitle>
+								<Text>{dt.doc_forn}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Cor:</TableTitle>
-								<Text>{dt.cor_urna}</Text>
-							</TableColumn>
-							<TableColumn>
-								<TableTitle>Estoque:</TableTitle>
-								<Text>{dt.quantidade}</Text>
-							</TableColumn>
-							<TableColumn>
-								<TableTitle>Data:</TableTitle>
-								<Text>{convertDate(dt.dt_hr_entrada)}</Text>
+								<TableTitle>Telefone:</TableTitle>
+								<Text>{dt.tel_forn}</Text>
 							</TableColumn>
 						</TableRow>
 					);
@@ -154,4 +138,4 @@ function UrnasListPage(props) {
 	);
 }
 
-export default UrnasListPage;
+export default FornecedoresListPage;
