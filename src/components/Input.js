@@ -22,6 +22,10 @@ const defaultProps = `
 		background: #e8e8e8;
 	}
 
+	&.danger {
+		background: #e77681;
+	}
+
 	::-webkit-inner-spin-button {
 		-webkit-appearance: none;
 		margin: 0;

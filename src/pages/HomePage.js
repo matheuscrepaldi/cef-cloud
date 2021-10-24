@@ -41,7 +41,16 @@ function HomePage(props) {
 				await axios
 					.get(`listar${item}`)
 					.then((response) => {
-						const total = response.data.length;
+						let total = response.data.length;
+
+						if (item === "Urnas") {
+							total = 0;
+							response.data.map((urn) => {
+								total += urn.quantidade;
+
+								return urn;
+							});
+						}
 
 						setData((prevState) => ({
 							...prevState,
@@ -78,7 +87,7 @@ function HomePage(props) {
 			<Row>
 				<DashboardCard
 					total={data.totalUrnas}
-					text={"Urnas cadastradas"}
+					text={"Disponível em estoque"}
 					icon={<BsInboxesFill size={32} />}
 					loading={loading.Urnas}
 					handleShowMore={() => props.history.push("/urnas")}

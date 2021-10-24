@@ -74,11 +74,12 @@ function MovimentacaoDetailsPage(props) {
 	}, [id, setFields, isNew]);
 
 	useEffect(() => {
-		if (fields.tipo_mov !== "") {
+		if (fields.tipo_mov && fields.tipo_mov !== "") {
 			const result = handleEntradaSaida(
 				fields.quantidade,
 				fields.qtde_mov
 			);
+			console.log(fields.tipo_mov);
 			setFields({ ...fields, resumo_estoque: result });
 		}
 
@@ -142,10 +143,10 @@ function MovimentacaoDetailsPage(props) {
 
 	useEffect(() => {
 		if (fields.qtde_mov > 0) {
-			const result = handleEntradaSaida(
-				fields.quantidade,
-				fields.qtde_mov
-			);
+			let result = handleEntradaSaida(fields.quantidade, fields.qtde_mov);
+			if (result < 0) {
+				toast.error("Estoque indisponível");
+			}
 			setFields({ ...fields, resumo_estoque: result });
 		}
 	}, [fields.qtde_mov]);
@@ -187,7 +188,6 @@ function MovimentacaoDetailsPage(props) {
 	const handlePut = () => {
 		const body = { ...fields };
 		body.cdOwner = session && session.owner;
-		// delete body.id;
 
 		setLoading(true);
 
@@ -384,6 +384,9 @@ function MovimentacaoDetailsPage(props) {
 							<Input
 								id={"resumo_estoque"}
 								type="number"
+								className={
+									fields.resumo_estoque < 0 && "danger"
+								}
 								defaultValue={fields.resumo_estoque}
 								onChange={handleInputChange}
 								disabled
