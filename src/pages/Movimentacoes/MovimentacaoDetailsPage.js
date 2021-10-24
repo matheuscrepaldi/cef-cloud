@@ -79,7 +79,7 @@ function MovimentacaoDetailsPage(props) {
 				fields.quantidade,
 				fields.qtde_mov
 			);
-			console.log(fields.tipo_mov);
+
 			setFields({ ...fields, resumo_estoque: result });
 		}
 
@@ -258,6 +258,7 @@ function MovimentacaoDetailsPage(props) {
 								id={"tipo_mov"}
 								value={fields.tipo_mov}
 								onChange={handleInputChange}
+								disabled={!isNew}
 							>
 								<option value="">Selecione</option>
 								<option value="Entrada">Entrada</option>
@@ -271,6 +272,7 @@ function MovimentacaoDetailsPage(props) {
 									id={"idForn"}
 									value={fields.idForn}
 									onChange={handleInputChange}
+									disabled={!isNew}
 								>
 									<option value="">Selecione</option>
 									{fornecedores.map((forn, i) => {
@@ -293,6 +295,7 @@ function MovimentacaoDetailsPage(props) {
 									id={"idCli"}
 									value={fields.idCli}
 									onChange={handleInputChange}
+									disabled={!isNew}
 								>
 									<option value="">Selecione</option>
 									{clientes.map((cli, i) => {
@@ -311,6 +314,7 @@ function MovimentacaoDetailsPage(props) {
 								id={"idUrna"}
 								value={fields.idUrna}
 								onChange={handleInputChange}
+								disabled={!isNew}
 							>
 								<option value="">Selecione</option>
 								{urnas.map((urna, i) => {
@@ -376,7 +380,7 @@ function MovimentacaoDetailsPage(props) {
 								type="number"
 								defaultValue={fields.qtde_mov}
 								onChange={handleInputChange}
-								disabled={!podeCalcular}
+								disabled={!podeCalcular || !isNew}
 							/>
 						</Column>
 						<Column>
@@ -405,13 +409,11 @@ function MovimentacaoDetailsPage(props) {
 					</Row>
 					<Row style={{ justifyContent: "center" }}>
 						<ButtonGroup>
-							{!isNew && (
-								<Button onClick={handleToggleModal} danger>
-									Excluir
-								</Button>
-							)}
-
-							<Button onClick={handleSaveUrna} success>
+							<Button
+								disabled={!isNew}
+								onClick={handleSaveUrna}
+								success
+							>
 								Salvar
 							</Button>
 						</ButtonGroup>

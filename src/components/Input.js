@@ -18,6 +18,11 @@ const defaultProps = `
 		rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
 		rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
 
+	-ms-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box; 
+	box-sizing:content-box;
+
 	:disabled {
 		background: #e8e8e8;
 	}
@@ -46,7 +51,6 @@ const Input = styled.input`
 
 const Select = styled.select`
 	${defaultProps};
-	height: 50px;
 `;
 
 const TextArea = styled.textarea`
