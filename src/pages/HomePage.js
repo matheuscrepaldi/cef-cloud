@@ -20,11 +20,11 @@ const TableRow = styled(Row)`
 `;
 
 function HomePage(props) {
-	const [loading, setLoading] = useState({
-		Urnas: true,
-		Clientes: true,
-		Fornecedores: true,
-	});
+	// const [loading, setLoading] = useState({
+	// 	Urnas: true,
+	// 	Clientes: true,
+	// 	Fornecedores: true,
+	// });
 	const [data, setData] = useState({
 		totalUrnas: 0,
 		totalClientes: 0,
@@ -48,13 +48,13 @@ function HomePage(props) {
 							...prevState,
 							[`total${item}`]: total,
 						}));
-						setLoading((prevState) => ({
-							...prevState,
-							[`${item}`]: false,
-						}));
+						// setLoading((prevState) => ({
+						// 	...prevState,
+						// 	[`${item}`]: false,
+						// }));
 					})
 					.catch((err) => {
-						setLoading({ ...loading, [`${item}`]: false });
+						// setLoading({ ...loading, [`${item}`]: false });
 						toast.error(
 							`Erro ao carregar os dados dos(as) ${item}`,
 							{
@@ -81,21 +81,21 @@ function HomePage(props) {
 					total={data.totalUrnas}
 					text={"Urnas cadastradas"}
 					icon={<BsInboxesFill size={32} />}
-					loading={loading.Urnas}
+					// loading={loading.Urnas}
 					handleShowMore={() => props.history.push("/urnas")}
 				/>
 				<DashboardCard
 					total={data.totalClientes}
 					text={"Clientes cadastrados"}
 					icon={<BsPeopleFill size={32} />}
-					loading={loading.Clientes}
+					// loading={loading.Clientes}
 					handleShowMore={() => props.history.push("/clientes")}
 				/>
 				<DashboardCard
 					total={data.totalFornecedores}
 					text={"Fornecedores cadastrados"}
 					icon={<BsCart4 size={32} />}
-					loading={loading.Fornecedores}
+					// loading={loading.Fornecedores}
 					handleShowMore={() => props.history.push("/fornecedores")}
 				/>
 			</Row>
