@@ -26,7 +26,7 @@ function Layout(props) {
 	return (
 		<Container>
 			<Menu />
-			<Body>{props.children}</Body>
+			<Body id="container">{props.children}</Body>
 		</Container>
 	);
 }

@@ -82,7 +82,7 @@ function MovimentacaoDetailsPage(props) {
 			setFields({ ...fields, resumo_estoque: result });
 		}
 
-		if (fields.tipo_mov === "Saída" && clientes.length === 0) {
+		if (fields.tipo_mov === "Saída") {
 			setLoading(true);
 			axios
 				.get(`listarClientes/`)
@@ -94,7 +94,7 @@ function MovimentacaoDetailsPage(props) {
 					console.log(error);
 					setLoading(false);
 				});
-		} else if (fields.tipo_mov === "Entrada" && fornecedores.length === 0) {
+		} else if (fields.tipo_mov === "Entrada") {
 			setLoading(true);
 			axios
 				.get(`listarFornecedores/`)

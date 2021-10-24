@@ -10,7 +10,7 @@ const Card = styled.div`
 	margin: 10px;
 	align-items: center;
 	flex: 1;
-	height: 200px;
+	height: 100%;
 	background: #fff;
 	position: relative;
 	min-width: 300px;
@@ -28,7 +28,7 @@ const Body = styled.div`
 	color: #ffffff;
 `;
 
-const Footer = styled.div`
+const Header = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -53,41 +53,42 @@ const Row = styled.div`
 	width: 100%;
 `;
 
-const Column = styled.div`
+const Panel = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
 	padding: 10px 10px 10px 50px;
-	align-items: flex-start;
+	align-items: center;
 	width: ${(props) => props.width};
 
-	&.icon {
-		align-items: center;
+	&.right {
+		justify-content: flex-end;
 	}
 `;
 
-const DashboardCard = (props) => {
+const DashboardTable = (props) => {
 	return (
 		<Card>
 			<Loading loading={props.loading} absolute />
-			<Body>
+			<Header onClick={props.handleShowMore}>
 				<Row>
-					<Column width={"70%"}>
-						<Title textWhite big>
-							{props.total}
-						</Title>
-						<Title textWhite>{props.text}</Title>
-					</Column>
-					<Column className={"icon"} width={"30%"}>
-						{props.icon}
-					</Column>
+					<Panel width={"70%"}>
+						<Title textWhite>{props.title}</Title>
+					</Panel>
+					<Panel className={"right"} width={"30%"}>
+						Ver mais
+						<BsFillArrowRightCircleFill
+							style={{ marginLeft: 10 }}
+						/>
+					</Panel>
 				</Row>
+			</Header>
+			<Body>
+				<Row>tabela</Row>
 			</Body>
-			<Footer onClick={props.handleShowMore}>
-				Ver mais
-				<BsFillArrowRightCircleFill style={{ marginLeft: 10 }} />
-			</Footer>
 		</Card>
 	);
 };
 
-export default DashboardCard;
+export default DashboardTable;
