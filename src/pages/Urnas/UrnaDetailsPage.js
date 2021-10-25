@@ -69,7 +69,7 @@ function UrnaDetailsPage(props) {
 	const handlePost = () => {
 		const body = { ...fields };
 		body.cdOwner = session && session.owner;
-		delete body.id;
+		// delete body.id;
 
 		if (!body.dt_hr_entrada || body.dt_hr_entrada === "") {
 			toast.error("Preencha a data");

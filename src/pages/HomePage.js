@@ -34,7 +34,7 @@ function HomePage(props) {
 	const scrollOffset = page && page.scrollHeight - page.offsetHeight;
 
 	useEffect(() => {
-		const list = ["Urnas", "Clientes", "Fornecedores"];
+		const list = ["Urnas", "Clientes", "Fornecedores", "EstoqueBaixo"];
 
 		async function getAll() {
 			for (const [index, item] of list.entries()) {

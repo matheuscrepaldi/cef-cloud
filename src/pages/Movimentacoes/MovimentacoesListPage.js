@@ -9,6 +9,7 @@ import Title from "../../components/Title";
 import Text from "../../components/Text";
 import Loading from "../../components/Loading";
 import Column from "../../components/Column";
+import { convertDate } from "../../utils/convertDate";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -62,10 +63,22 @@ const NoData = styled(Row)`
 
 function MovimentacoesListPage(props) {
 	const [data, setData] = useState([]);
+	const [urnas, setUrnas] = useState([]);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
+
+		axios
+			.get("listarUrnas")
+			.then(function (response) {
+				setUrnas(response.data);
+				setLoading(false);
+			})
+			.catch(function (error) {
+				console.log(error);
+				setLoading(false);
+			});
 
 		axios
 			.get("listarMovimentacoes")
@@ -118,10 +131,13 @@ function MovimentacoesListPage(props) {
 				</Card>
 			) : data.length > 0 ? (
 				data.map((dt, i) => {
+					const urna =
+						urnas.find((ur) => ur.id_urna === dt.id_urna) || {};
+
 					return (
 						<TableRow
 							className="line"
-							onClick={() => handleCardClick(dt.id)}
+							onClick={() => handleCardClick(dt.id_mov)}
 							key={i}
 						>
 							<TableColumn>
@@ -134,11 +150,11 @@ function MovimentacoesListPage(props) {
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Referência:</TableTitle>
-								<Text>{dt.idUrna}</Text>
+								<Text>{urna.ref_urna}</Text>
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Cor:</TableTitle>
-								<Text>{dt.cor_urna}</Text>
+								<Text>{urna.cor_urna}</Text>
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Quantidade:</TableTitle>
@@ -146,7 +162,7 @@ function MovimentacoesListPage(props) {
 							</TableColumn>
 							<TableColumn>
 								<TableTitle>Data/Hora:</TableTitle>
-								<Text>{dt.dt_hr_mov}</Text>
+								<Text>{convertDate(dt.dt_hr_mov)}</Text>
 							</TableColumn>
 						</TableRow>
 					);

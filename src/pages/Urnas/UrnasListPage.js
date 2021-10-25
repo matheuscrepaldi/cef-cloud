@@ -123,7 +123,7 @@ function UrnasListPage(props) {
 					return (
 						<TableRow
 							className="line"
-							onClick={() => handleCardClick(dt.id)}
+							onClick={() => handleCardClick(dt.id_urna)}
 							key={i}
 						>
 							<TableColumn>

@@ -11,14 +11,12 @@ import Text from "../../components/Text";
 import useDynamicForm from "../../hooks/useDynamicForm";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
-import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
 import ButtonGroup from "../../components/ButtonGroup";
 import { today } from "../../utils/convertDate";
 
 function MovimentacaoDetailsPage(props) {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
-	const [showModal, setShowModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [urnas, setUrnas] = useState([]);
 	const [clientes, setClientes] = useState([]);
@@ -31,15 +29,15 @@ function MovimentacaoDetailsPage(props) {
 	const podeCalcular =
 		fields.tipo_mov &&
 		fields.tipo_mov !== "" &&
-		fields.idUrna &&
-		fields.idUrna !== "";
+		fields.id_urna &&
+		fields.id_urna !== "";
 
 	useEffect(() => {
 		async function getMovimentacao() {
 			setLoading(true);
 
 			axios
-				.get(`listarMovimentacao/${id}`)
+				.get(`listarMovById/${id}`)
 				.then(function (response) {
 					setFields(response.data);
 					setLoading(false);
@@ -111,9 +109,9 @@ function MovimentacaoDetailsPage(props) {
 	}, [fields.tipo_mov]);
 
 	useEffect(() => {
-		if (fields.idUrna !== "") {
+		if (urnas.length > 0) {
 			const result = urnas.find(
-				(urna) => urna.id === Number(fields.idUrna)
+				(urna) => urna.id_urna === Number(fields.id_urna)
 			);
 
 			if (result) {
@@ -129,7 +127,29 @@ function MovimentacaoDetailsPage(props) {
 					),
 				});
 			}
-		} else {
+		}
+	}, [urnas]);
+
+	useEffect(() => {
+		if (fields.id_urna && fields.id_urna !== "") {
+			const result = urnas.find(
+				(urna) => urna.id_urna === Number(fields.id_urna)
+			);
+
+			if (result) {
+				setFields({
+					...fields,
+					nome_urna: result.nome_urna,
+					tamanho_urna: result.tamanho_urna,
+					classe_urna: result.classe_urna,
+					quantidade: result.quantidade,
+					resumo_estoque: handleEntradaSaida(
+						result.quantidade,
+						fields.qtde_mov
+					),
+				});
+			}
+		} else if (fields.id_urna === "") {
 			setFields({
 				...fields,
 				nome_urna: "",
@@ -139,7 +159,7 @@ function MovimentacaoDetailsPage(props) {
 				resumo_estoque: "",
 			});
 		}
-	}, [fields.idUrna]);
+	}, [fields.id_urna]);
 
 	useEffect(() => {
 		if (fields.qtde_mov > 0) {
@@ -168,50 +188,15 @@ function MovimentacaoDetailsPage(props) {
 	const handlePost = () => {
 		const body = { ...fields };
 		body.cdOwner = session && session.owner;
-		delete body.id;
+		// delete body.id;
 
 		setLoading(true);
 
 		axios
-			.post(`cadastrarUrna`, body)
+			.post(`gravarMovimentacao`, body)
 			.then(function (response) {
-				toast.success("Urna cadastrada com sucesso");
-				props.history.push("/urnas");
-				setLoading(false);
-			})
-			.catch(function (error) {
-				console.log(error);
-				setLoading(false);
-			});
-	};
-
-	const handlePut = () => {
-		const body = { ...fields };
-		body.cdOwner = session && session.owner;
-
-		setLoading(true);
-
-		axios
-			.put(`atualizarUrna/${id}`, body)
-			.then(function (response) {
-				toast.success("Urna atualizada com sucesso");
-				props.history.push("/urnas");
-				setLoading(false);
-			})
-			.catch(function (error) {
-				setLoading(false);
-				toast.error(error);
-			});
-	};
-
-	const handleDelete = () => {
-		setLoading(true);
-
-		axios
-			.delete(`deletarUrna/${id}`)
-			.then(function (response) {
-				toast.success("Urna excluída com sucesso");
-				props.history.push("/urnas");
+				toast.success("Movimentação cadastrada com sucesso");
+				props.history.push("/movimentacoes");
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -223,204 +208,180 @@ function MovimentacaoDetailsPage(props) {
 	const handleSaveUrna = () => {
 		if (isNew) {
 			handlePost();
-		} else {
-			handlePut();
 		}
 	};
 
-	const handleToggleModal = () => {
-		setShowModal(!showModal);
-	};
-
-	const handleConfirmModalButton = () => {
-		setShowModal(false);
-		setLoading(true);
-		handleDelete();
-	};
-
 	return (
-		<>
-			<Modal
-				showModal={showModal}
-				modalTitle="Tem certeza que deseja excluir este item?"
-				modalBody="Caso continue, essas informações serão perdidas!"
-				handleToggleModal={handleToggleModal}
-				handleConfirmModalButton={handleConfirmModalButton}
-			/>
-			<Container showModal={showModal}>
-				<Header title="Nova Movimentação" />
-				<CardDetails>
-					<Loading loading={loading} absolute />
-					<Row>
+		<Container>
+			<Header title="Nova Movimentação" />
+			<CardDetails>
+				<Loading loading={loading} absolute />
+				<Row>
+					<Column>
+						<Text>Movimentação:</Text>
+						<Select
+							id={"tipo_mov"}
+							value={fields.tipo_mov}
+							onChange={handleInputChange}
+							disabled={!isNew}
+						>
+							<option value="">Selecione</option>
+							<option value="Entrada">Entrada</option>
+							<option value="Saída">Saída</option>
+						</Select>
+					</Column>
+					{fields.tipo_mov === "Entrada" && (
 						<Column>
-							<Text>Movimentação:</Text>
+							<Text>Fornecedor:</Text>
 							<Select
-								id={"tipo_mov"}
-								value={fields.tipo_mov}
+								id={"id_forn"}
+								value={fields.id_forn}
 								onChange={handleInputChange}
 								disabled={!isNew}
 							>
 								<option value="">Selecione</option>
-								<option value="Entrada">Entrada</option>
-								<option value="Saída">Saída</option>
-							</Select>
-						</Column>
-						{fields.tipo_mov === "Entrada" && (
-							<Column>
-								<Text>Fornecedor:</Text>
-								<Select
-									id={"idForn"}
-									value={fields.idForn}
-									onChange={handleInputChange}
-									disabled={!isNew}
-								>
-									<option value="">Selecione</option>
-									{fornecedores.map((forn, i) => {
-										return (
-											<option
-												key={i}
-												value={forn.id_forn}
-											>
-												{forn.rz_forn}
-											</option>
-										);
-									})}
-								</Select>
-							</Column>
-						)}
-						{fields.tipo_mov === "Saída" && (
-							<Column>
-								<Text>Cliente:</Text>
-								<Select
-									id={"idCli"}
-									value={fields.idCli}
-									onChange={handleInputChange}
-									disabled={!isNew}
-								>
-									<option value="">Selecione</option>
-									{clientes.map((cli, i) => {
-										return (
-											<option key={i} value={cli.id_cli}>
-												{cli.nome_cli}
-											</option>
-										);
-									})}
-								</Select>
-							</Column>
-						)}
-						<Column>
-							<Text>Referência:</Text>
-							<Select
-								id={"idUrna"}
-								value={fields.idUrna}
-								onChange={handleInputChange}
-								disabled={!isNew}
-							>
-								<option value="">Selecione</option>
-								{urnas.map((urna, i) => {
+								{fornecedores.map((forn, i) => {
 									return (
-										<option
-											key={i}
-											value={urna.id}
-										>{`${urna.ref_urna} - ${urna.cor_urna}`}</option>
+										<option key={i} value={forn.id_forn}>
+											{forn.rz_forn}
+										</option>
 									);
 								})}
 							</Select>
 						</Column>
+					)}
+					{fields.tipo_mov === "Saída" && (
 						<Column>
-							<Text>Descrição:</Text>
-							<Input
-								id={"nome_urna"}
-								type="text"
-								defaultValue={fields.nome_urna}
-								onChange={handleInputChange}
-								disabled
-							/>
-						</Column>
-						<Column>
-							<Text>Tamanho:</Text>
-							<Input
-								id={"tamanho_urna"}
-								type="text"
-								defaultValue={fields.tamanho_urna}
-								onChange={handleInputChange}
-								disabled
-							/>
-						</Column>
-						<Column>
-							<Text>Tipo:</Text>
-							<Input
-								id={"classe_urna"}
-								type="text"
-								defaultValue={fields.classe_urna}
-								onChange={handleInputChange}
-								disabled
-							/>
-						</Column>
-						<Column>
-							<Text>Estoque atual:</Text>
-							<Input
-								id={"quantidade"}
-								type="number"
-								defaultValue={fields.quantidade}
-								onChange={handleInputChange}
-								disabled
-							/>
-						</Column>
-						<Column>
-							<Text>
-								Quantidade
-								{fields.tipo_mov &&
-									fields.tipo_mov !== "" &&
-									` para ${fields.tipo_mov}`}
-								:
-							</Text>
-							<Input
-								id={"qtde_mov"}
-								type="number"
-								defaultValue={fields.qtde_mov}
-								onChange={handleInputChange}
-								disabled={!podeCalcular || !isNew}
-							/>
-						</Column>
-						<Column>
-							<Text>Resumo estoque:</Text>
-							<Input
-								id={"resumo_estoque"}
-								type="number"
-								className={
-									fields.resumo_estoque < 0 && "danger"
-								}
-								defaultValue={fields.resumo_estoque}
-								onChange={handleInputChange}
-								disabled
-							/>
-						</Column>
-						<Column>
-							<Text>Data/Hora:</Text>
-							<Input
-								id={"dt_hr_mov"}
-								type="datetime-local"
-								defaultValue={fields.dt_hr_mov}
+							<Text>Cliente:</Text>
+							<Select
+								id={"id_cli"}
+								value={fields.id_cli}
 								onChange={handleInputChange}
 								disabled={!isNew}
-							/>
+							>
+								<option value="">Selecione</option>
+								{clientes.map((cli, i) => {
+									return (
+										<option key={i} value={cli.id_cli}>
+											{cli.nome_cli}
+										</option>
+									);
+								})}
+							</Select>
 						</Column>
-					</Row>
+					)}
+					<Column>
+						<Text>Referência:</Text>
+						<Select
+							id={"id_urna"}
+							value={fields.id_urna}
+							onChange={handleInputChange}
+							disabled={!isNew}
+						>
+							<option value="">Selecione</option>
+							{urnas.map((urna, i) => {
+								return (
+									<option
+										key={i}
+										value={urna.id_urna}
+									>{`${urna.ref_urna} - ${urna.cor_urna}`}</option>
+								);
+							})}
+						</Select>
+					</Column>
+					<Column>
+						<Text>Descrição:</Text>
+						<Input
+							id={"nome_urna"}
+							type="text"
+							defaultValue={fields.nome_urna}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</Column>
+					<Column>
+						<Text>Tamanho:</Text>
+						<Input
+							id={"tamanho_urna"}
+							type="text"
+							defaultValue={fields.tamanho_urna}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</Column>
+					<Column>
+						<Text>Tipo:</Text>
+						<Input
+							id={"classe_urna"}
+							type="text"
+							defaultValue={fields.classe_urna}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</Column>
+					<Column>
+						<Text>Estoque atual:</Text>
+						<Input
+							id={"quantidade"}
+							type="number"
+							defaultValue={fields.quantidade}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</Column>
+					<Column>
+						<Text>
+							Quantidade
+							{fields.tipo_mov &&
+								fields.tipo_mov !== "" &&
+								` para ${fields.tipo_mov}`}
+							:
+						</Text>
+						<Input
+							id={"qtde_mov"}
+							type="number"
+							defaultValue={fields.qtde_mov}
+							onChange={handleInputChange}
+							disabled={!podeCalcular || !isNew}
+						/>
+					</Column>
+					<Column>
+						<Text>Resumo estoque:</Text>
+						<Input
+							id={"resumo_estoque"}
+							type="number"
+							className={fields.resumo_estoque < 0 && "danger"}
+							defaultValue={fields.resumo_estoque}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</Column>
+					<Column>
+						<Text>Data/Hora:</Text>
+						<Input
+							id={"dt_hr_mov"}
+							type="datetime-local"
+							defaultValue={fields.dt_hr_mov}
+							onChange={handleInputChange}
+							disabled={!isNew}
+						/>
+					</Column>
+				</Row>
+				{isNew && (
 					<Row style={{ justifyContent: "center" }}>
 						<ButtonGroup>
 							<Button
-								disabled={!isNew}
 								onClick={handleSaveUrna}
 								success
+								disabled={!isNew}
 							>
 								Salvar
 							</Button>
 						</ButtonGroup>
 					</Row>
-				</CardDetails>
-			</Container>
-		</>
+				)}
+			</CardDetails>
+		</Container>
 	);
 }
 
