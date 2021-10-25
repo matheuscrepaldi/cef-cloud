@@ -201,6 +201,7 @@ function MovimentacaoDetailsPage(props) {
 			})
 			.catch(function (error) {
 				console.log(error);
+				toast.error("Erro ao criar movimentação");
 				setLoading(false);
 			});
 	};
