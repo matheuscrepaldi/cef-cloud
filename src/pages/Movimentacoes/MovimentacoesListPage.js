@@ -31,7 +31,7 @@ const TableRow = styled(Row)`
 		@media (max-width: 1024px) {
 			flex-direction: column;
 			border: 1px solid #59bfff;
-			border-radius: 10px;
+			/* border-radius: 10px; */
 			background: #ffffff;
 
 			:hover {
