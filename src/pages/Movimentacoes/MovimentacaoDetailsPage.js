@@ -212,6 +212,14 @@ function MovimentacaoDetailsPage(props) {
 		}
 	};
 
+	const canFilter =
+		fields.tipo_mov === "Entrada" &&
+		fields.id_forn &&
+		fields.id_forn !== "";
+	const urnasFiltradas = canFilter
+		? urnas.filter((urn) => urn.idForn === Number(fields.id_forn))
+		: urnas;
+
 	return (
 		<Container>
 			<Header title="Nova Movimentação" />
@@ -280,7 +288,7 @@ function MovimentacaoDetailsPage(props) {
 							disabled={!isNew}
 						>
 							<option value="">Selecione</option>
-							{urnas.map((urna, i) => {
+							{urnasFiltradas.map((urna, i) => {
 								return (
 									<option
 										key={i}

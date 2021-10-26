@@ -9,13 +9,14 @@ import DashboardCard from "../components/DashboardCard";
 import Title from "../components/Title";
 import { withRouter } from "react-router";
 import DashboardTable from "../components/DashboardTable";
+import DashboardTable2 from "../components/DashboardTable2";
 
 const TableRow = styled(Row)`
-	height: ${(props) => `calc(100% - ${props.offset}px)`};
+	/* height: ${(props) => `calc(100% - ${props.offset}px)`};
 
 	@media (max-width: 1023px) {
 		height: 100%;
-	}
+	} */
 `;
 
 function HomePage(props) {
@@ -23,21 +24,33 @@ function HomePage(props) {
 		Urnas: true,
 		Clientes: true,
 		Fornecedores: true,
+		EstoqueBaixo: true,
+		Movimentacoes: true,
 	});
 	const [data, setData] = useState({
 		totalUrnas: 0,
 		totalClientes: 0,
 		totalFornecedores: 0,
+		totalEstoqueBaixo: [],
+		totalMovimentacoes: [],
 	});
 
-	const page = document.getElementById("container");
-	const scrollOffset = page && page.scrollHeight - page.offsetHeight;
+	// const page = document.getElementById("container");
+	// const scrollOffset = page && page.scrollHeight - page.offsetHeight;
 
 	useEffect(() => {
-		const list = ["Urnas", "Clientes", "Fornecedores", "EstoqueBaixo"];
+		const list = [
+			"Urnas",
+			"Clientes",
+			"Fornecedores",
+			"EstoqueBaixo",
+			"Movimentacoes",
+		];
 
 		async function getAll() {
 			for (const [index, item] of list.entries()) {
+				let tableSizeEstoque = 0;
+
 				await axios
 					.get(`listar${item}`)
 					.then((response) => {
@@ -50,6 +63,18 @@ function HomePage(props) {
 
 								return urn;
 							});
+						}
+
+						if (item === "EstoqueBaixo") {
+							total = response.data;
+							tableSizeEstoque = total.length;
+						}
+
+						if (item === "Movimentacoes") {
+							tableSizeEstoque =
+								tableSizeEstoque < 5 ? 5 : tableSizeEstoque;
+
+							total = response.data.slice(0, tableSizeEstoque);
 						}
 
 						setData((prevState) => ({
@@ -108,14 +133,18 @@ function HomePage(props) {
 				/>
 			</Row>
 
-			<TableRow offset={scrollOffset}>
+			<TableRow>
 				<DashboardTable
 					title={"Estoque em baixa"}
+					loading={loading.EstoqueBaixo}
 					handleShowMore={() => props.history.push("/urnas")}
+					data={data.totalEstoqueBaixo}
 				/>
-				<DashboardTable
+				<DashboardTable2
 					title={"Últimas Movimentações"}
+					loading={loading.Movimentacoes}
 					handleShowMore={() => props.history.push("/movimentacoes")}
+					data={data.totalMovimentacoes}
 				/>
 			</TableRow>
 		</>

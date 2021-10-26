@@ -28,7 +28,7 @@ const Body = styled.div`
 	justify-content: flex-start;
 	width: 100%;
 	height: 80%;
-	background-color: #e77681;
+	background-color: #56e187;
 	color: #ffffff;
 	padding-bottom: 10px;
 `;
@@ -40,12 +40,12 @@ const Header = styled.div`
 	justify-content: center;
 	width: 100%;
 	height: 20%;
-	background-color: #dc3545;
+	background-color: #23c85d;
 	color: #ffffff;
 
 	:hover {
 		cursor: pointer;
-		background: #a71d2a;
+		background: #18873f;
 	}
 `;
 
@@ -127,7 +127,7 @@ const NoData = styled(Row)`
 	justify-content: center;
 `;
 
-const DashboardTable = (props) => {
+const DashboardTable2 = (props) => {
 	return (
 		<Card>
 			<Loading loading={props.loading} absolute />
@@ -149,16 +149,18 @@ const DashboardTable = (props) => {
 			<Body>
 				<TableRow className="header">
 					<TableColumn>
-						<Title style={{ color: "#fff" }}>Referência</Title>
+						<Title style={{ color: "#fff" }}>Movimentação</Title>
 					</TableColumn>
 					<TableColumn>
-						<Title style={{ color: "#fff" }}>Cor</Title>
+						<Title style={{ color: "#fff" }}>
+							Cliente/Fornecedor
+						</Title>
 					</TableColumn>
 					<TableColumn>
-						<Title style={{ color: "#fff" }}>Estoque</Title>
+						<Title style={{ color: "#fff" }}>Quantidade</Title>
 					</TableColumn>
 					<TableColumn>
-						<Title style={{ color: "#fff" }}>Fornecedor</Title>
+						<Title style={{ color: "#fff" }}>Data</Title>
 					</TableColumn>
 				</TableRow>
 
@@ -171,28 +173,30 @@ const DashboardTable = (props) => {
 								key={i}
 							>
 								<TableColumn>
-									<TableTitle>Referência:</TableTitle>
+									<TableTitle>Movimentação:</TableTitle>
 									<Text style={{ color: "#fff" }}>
-										{dt.ref_urna}
+										{dt.tipo_mov}
 									</Text>
 								</TableColumn>
 
 								<TableColumn>
-									<TableTitle>Cor:</TableTitle>
+									<TableTitle>Cliente/Fornecedor:</TableTitle>
 									<Text style={{ color: "#fff" }}>
-										{dt.cor_urna}
+										{dt.tipo_mov === "Entrada"
+											? dt.id_forn
+											: dt.id_cli}
 									</Text>
 								</TableColumn>
 								<TableColumn>
-									<TableTitle>Estoque:</TableTitle>
+									<TableTitle>Quantidade:</TableTitle>
 									<Text style={{ color: "#fff" }}>
-										{dt.quantidade}
+										{dt.qtde_mov}
 									</Text>
 								</TableColumn>
 								<TableColumn>
-									<TableTitle>Fornecedor:</TableTitle>
+									<TableTitle>Data:</TableTitle>
 									<Text style={{ color: "#fff" }}>
-										{convertDate(dt.dt_hr_entrada)}
+										{convertDate(dt.dt_hr_mov)}
 									</Text>
 								</TableColumn>
 							</TableRow>
@@ -206,4 +210,4 @@ const DashboardTable = (props) => {
 	);
 };
 
-export default DashboardTable;
+export default DashboardTable2;
