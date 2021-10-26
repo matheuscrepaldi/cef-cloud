@@ -192,7 +192,7 @@ const DashboardTable = (props) => {
 								<TableColumn>
 									<TableTitle>Fornecedor:</TableTitle>
 									<Text style={{ color: "#fff" }}>
-										{convertDate(dt.dt_hr_entrada)}
+										{dt.idForn}
 									</Text>
 								</TableColumn>
 							</TableRow>
