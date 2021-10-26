@@ -12,8 +12,9 @@ import DashboardTable from "../components/DashboardTable";
 import DashboardTable2 from "../components/DashboardTable2";
 
 const TableRow = styled(Row)`
+	align-items: flex-start;
 	/* height: ${(props) => `calc(100% - ${props.offset}px)`};
-
+	
 	@media (max-width: 1023px) {
 		height: 100%;
 	} */
