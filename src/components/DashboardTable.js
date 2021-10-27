@@ -5,7 +5,6 @@ import Loading from "./Loading";
 import Column from "./Column";
 import Row from "./Row";
 import Text from "./Text";
-import { convertDate } from "../utils/convertDate";
 
 const Card = styled.div`
 	display: flex;
@@ -19,6 +18,10 @@ const Card = styled.div`
 	position: relative;
 	min-width: 600px;
 	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+
+	@media (max-width: 1024px) {
+		min-width: 300px;
+	}
 `;
 
 const Body = styled.div`
@@ -74,6 +77,8 @@ const Panel = styled.div`
 
 const TableColumn = styled(Column)`
 	margin: 10px;
+	color: #fff;
+	align-items: center;
 
 	@media (max-width: 1024px) {
 		flex-direction: row;
@@ -87,21 +92,13 @@ const TableRow = styled(Row)`
 
 	&.line {
 		border-bottom: 1px solid #ccc;
-		/* :hover {
-			background: #cccccc;
-			cursor: pointer;
-		} */
 
 		@media (max-width: 1024px) {
 			flex-direction: column;
 			border: 1px solid #fff;
-			/* border-radius: 10px; */
+			margin: 10px;
 			background: #ffffff;
 			box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
-
-			:hover {
-				background: #d9d9d9;
-			}
 		}
 	}
 
@@ -120,6 +117,14 @@ const TableTitle = styled(Title)`
 	@media (max-width: 1024px) {
 		margin-left: 15px;
 		display: flex;
+	}
+`;
+
+const TableText = styled(Text)`
+	color: #fff;
+
+	@media (max-width: 1024px) {
+		color: #808080;
 	}
 `;
 
@@ -172,28 +177,20 @@ const DashboardTable = (props) => {
 							>
 								<TableColumn>
 									<TableTitle>Referência:</TableTitle>
-									<Text style={{ color: "#fff" }}>
-										{dt.ref_urna}
-									</Text>
+									<TableText>{dt.ref_urna}</TableText>
 								</TableColumn>
 
 								<TableColumn>
 									<TableTitle>Cor:</TableTitle>
-									<Text style={{ color: "#fff" }}>
-										{dt.cor_urna}
-									</Text>
+									<TableText>{dt.cor_urna}</TableText>
 								</TableColumn>
 								<TableColumn>
 									<TableTitle>Estoque:</TableTitle>
-									<Text style={{ color: "#fff" }}>
-										{dt.quantidade}
-									</Text>
+									<TableText>{dt.quantidade}</TableText>
 								</TableColumn>
 								<TableColumn>
 									<TableTitle>Fornecedor:</TableTitle>
-									<Text style={{ color: "#fff" }}>
-										{dt.idForn}
-									</Text>
+									<TableText>{dt.rz_forn}</TableText>
 								</TableColumn>
 							</TableRow>
 						);

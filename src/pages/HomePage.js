@@ -13,11 +13,6 @@ import DashboardTable2 from "../components/DashboardTable2";
 
 const TableRow = styled(Row)`
 	align-items: flex-start;
-	/* height: ${(props) => `calc(100% - ${props.offset}px)`};
-	
-	@media (max-width: 1023px) {
-		height: 100%;
-	} */
 `;
 
 function HomePage(props) {
@@ -88,7 +83,10 @@ function HomePage(props) {
 						}));
 					})
 					.catch((err) => {
-						setLoading({ ...loading, [`${item}`]: false });
+						setLoading((prevState) => ({
+							...prevState,
+							[`${item}`]: false,
+						}));
 						toast.error(
 							`Erro ao carregar os dados dos(as) ${item}`,
 							{

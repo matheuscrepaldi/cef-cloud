@@ -19,6 +19,10 @@ const Card = styled.div`
 	position: relative;
 	min-width: 600px;
 	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+
+	@media (max-width: 1024px) {
+		min-width: 300px;
+	}
 `;
 
 const Body = styled.div`
@@ -74,7 +78,7 @@ const Panel = styled.div`
 
 const TableColumn = styled(Column)`
 	margin: 10px;
-
+	align-items: center;
 	@media (max-width: 1024px) {
 		flex-direction: row;
 		justify-content: flex-start;
@@ -87,21 +91,13 @@ const TableRow = styled(Row)`
 
 	&.line {
 		border-bottom: 1px solid #ccc;
-		/* :hover {
-			background: #cccccc;
-			cursor: pointer;
-		} */
 
 		@media (max-width: 1024px) {
 			flex-direction: column;
+			margin: 10px;
 			border: 1px solid #fff;
-			/* border-radius: 10px; */
 			background: #ffffff;
 			box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
-
-			:hover {
-				background: #d9d9d9;
-			}
 		}
 	}
 
@@ -120,6 +116,14 @@ const TableTitle = styled(Title)`
 	@media (max-width: 1024px) {
 		margin-left: 15px;
 		display: flex;
+	}
+`;
+
+const TableText = styled(Text)`
+	color: #fff;
+
+	@media (max-width: 1024px) {
+		color: #808080;
 	}
 `;
 
@@ -174,30 +178,26 @@ const DashboardTable2 = (props) => {
 							>
 								<TableColumn>
 									<TableTitle>Movimentação:</TableTitle>
-									<Text style={{ color: "#fff" }}>
-										{dt.tipo_mov}
-									</Text>
+									<TableText>{dt.tipo_mov}</TableText>
 								</TableColumn>
 
 								<TableColumn>
 									<TableTitle>Cliente/Fornecedor:</TableTitle>
-									<Text style={{ color: "#fff" }}>
+									<TableText>
 										{dt.tipo_mov === "Entrada"
-											? dt.id_forn
-											: dt.id_cli}
-									</Text>
+											? dt.rz_forn
+											: dt.nome_cli}
+									</TableText>
 								</TableColumn>
 								<TableColumn>
 									<TableTitle>Quantidade:</TableTitle>
-									<Text style={{ color: "#fff" }}>
-										{dt.qtde_mov}
-									</Text>
+									<TableText>{dt.qtde_mov}</TableText>
 								</TableColumn>
 								<TableColumn>
 									<TableTitle>Data:</TableTitle>
-									<Text style={{ color: "#fff" }}>
+									<TableText>
 										{convertDate(dt.dt_hr_mov)}
-									</Text>
+									</TableText>
 								</TableColumn>
 							</TableRow>
 						);
