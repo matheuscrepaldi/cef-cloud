@@ -241,7 +241,7 @@ function UrnaDetailsPage(props) {
 							/>
 						</Column>
 						<Column>
-							<Text>Valor unitário:</Text>
+							<Text>Valor unitário (R$):</Text>
 							<Input
 								id={"val_unit"}
 								type="number"
@@ -250,7 +250,7 @@ function UrnaDetailsPage(props) {
 							/>
 						</Column>
 						<Column>
-							<Text>Valor total:</Text>
+							<Text>Valor total (R$):</Text>
 							<Input
 								id={"val_total"}
 								type="number"
