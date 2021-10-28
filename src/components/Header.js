@@ -54,7 +54,7 @@ const ArrowLeft = styled(BsBoxArrowLeft)`
 const Header = (props) => {
 	return (
 		<Container>
-			<LeftPanel>
+			<LeftPanel style={{ width: !props.showNewButton && "100%" }}>
 				<ArrowLeft
 					size={28}
 					color={"59bfff"}

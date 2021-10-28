@@ -171,11 +171,7 @@ const DashboardTable2 = (props) => {
 				{props.data && props.data.length > 0 ? (
 					props.data.map((dt, i) => {
 						return (
-							<TableRow
-								className="line"
-								// onClick={() => handleCardClick(dt.id_urna)}
-								key={i}
-							>
+							<TableRow className="line" key={i}>
 								<TableColumn>
 									<TableTitle>Movimentação:</TableTitle>
 									<TableText>{dt.tipo_mov}</TableText>

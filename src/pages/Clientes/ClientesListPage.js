@@ -29,9 +29,9 @@ const TableRow = styled(Row)`
 
 		@media (max-width: 1024px) {
 			flex-direction: column;
-			border: 1px solid #59bfff;
-			/* border-radius: 10px; */
+			border: 1px solid #fff;
 			background: #ffffff;
+			box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
 
 			:hover {
 				background: #d9d9d9;
