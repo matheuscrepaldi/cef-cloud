@@ -110,7 +110,7 @@ function LoginPage(props) {
 			.catch(function (error) {
 				setLoading(false);
 				console.log(error);
-				toast.error(error);
+				toast.error("Erro ao realizar login");
 			});
 	}
 
