@@ -212,13 +212,12 @@ function MovimentacaoDetailsPage(props) {
 		}
 	};
 
-	const canFilter =
-		fields.tipo_mov === "Entrada" &&
-		fields.id_forn &&
-		fields.id_forn !== "";
+	const canFilter = fields.tipo_mov === "Entrada" && fields.id_forn;
 	const urnasFiltradas = canFilter
 		? urnas.filter((urn) => urn.idForn === Number(fields.id_forn))
-		: urnas;
+		: fields.tipo_mov === "Saída"
+		? urnas
+		: [];
 
 	return (
 		<Container>
