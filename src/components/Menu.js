@@ -62,13 +62,22 @@ const Row = styled.div`
 	align-items: center;
 	height: 100%;
 	margin-right: 25px;
+	width: 100%;
 `;
 
 const Logo = styled.div`
 	display: flex;
 	flex-flow: row;
 	padding: 15px;
-	margin-left: 30px;
+
+	@media (min-width: 1023px) {
+		margin-left: 30px;
+	}
+
+	@media (max-width: 1023px) {
+		width: 100%;
+		justify-content: space-between;
+	}
 `;
 
 const List = styled.div`

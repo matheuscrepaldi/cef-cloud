@@ -95,8 +95,8 @@ const TableRow = styled(Row)`
 		@media (max-width: 1024px) {
 			flex-direction: column;
 			margin: 10px;
-			border: 1px solid #fff;
-			background: #ffffff;
+			border: 1px solid #23c85d;
+			background: #23c85d;
 			box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
 		}
 	}
@@ -114,6 +114,7 @@ const TableTitle = styled(Title)`
 	display: none;
 
 	@media (max-width: 1024px) {
+		color: #fff;
 		margin-left: 15px;
 		display: flex;
 	}
@@ -121,10 +122,6 @@ const TableTitle = styled(Title)`
 
 const TableText = styled(Text)`
 	color: #fff;
-
-	@media (max-width: 1024px) {
-		color: #808080;
-	}
 `;
 
 const NoData = styled(Row)`
