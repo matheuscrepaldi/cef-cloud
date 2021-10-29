@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import { Input } from "../components/Input";
 import Loading from "../components/Loading";
+import LogoImage from "../img/novoLogo.svg";
 
 const Container = styled.div`
 	display: flex;
@@ -118,7 +119,9 @@ function LoginPage(props) {
 		<Container>
 			<StyledCard>
 				<Loading loading={loading} absolute />
-				<Title>Login</Title>
+				<Row style={{ marginBottom: 50 }}>
+					<img src={LogoImage} width="100%" height="40" alt="logo" />
+				</Row>
 				<Row>Usuário</Row>
 				<Row>
 					<Input onChange={handleEmailChange} />
