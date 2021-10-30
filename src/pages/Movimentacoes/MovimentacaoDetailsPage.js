@@ -166,6 +166,8 @@ function MovimentacaoDetailsPage(props) {
 			let result = handleEntradaSaida(fields.quantidade, fields.qtde_mov);
 			if (result < 0) {
 				toast.error("Estoque indisponível");
+				setFields({ ...fields, resumo_estoque: 0 });
+				return;
 			}
 			setFields({ ...fields, resumo_estoque: result });
 		}
@@ -186,9 +188,16 @@ function MovimentacaoDetailsPage(props) {
 	};
 
 	const handlePost = () => {
+		if (
+			fields.tipo_mov === "Saída" &&
+			fields.quantidade < fields.qtde_mov
+		) {
+			toast.error("Estoque indisponível para essa movimentação");
+			return;
+		}
+
 		const body = { ...fields };
 		body.cdOwner = session && session.owner;
-		// delete body.id;
 
 		setLoading(true);
 
@@ -218,6 +227,9 @@ function MovimentacaoDetailsPage(props) {
 		: fields.tipo_mov === "Saída"
 		? urnas
 		: [];
+
+	const esconderResumo =
+		fields.tipo_mov === "Saída" && fields.quantidade < fields.qtde_mov;
 
 	return (
 		<Container>
@@ -353,17 +365,22 @@ function MovimentacaoDetailsPage(props) {
 							disabled={!podeCalcular || !isNew}
 						/>
 					</Column>
-					<Column>
-						<Text>Resumo estoque:</Text>
-						<Input
-							id={"resumo_estoque"}
-							type="number"
-							className={fields.resumo_estoque < 0 && "danger"}
-							defaultValue={fields.resumo_estoque}
-							onChange={handleInputChange}
-							disabled
-						/>
-					</Column>
+					{!esconderResumo && (
+						<Column>
+							<Text>Resumo estoque:</Text>
+							<Input
+								id={"resumo_estoque"}
+								type="number"
+								className={
+									fields.resumo_estoque < 0 && "danger"
+								}
+								defaultValue={fields.resumo_estoque}
+								onChange={handleInputChange}
+								disabled
+							/>
+						</Column>
+					)}
+
 					<Column>
 						<Text>Data/Hora:</Text>
 						<Input
