@@ -203,6 +203,8 @@ function Menu() {
 					</Logo>
 					<List>
 						<StyledLink to={"/home"}>Home</StyledLink>
+						<StyledLink to={"/funerarias"}>Funerárias</StyledLink>
+						<StyledLink to={"/usuarios"}>Usuários</StyledLink>
 						<StyledLink to={"/urnas"}>Urnas</StyledLink>
 						<StyledLink to={"/movimentacoes"}>
 							Movimentações
@@ -219,12 +221,18 @@ function Menu() {
 			</Navbar>
 
 			<MenuContainer id="myNav" className="menu">
-				<MenuLink class="closebtn" onClick={closeNav}>
+				<MenuLink className="closebtn" onClick={closeNav}>
 					&times;
 				</MenuLink>
 				<MenuContent>
 					<StyledLink onClick={showMenu} to={"/home"}>
 						Home
+					</StyledLink>
+					<StyledLink onClick={showMenu} to={"/funerarias"}>
+						Funerárias
+					</StyledLink>
+					<StyledLink onClick={showMenu} to={"/usuarios"}>
+						Usuários
 					</StyledLink>
 					<StyledLink onClick={showMenu} to={"/urnas"}>
 						Urnas

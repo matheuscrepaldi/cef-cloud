@@ -265,11 +265,11 @@ function UrnaDetailsPage(props) {
 					</Row>
 					<Row style={{ justifyContent: "center" }}>
 						<ButtonGroup>
-							{!isNew && (
+							{/* {!isNew && (
 								<Button onClick={handleToggleModal} danger>
 									Excluir
 								</Button>
-							)}
+							)} */}
 
 							<Button onClick={handleSaveUrna} success>
 								Salvar

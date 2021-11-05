@@ -12,6 +12,9 @@ import PublicRoute from "./routes/PublicRoute";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import FunerariasListPage from "./pages/Funerarias/FunerariasListPage";
+import FunerariaDetailsPage from "./pages/Funerarias/FunerariaDetailsPage";
+import UsuariosListPage from "./pages/Usuarios/UsuariosListPage";
 import UrnasListPage from "./pages/Urnas/UrnasListPage";
 import UrnaDetailsPage from "./pages/Urnas/UrnaDetailsPage";
 import MovimentacoesListPage from "./pages/Movimentacoes/MovimentacoesListPage";
@@ -42,6 +45,21 @@ function App() {
 				<Layout>
 					<Switch>
 						<PrivateRoute component={HomePage} path="/home" exact />
+						<PrivateRoute
+							component={FunerariasListPage}
+							path="/funerarias"
+							exact
+						/>
+						<PrivateRoute
+							component={FunerariaDetailsPage}
+							path="/funerarias/:id"
+							exact
+						/>
+						<PrivateRoute
+							component={UsuariosListPage}
+							path="/usuarios"
+							exact
+						/>
 						<PrivateRoute
 							component={UrnasListPage}
 							path="/urnas"

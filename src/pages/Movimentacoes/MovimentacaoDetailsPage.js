@@ -167,9 +167,9 @@ function MovimentacaoDetailsPage(props) {
 			if (result < 0) {
 				toast.error("Estoque indisponível");
 				setFields({ ...fields, resumo_estoque: 0 });
-				return;
+			} else {
+				setFields({ ...fields, resumo_estoque: result });
 			}
-			setFields({ ...fields, resumo_estoque: result });
 		}
 	}, [fields.qtde_mov]);
 
@@ -227,9 +227,6 @@ function MovimentacaoDetailsPage(props) {
 		: fields.tipo_mov === "Saída"
 		? urnas
 		: [];
-
-	const esconderResumo =
-		fields.tipo_mov === "Saída" && fields.quantidade < fields.qtde_mov;
 
 	return (
 		<Container>
@@ -365,22 +362,17 @@ function MovimentacaoDetailsPage(props) {
 							disabled={!podeCalcular || !isNew}
 						/>
 					</Column>
-					{!esconderResumo && (
-						<Column>
-							<Text>Resumo estoque:</Text>
-							<Input
-								id={"resumo_estoque"}
-								type="number"
-								className={
-									fields.resumo_estoque < 0 && "danger"
-								}
-								defaultValue={fields.resumo_estoque}
-								onChange={handleInputChange}
-								disabled
-							/>
-						</Column>
-					)}
-
+					<Column>
+						<Text>Resumo estoque:</Text>
+						<Input
+							id={"resumo_estoque"}
+							type="number"
+							className={fields.resumo_estoque < 0 && "danger"}
+							defaultValue={fields.resumo_estoque}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</Column>
 					<Column>
 						<Text>Data/Hora:</Text>
 						<Input

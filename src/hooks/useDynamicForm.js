@@ -27,7 +27,7 @@ export default function useDynamicForm(initialState = {}) {
 		const id = e.target.id;
 		let value = e.target.value;
 
-		if (id.startsWith("doc")) {
+		if (id.startsWith("doc") || id.startsWith("cnpj")) {
 			value = mask(e.target.value);
 		}
 
