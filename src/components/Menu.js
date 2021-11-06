@@ -127,6 +127,7 @@ const MenuContainer = styled.div`
 
 	@media (max-width: 767px) {
 		display: flex;
+		flex-direction: column;
 	}
 `;
 
