@@ -20,6 +20,8 @@ axios.defaults.headers.get["Content-Type"] = "application/json";
 axios.interceptors.request.use(function (config) {
 	const session = isLogin();
 	config.headers.Authorization = session && session.token;
+	config.params = config.params || {};
+	config.params["cdOwner"] = session.owner;
 	return config;
 });
 

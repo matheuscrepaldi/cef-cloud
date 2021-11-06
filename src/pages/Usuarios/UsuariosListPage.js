@@ -96,13 +96,10 @@ function UsuariosListPage(props) {
 					<Title>Código</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>Nome</Title>
+					<Title>Usuário</Title>
 				</TableColumn>
 				<TableColumn>
-					<Title>CPF/CNPJ</Title>
-				</TableColumn>
-				<TableColumn>
-					<Title>Telefone</Title>
+					<Title>Funerária</Title>
 				</TableColumn>
 			</TableRow>
 
@@ -115,24 +112,22 @@ function UsuariosListPage(props) {
 					return (
 						<TableRow
 							className="line"
-							onClick={() => handleCardClick(dt.id_cli)}
+							onClick={() => handleCardClick(dt.id)}
 							key={i}
 						>
 							<TableColumn>
 								<TableTitle>Código:</TableTitle>
-								<Text>{dt.id_cli}</Text>
+								<Text>{dt.id}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>Nome:</TableTitle>
-								<Text>{dt.nome_cli}</Text>
+								<TableTitle>Usuário:</TableTitle>
+								<Text>{dt.username}</Text>
 							</TableColumn>
 							<TableColumn>
-								<TableTitle>CPF/CNPJ:</TableTitle>
-								<Text>{dt.doc_cli}</Text>
-							</TableColumn>
-							<TableColumn>
-								<TableTitle>Telefone:</TableTitle>
-								<Text>{dt.tel_cli}</Text>
+								<TableTitle>Funerária:</TableTitle>
+								<Text>
+									{dt.owner.cd_owner} - {dt.owner.nome_owner}
+								</Text>
 							</TableColumn>
 						</TableRow>
 					);

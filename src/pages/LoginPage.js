@@ -92,12 +92,14 @@ function LoginPage(props) {
 				const status = response.status || {};
 				if (status === 200) {
 					const data = response.data || {};
+					const isAdmin = data.Role === "ROLE_ADMIN";
 
 					const session = {
 						user: email,
 						status,
 						token: data.Token,
-						owner: data.Owner,
+						owner: isAdmin ? "" : data.Owner,
+						role: data.Role,
 					};
 
 					sessionStorage.setItem("session", JSON.stringify(session));

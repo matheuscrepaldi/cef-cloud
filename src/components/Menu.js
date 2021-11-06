@@ -1,9 +1,12 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import LogoImage from "../img/logo.png";
+
 import MenuImg from "../img/menu.svg";
+import { isLogin } from "../routes/isLoggedIn";
+import Text from "./Text";
+import Title from "./Title";
 
 const StyledLink = styled(Link)`
 	color: #ffffff;
@@ -163,6 +166,26 @@ const MenuContent = styled.div`
 `;
 
 function Menu() {
+	const session = isLogin();
+	const isAdmin = session && session.role === "ROLE_ADMIN";
+	const [logged, setLogged] = useState("");
+
+	useEffect(() => {
+		if (isAdmin) {
+			axios
+				.get(`listarFunerariaById/${session.owner}`)
+				.then(function (response) {
+					const data = response.data || {};
+					setLogged(data.nome_owner.toUpperCase());
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		} else {
+			setLogged(`Olá, ${session.user.toUpperCase()}`);
+		}
+	}, []);
+
 	const handleLogout = () => {
 		showMenu();
 		sessionStorage.removeItem("session");
@@ -194,17 +217,23 @@ function Menu() {
 						<MenuHeader>
 							<MenuIcon onClick={openNav} src={MenuImg} />
 						</MenuHeader>
-						<img
-							src={LogoImage}
-							width="40"
-							height="40"
-							alt="logo"
-						/>
+						<Title textWhite medium>
+							{logged}
+						</Title>
 					</Logo>
 					<List>
 						<StyledLink to={"/home"}>Home</StyledLink>
-						<StyledLink to={"/funerarias"}>Funerárias</StyledLink>
-						<StyledLink to={"/usuarios"}>Usuários</StyledLink>
+						{isAdmin && (
+							<>
+								<StyledLink to={"/funerarias"}>
+									Funerárias
+								</StyledLink>
+								<StyledLink to={"/usuarios"}>
+									Usuários
+								</StyledLink>
+							</>
+						)}
+
 						<StyledLink to={"/urnas"}>Urnas</StyledLink>
 						<StyledLink to={"/movimentacoes"}>
 							Movimentações
@@ -228,12 +257,17 @@ function Menu() {
 					<StyledLink onClick={showMenu} to={"/home"}>
 						Home
 					</StyledLink>
-					<StyledLink onClick={showMenu} to={"/funerarias"}>
-						Funerárias
-					</StyledLink>
-					<StyledLink onClick={showMenu} to={"/usuarios"}>
-						Usuários
-					</StyledLink>
+					{isAdmin && (
+						<>
+							<StyledLink onClick={showMenu} to={"/funerarias"}>
+								Funerárias
+							</StyledLink>
+							<StyledLink onClick={showMenu} to={"/usuarios"}>
+								Usuários
+							</StyledLink>
+						</>
+					)}
+
 					<StyledLink onClick={showMenu} to={"/urnas"}>
 						Urnas
 					</StyledLink>

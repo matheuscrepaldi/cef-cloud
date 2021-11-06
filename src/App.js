@@ -15,6 +15,7 @@ import HomePage from "./pages/HomePage";
 import FunerariasListPage from "./pages/Funerarias/FunerariasListPage";
 import FunerariaDetailsPage from "./pages/Funerarias/FunerariaDetailsPage";
 import UsuariosListPage from "./pages/Usuarios/UsuariosListPage";
+import UsuarioDetailsPage from "./pages/Usuarios/UsuarioDetailsPage";
 import UrnasListPage from "./pages/Urnas/UrnasListPage";
 import UrnaDetailsPage from "./pages/Urnas/UrnaDetailsPage";
 import MovimentacoesListPage from "./pages/Movimentacoes/MovimentacoesListPage";
@@ -58,6 +59,11 @@ function App() {
 						<PrivateRoute
 							component={UsuariosListPage}
 							path="/usuarios"
+							exact
+						/>
+						<PrivateRoute
+							component={UsuarioDetailsPage}
+							path="/usuarios/:id"
 							exact
 						/>
 						<PrivateRoute
