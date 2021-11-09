@@ -1,4 +1,4 @@
-import { BsBoxArrowLeft, BsPlusLg } from "react-icons/bs";
+import { BsBoxArrowLeft, BsPlusLg, BsFilter } from "react-icons/bs";
 import HeaderTitle from "./HeaderTitle";
 import Button from "./Button";
 import styled from "styled-components";
@@ -65,10 +65,22 @@ const Header = (props) => {
 			{props.showNewButton && (
 				<>
 					<RightPanel className="showBigButton">
-						<Button onClick={props.handleNew}>Novo(a)</Button>
+						<Button title="Filtro" onClick={props.handleFilter}>
+							Filtro
+						</Button>
+						<Button title="Novo(a)" onClick={props.handleNew}>
+							Novo(a)
+						</Button>
 					</RightPanel>
 					<RightPanel className="showSmallButton">
-						<Button small onClick={props.handleNew}>
+						<Button
+							title="Filtro"
+							small
+							onClick={props.handleFilter}
+						>
+							<BsFilter size={28} color={"ffffff"} />
+						</Button>
+						<Button title="Novo(a)" small onClick={props.handleNew}>
 							<BsPlusLg color={"ffffff"} />
 						</Button>
 					</RightPanel>

@@ -30,7 +30,7 @@ const Button = styled.button`
 	}
 
 	@media (min-width: 768px) and (max-width: 1023px) {
-		max-width: 300%;
+		max-width: 300px;
 	}
 
 	@media (max-width: 767px) {
