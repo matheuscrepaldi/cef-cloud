@@ -133,7 +133,7 @@ function Filter(props) {
 										<Input
 											style={{ width: "auto" }}
 											id={`valorInicial${row.id}`}
-											type="datetime-local"
+											type="date"
 											value={row.value}
 											onChange={(e) =>
 												handleInputChange(e, row.id)
@@ -145,7 +145,7 @@ function Filter(props) {
 										<Input
 											style={{ width: "auto" }}
 											id={`valorFinal${row.id}`}
-											type="datetime-local"
+											type="date"
 											value={row.value}
 											onChange={(e) =>
 												handleInputChange(e, row.id)
