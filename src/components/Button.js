@@ -11,7 +11,8 @@ const Button = styled.button`
 	font-size: 14px;
 	color: #fff;
 	background-color: #59bfff;
-	width: ${(props) => (props.small ? "40px" : "100%")};
+	width: ${(props) => (props.small ? "40px" : "auto")};
+	min-width: ${(props) => (props.small ? "40px" : "100px")};
 	height: 40px;
 	border: none;
 	border-radius: 10px;

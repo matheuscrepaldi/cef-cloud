@@ -3,6 +3,7 @@ import HeaderTitle from "./HeaderTitle";
 import Button from "./Button";
 import styled from "styled-components";
 import { withRouter } from "react-router";
+import { BsX } from "react-icons/bs";
 
 const Container = styled.div`
 	display: flex;
@@ -51,6 +52,26 @@ const ArrowLeft = styled(BsBoxArrowLeft)`
 	}
 `;
 
+const ButtonLeft = styled(Button)`
+	&.left {
+		margin-right: 0px;
+		border-radius: 0;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+`;
+
+const ButtonRight = styled(Button)`
+	margin-left: 0px;
+	border-radius: 0;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+
+	&:hover ${ButtonLeft} {
+		background: #a71d2a;
+	}
+`;
+
 const Header = (props) => {
 	return (
 		<Container>
@@ -65,9 +86,25 @@ const Header = (props) => {
 			{props.showNewButton && (
 				<>
 					<RightPanel className="showBigButton">
-						<Button title="Filtro" onClick={props.handleFilter}>
-							Filtro
-						</Button>
+						<ButtonLeft
+							title="Filtro"
+							onClick={props.handleFilter}
+							className={props.filterLength > 0 && "left"}
+						>
+							Filtro{" "}
+							{props.filterLength > 0 &&
+								`(${props.filterLength})`}
+						</ButtonLeft>
+						{props.filterLength > 0 && (
+							<ButtonRight
+								title="x"
+								small
+								danger
+								onClick={props.handleResetFilter}
+							>
+								<BsX size={24} />
+							</ButtonRight>
+						)}
 						<Button title="Novo(a)" onClick={props.handleNew}>
 							Novo(a)
 						</Button>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { BsPlusLg, BsTrash } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
@@ -8,6 +9,7 @@ import Row from "./Row";
 import Column from "./Column";
 import Text from "./Text";
 import { Input, Select } from "./Input";
+import DialogContainer from "./DialogContainer";
 
 const Title = styled.span`
 	font-family: Poppins;
@@ -20,89 +22,153 @@ const Title = styled.span`
 	margin: 10px;
 `;
 
-export default function Filter(props) {
-	const Dialog = styled.dialog`
-		position: absolute;
-		flex-direction: column;
-		align-items: center;
-		justify-content: flex-start;
-		max-width: 80%;
-		max-height: 80%;
-		display: ${props.showFilter ? "flex" : "none"};
-		background: #ffffff;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-		border-radius: 20px;
-		border: 0;
-		z-index: 2;
-	`;
+function Filter(props) {
+	// const Dialog = styled.dialog`
+	// 	position: absolute;
+	// 	flex-direction: column;
+	// 	align-items: center;
+	// 	justify-content: flex-start;
+	// 	max-width: 80%;
+	// 	max-height: 80%;
+	// 	display: ${props.showFilter ? "flex" : "none"};
+	// 	background: #ffffff;
+	// 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	// 	border-radius: 20px;
+	// 	border: 0;
+	// 	z-index: 2;
+	// `;
 
-	const [rows, setRows] = useState([0]);
+	const [rows, setRows] = useState([{ id: 1, field: "", value: "" }]);
 
 	const addLine = () => {
 		const list = [...rows];
 		const lastNumber = list.pop();
-		const result = Number(lastNumber) + 1;
+		const result = { id: Number(lastNumber.id) + 1, field: "", value: "" };
 
 		setRows([...rows, result]);
 	};
 
-	const removeLine = (line) => {
-		setRows(rows.filter((row) => row !== line));
+	const removeLine = (id) => {
+		setRows(rows.filter((row) => row.id !== id));
+	};
+
+	const resetFilter = () => {
+		setRows([{ id: 1, field: "", value: "" }]);
+	};
+
+	const handleInputChange = (e, id) => {
+		e.preventDefault();
+
+		const fieldType = e.target.id; // campos1
+		const value = e.target.value; //rz_forn
+
+		const result = rows.map((row) => {
+			if (row.id === id) {
+				fieldType.includes("campo")
+					? (row.field = value)
+					: (row.value = value);
+			}
+
+			return row;
+		});
+
+		setRows(result);
+	};
+
+	const handleConfirmFilter = () => {
+		const empty = rows.find((row) => row.field === "" || row.value === "");
+
+		if (empty) {
+			toast.error("Preencha todos os campos");
+			return;
+		}
+
+		let url = "search";
+
+		rows.map((row, i) => {
+			i === 0 ? (url += "?") : (url += "&");
+
+			url += `${row.field}=${row.value}`;
+
+			return row;
+		});
+
+		props.handleConfirmFilter &&
+			props.handleConfirmFilter(url.toLowerCase(), rows.length);
 	};
 
 	return (
-		<Dialog className="dialog">
+		<DialogContainer showModal={props.showModal} className="dialog">
 			<Title>Filtro</Title>
 
-			<Column style={{ overflowY: "auto", overflowX: "hidden" }}>
+			<Column
+				style={{ overflowY: "auto", overflowX: "hidden", margin: 0 }}
+			>
 				{rows.map((row) => {
 					return (
 						<Row style={{ alignItems: "flex-end" }}>
-							<Column>
+							<Column style={{ margin: "10px 20px" }}>
 								<Text>Campos</Text>
 								<Select
-									id={`campos${row}`}
-									// value={fields.campos}
-									// onChange={handleInputChange}
+									id={`campo${row.id}`}
+									value={row.field}
+									onChange={(e) =>
+										handleInputChange(e, row.id)
+									}
 								>
 									<option value="">Selecione</option>
 									{props.fields.map((field) => {
 										return (
-											<option value={field.name}>
-												{field.name}
+											<option value={field.id}>
+												{field.value}
 											</option>
 										);
 									})}
 								</Select>
 							</Column>
-							<Column>
-								<Text>Tipos</Text>
-								<Select
-									id={`tipos${row}`}
-									// value={fields.campos}
-									// onChange={handleInputChange}
-								>
-									<option value="">Selecione</option>
-									{props.fields.map((field) => {
-										return (
-											<option value={field.name}>
-												{field.name}
-											</option>
-										);
-									})}
-								</Select>
-							</Column>
-							<Column>
-								<Text>Valor </Text>
-								<Input
-									id={`valor${row}`}
-									type="text"
-									// defaultValue={fields.id_cli}
-									// onChange={handleInputChange}
-								/>
-							</Column>
-							<Column>
-								{row === 0 ? (
+							{row.field.includes("dt_hr") ? (
+								<>
+									<Column style={{ margin: "10px 20px" }}>
+										<Text>Data Inicial</Text>
+										<Input
+											style={{ width: "auto" }}
+											id={`valorInicial${row.id}`}
+											type="datetime-local"
+											value={row.value}
+											onChange={(e) =>
+												handleInputChange(e, row.id)
+											}
+										/>
+									</Column>
+									<Column style={{ margin: "10px 20px" }}>
+										<Text>Data Final</Text>
+										<Input
+											style={{ width: "auto" }}
+											id={`valorFinal${row.id}`}
+											type="datetime-local"
+											value={row.value}
+											onChange={(e) =>
+												handleInputChange(e, row.id)
+											}
+										/>
+									</Column>
+								</>
+							) : (
+								<Column style={{ margin: "10px 20px" }}>
+									<Text>Valor </Text>
+									<Input
+										id={`valor${row.id}`}
+										type="text"
+										value={row.value}
+										onChange={(e) =>
+											handleInputChange(e, row.id)
+										}
+									/>
+								</Column>
+							)}
+
+							<Column style={{ margin: "10px 20px" }}>
+								{row.id === 1 ? (
 									<Button
 										small
 										title="Adicionar Linha"
@@ -116,7 +182,7 @@ export default function Filter(props) {
 										small
 										danger
 										title="Excluir Linha"
-										onClick={() => removeLine(row)}
+										onClick={() => removeLine(row.id)}
 									>
 										<BsTrash size={24} color={"ffffff"} />
 									</Button>
@@ -128,14 +194,18 @@ export default function Filter(props) {
 			</Column>
 
 			<ButtonGroup>
+				<Button type="button" onClick={resetFilter} info>
+					Limpar
+				</Button>
 				<Button type="button" onClick={props.handleToggleModal} cancel>
 					Cancelar
 				</Button>
-
-				<Button type="button" onClick={props.handleConfirmFilter} info>
+				<Button type="button" onClick={handleConfirmFilter} success>
 					Confirmar
 				</Button>
 			</ButtonGroup>
-		</Dialog>
+		</DialogContainer>
 	);
 }
+
+export default Filter;

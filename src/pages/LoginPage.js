@@ -132,7 +132,7 @@ function LoginPage(props) {
 				<Row>
 					<Input onChange={handlePasswordChange} type="password" />
 				</Row>
-				<Row>
+				<Row style={{ justifyContent: "center" }}>
 					<Button onClick={handleLoginFormSubmit}>Entrar</Button>
 				</Row>
 				<Version>v1.0.0</Version>

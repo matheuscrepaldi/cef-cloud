@@ -67,6 +67,7 @@ function UrnasListPage(props) {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [showFilter, setShowFilter] = useState(false);
+	const [filterLength, setFilterLength] = useState(0);
 
 	useEffect(() => {
 		setLoading(true);
@@ -91,12 +92,57 @@ function UrnasListPage(props) {
 		setShowFilter(!showFilter);
 	};
 
+	const handleConfirmFilter = (filter, size) => {
+		setLoading(true);
+		setShowFilter(false);
+
+		setFilterLength(size);
+
+		axios
+			.get(`listarUrnas/${filter}`)
+			.then(function (response) {
+				setData(response.data);
+				setLoading(false);
+			})
+			.catch(function (error) {
+				console.log(error);
+				setLoading(false);
+			});
+	};
+
+	const handleResetFilter = () => {
+		setLoading(true);
+		setFilterLength(0);
+
+		axios
+			.get("listarUrnas")
+			.then(function (response) {
+				setData(response.data);
+				setLoading(false);
+			})
+			.catch(function (error) {
+				console.log(error);
+				setLoading(false);
+			});
+	};
+
+	const filterColumns = [
+		{ id: "cor_urna", value: "Cor" },
+		{ id: "dt_hr_entrada", value: "Data" },
+		{ id: "rz_forn", value: "Fornecedor" },
+		{ id: "nome_urna", value: "Nome" },
+		{ id: "ref_urna", value: "Referência" },
+		{ id: "tamanho_urna", value: "Tamanho" },
+		{ id: "classe_urna", value: "Tipo" },
+	];
+
 	return (
 		<>
 			<Filter
-				showFilter={showFilter}
+				showModal={showFilter}
 				handleToggleModal={handleToggleModal}
-				fields={[]}
+				fields={filterColumns}
+				handleConfirmFilter={handleConfirmFilter}
 			/>
 			<Container showModal={showFilter}>
 				<Header
@@ -104,6 +150,8 @@ function UrnasListPage(props) {
 					handleNew={() => props.history.push("/urnas/new")}
 					handleFilter={handleToggleModal}
 					showNewButton
+					filterLength={filterLength}
+					handleResetFilter={handleResetFilter}
 				/>
 
 				<TableRow className="header">
