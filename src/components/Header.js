@@ -110,13 +110,24 @@ const Header = (props) => {
 						</Button>
 					</RightPanel>
 					<RightPanel className="showSmallButton">
-						<Button
+						<ButtonLeft
+							className={props.filterLength > 0 && "left"}
 							title="Filtro"
 							small
 							onClick={props.handleFilter}
 						>
 							<BsFilter size={28} color={"ffffff"} />
-						</Button>
+						</ButtonLeft>
+						{props.filterLength > 0 && (
+							<ButtonRight
+								title="x"
+								small
+								danger
+								onClick={props.handleResetFilter}
+							>
+								<BsX size={24} />
+							</ButtonRight>
+						)}
 						<Button title="Novo(a)" small onClick={props.handleNew}>
 							<BsPlusLg color={"ffffff"} />
 						</Button>
