@@ -53,6 +53,7 @@ function Filter(props) {
 	};
 
 	const resetFilter = () => {
+		console.log(rows);
 		setRows([{ id: 1, field: "", value: "" }]);
 	};
 
@@ -170,7 +171,7 @@ function Filter(props) {
 									<Input
 										id={`valor${row.id}`}
 										type="text"
-										defaultValue={row.value}
+										value={row.value}
 										onChange={(e) =>
 											handleInputChange(e, row.id)
 										}
