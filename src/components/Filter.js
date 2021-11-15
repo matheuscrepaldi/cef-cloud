@@ -64,9 +64,15 @@ function Filter(props) {
 
 		const result = rows.map((row) => {
 			if (row.id === id) {
-				fieldType.includes("campo")
-					? (row.field = value)
-					: (row.value = value);
+				if (fieldType.includes("valorInicial")) {
+					row.value = value;
+				} else if (fieldType.includes("valorFinal")) {
+					row.value2 = value;
+				} else if (fieldType.includes("campo")) {
+					row.field = value;
+				} else {
+					row.value = value;
+				}
 			}
 
 			return row;
@@ -87,6 +93,11 @@ function Filter(props) {
 
 		rows.map((row, i) => {
 			i === 0 ? (url += "?") : (url += "&");
+
+			if (row.field.includes("dt_hr")) {
+				url += `dt_ini=${row.value}T00:00&dt_fim=${row.value2}T23:59`;
+				return;
+			}
 
 			url += `${row.field}=${row.value}`;
 
@@ -134,7 +145,7 @@ function Filter(props) {
 											style={{ width: "auto" }}
 											id={`valorInicial${row.id}`}
 											type="date"
-											value={row.value}
+											defaultValue={row.value}
 											onChange={(e) =>
 												handleInputChange(e, row.id)
 											}
@@ -146,7 +157,7 @@ function Filter(props) {
 											style={{ width: "auto" }}
 											id={`valorFinal${row.id}`}
 											type="date"
-											value={row.value}
+											defaultValue={row.value2}
 											onChange={(e) =>
 												handleInputChange(e, row.id)
 											}
@@ -159,7 +170,7 @@ function Filter(props) {
 									<Input
 										id={`valor${row.id}`}
 										type="text"
-										value={row.value}
+										defaultValue={row.value}
 										onChange={(e) =>
 											handleInputChange(e, row.id)
 										}

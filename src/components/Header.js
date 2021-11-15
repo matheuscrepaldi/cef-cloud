@@ -66,10 +66,6 @@ const ButtonRight = styled(Button)`
 	border-radius: 0;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
-
-	&:hover ${ButtonLeft} {
-		background: #a71d2a;
-	}
 `;
 
 const Header = (props) => {
@@ -120,7 +116,7 @@ const Header = (props) => {
 						</ButtonLeft>
 						{props.filterLength > 0 && (
 							<ButtonRight
-								title="x"
+								title="Remover filtro"
 								small
 								danger
 								onClick={props.handleResetFilter}
