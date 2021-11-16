@@ -3,7 +3,7 @@ import HeaderTitle from "./HeaderTitle";
 import Button from "./Button";
 import styled from "styled-components";
 import { withRouter } from "react-router";
-import { BsX } from "react-icons/bs";
+import { BsX, BsPrinter } from "react-icons/bs";
 
 const Container = styled.div`
 	display: flex;
@@ -82,6 +82,9 @@ const Header = (props) => {
 			{props.showNewButton && (
 				<>
 					<RightPanel className="showBigButton">
+						<Button small>
+							<BsPrinter size={24} onClick={props.handlePrint} />
+						</Button>
 						<ButtonLeft
 							title="Filtro"
 							onClick={props.handleFilter}
