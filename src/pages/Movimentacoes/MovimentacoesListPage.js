@@ -10,6 +10,7 @@ import Text from "../../components/Text";
 import Loading from "../../components/Loading";
 import Column from "../../components/Column";
 import { convertDate } from "../../utils/convertDate";
+import Filter from "../../components/Filter";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -65,6 +66,8 @@ function MovimentacoesListPage(props) {
 	const [data, setData] = useState([]);
 	const [urnas, setUrnas] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [showFilter, setShowFilter] = useState(false);
+	const [filterLength, setFilterLength] = useState(0);
 
 	useEffect(() => {
 		setLoading(true);
@@ -96,12 +99,73 @@ function MovimentacoesListPage(props) {
 		props.history.push(`/movimentacoes/${id}`);
 	};
 
+	const handleToggleModal = () => {
+		setShowFilter(!showFilter);
+	};
+
+	const handleConfirmFilter = (filter, size) => {
+		setLoading(true);
+		setShowFilter(false);
+
+		setFilterLength(size);
+
+		axios
+			.get(`listarMovimentacoes/${filter}`)
+			.then(function (response) {
+				setData(response.data);
+				setLoading(false);
+			})
+			.catch(function (error) {
+				console.log(error);
+				setLoading(false);
+			});
+	};
+
+	const handleResetFilter = () => {
+		setLoading(true);
+		setFilterLength(0);
+
+		axios
+			.get("listarMovimentacoes")
+			.then(function (response) {
+				setData(response.data);
+				setLoading(false);
+			})
+			.catch(function (error) {
+				console.log(error);
+				setLoading(false);
+			});
+	};
+
+	const filterColumns = [
+		{ id: "cor_urna", value: "Cor" },
+		{ id: "dt_hr_mov", value: "Data" },
+		{
+			id: "tipo_mov",
+			value: "Movimentação",
+			list: [
+				{ id: "Entrada", value: "Entrada" },
+				{ id: "Saída", value: "Saída" },
+			],
+		},
+		{ id: "ref_urna", value: "Referência" },
+	];
+
 	return (
 		<>
+			<Filter
+				showModal={showFilter}
+				handleToggleModal={handleToggleModal}
+				fields={filterColumns}
+				handleConfirmFilter={handleConfirmFilter}
+			/>
 			<Header
 				title="Histórico de Movimentações"
 				handleNew={() => props.history.push("/movimentacoes/new")}
 				showNewButton
+				handleFilter={handleToggleModal}
+				filterLength={filterLength}
+				handleResetFilter={handleResetFilter}
 			/>
 
 			<TableRow className="header">

@@ -23,21 +23,6 @@ const Title = styled.span`
 `;
 
 function Filter(props) {
-	// const Dialog = styled.dialog`
-	// 	position: absolute;
-	// 	flex-direction: column;
-	// 	align-items: center;
-	// 	justify-content: flex-start;
-	// 	max-width: 80%;
-	// 	max-height: 80%;
-	// 	display: ${props.showFilter ? "flex" : "none"};
-	// 	background: #ffffff;
-	// 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-	// 	border-radius: 20px;
-	// 	border: 0;
-	// 	z-index: 2;
-	// `;
-
 	const [rows, setRows] = useState([{ id: 1, field: "", value: "" }]);
 
 	const addLine = () => {
@@ -53,7 +38,6 @@ function Filter(props) {
 	};
 
 	const resetFilter = () => {
-		console.log(rows);
 		setRows([{ id: 1, field: "", value: "" }]);
 	};
 
@@ -109,6 +93,11 @@ function Filter(props) {
 			props.handleConfirmFilter(url.toLowerCase(), rows.length);
 	};
 
+	const hasList = (id) => {
+		const result = props.fields.find((f) => f.id === id && f.list);
+		return result;
+	};
+
 	return (
 		<DialogContainer showModal={props.showModal} className="dialog">
 			<Title>Filtro</Title>
@@ -117,6 +106,8 @@ function Filter(props) {
 				style={{ overflowY: "auto", overflowX: "hidden", margin: 0 }}
 			>
 				{rows.map((row) => {
+					const obj = hasList(row.field);
+
 					return (
 						<Row style={{ alignItems: "flex-end" }}>
 							<Column style={{ margin: "10px 20px" }}>
@@ -128,7 +119,7 @@ function Filter(props) {
 										handleInputChange(e, row.id)
 									}
 								>
-									<option value="">Selecione</option>
+									<option value=""></option>
 									{props.fields.map((field) => {
 										return (
 											<option value={field.id}>
@@ -167,15 +158,34 @@ function Filter(props) {
 								</>
 							) : (
 								<Column style={{ margin: "10px 20px" }}>
-									<Text>Valor </Text>
-									<Input
-										id={`valor${row.id}`}
-										type="text"
-										value={row.value}
-										onChange={(e) =>
-											handleInputChange(e, row.id)
-										}
-									/>
+									<Text>Valor</Text>
+									{obj ? (
+										<Select
+											id={`valor${row.id}`}
+											value={row.value}
+											onChange={(e) =>
+												handleInputChange(e, row.id)
+											}
+										>
+											<option value=""></option>
+											{obj?.list?.map((item) => {
+												return (
+													<option value={item.id}>
+														{item.value}
+													</option>
+												);
+											})}
+										</Select>
+									) : (
+										<Input
+											id={`valor${row.id}`}
+											type="text"
+											value={row.value}
+											onChange={(e) =>
+												handleInputChange(e, row.id)
+											}
+										/>
+									)}
 								</Column>
 							)}
 

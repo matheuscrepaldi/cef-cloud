@@ -68,6 +68,7 @@ function UrnasListPage(props) {
 	const [loading, setLoading] = useState(false);
 	const [showFilter, setShowFilter] = useState(false);
 	const [filterLength, setFilterLength] = useState(0);
+	const [fornecedores, setFornecedores] = useState([]);
 
 	useEffect(() => {
 		setLoading(true);
@@ -81,6 +82,22 @@ function UrnasListPage(props) {
 			.catch(function (error) {
 				console.log(error);
 				setLoading(false);
+			});
+
+		axios
+			.get("listarFornecedores")
+			.then(function (response) {
+				const result = response.data.map((dt) => {
+					dt.id = dt.rz_forn;
+					dt.value = dt.rz_forn;
+
+					return dt;
+				});
+
+				setFornecedores(result);
+			})
+			.catch(function (error) {
+				console.log(error);
 			});
 	}, []);
 
@@ -129,7 +146,7 @@ function UrnasListPage(props) {
 	const filterColumns = [
 		{ id: "cor_urna", value: "Cor" },
 		{ id: "dt_hr_entrada", value: "Data" },
-		{ id: "rz_forn", value: "Fornecedor" },
+		{ id: "rz_forn", value: "Fornecedor", list: fornecedores },
 		{ id: "nome_urna", value: "Nome" },
 		{ id: "ref_urna", value: "Referência" },
 		{ id: "tamanho_urna", value: "Tamanho" },
