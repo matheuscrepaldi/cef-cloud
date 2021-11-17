@@ -96,7 +96,7 @@ const Header = (props) => {
 						</ButtonLeft>
 						{props.filterLength > 0 && (
 							<ButtonRight
-								title="x"
+								title="Remover filtro"
 								small
 								danger
 								onClick={props.handleResetFilter}

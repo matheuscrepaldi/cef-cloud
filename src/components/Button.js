@@ -26,6 +26,16 @@ const Button = styled.button`
 		background-color: #0da2ff;
 	}
 
+	:disabled {
+		background: #dddddd;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	&.selected {
+		background-color: #0075bf;
+	}
+
 	@media (min-width: 1024px) {
 		max-width: 400px;
 	}

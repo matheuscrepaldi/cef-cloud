@@ -12,6 +12,7 @@ import Column from "../../components/Column";
 import Filter from "../../components/Filter";
 import Container from "../../components/Container";
 import { convertDate } from "../../utils/convertDate";
+import Pagination from "../../components/Pagination";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -69,14 +70,16 @@ function UrnasListPage(props) {
 	const [showFilter, setShowFilter] = useState(false);
 	const [filterLength, setFilterLength] = useState(0);
 	const [fornecedores, setFornecedores] = useState([]);
+	const [count, setCount] = useState(0);
 
 	useEffect(() => {
 		setLoading(true);
 
 		axios
-			.get("listarUrnas")
+			.get("listarUrnas/search")
 			.then(function (response) {
 				setData(response.data);
+				setCount(response.data[0].count);
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -132,7 +135,7 @@ function UrnasListPage(props) {
 		setFilterLength(0);
 
 		axios
-			.get("listarUrnas")
+			.get("listarUrnas/search")
 			.then(function (response) {
 				setData(response.data);
 				setLoading(false);
@@ -234,6 +237,7 @@ function UrnasListPage(props) {
 				) : (
 					<NoData>Sem dados</NoData>
 				)}
+				<Pagination count={count} />
 			</Container>
 		</>
 	);
