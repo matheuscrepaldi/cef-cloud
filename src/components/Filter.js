@@ -74,14 +74,14 @@ function Filter(props) {
 			return;
 		}
 
-		let url = "search";
+		let url = "";
 
 		rows.map((row, i) => {
-			i === 0 ? (url += "?") : (url += "&");
+			i === 0 ? (url += "") : (url += "&");
 
 			if (row.field.includes("dt_hr")) {
 				url += `dt_ini=${row.value}T00:00&dt_fim=${row.value2}T23:59`;
-				return;
+				return row;
 			}
 
 			url += `${row.field}=${row.value}`;
@@ -105,11 +105,11 @@ function Filter(props) {
 			<Column
 				style={{ overflowY: "auto", overflowX: "hidden", margin: 0 }}
 			>
-				{rows.map((row) => {
+				{rows.map((row, key) => {
 					const obj = hasList(row.field);
 
 					return (
-						<Row style={{ alignItems: "flex-end" }}>
+						<Row key={key} style={{ alignItems: "flex-end" }}>
 							<Column style={{ margin: "10px 20px" }}>
 								<Text>Campos</Text>
 								<Select

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 import MenuImg from "../img/menu.svg";
 import { isLogin } from "../routes/isLoggedIn";
-import Text from "./Text";
 import Title from "./Title";
 
 const StyledLink = styled(Link)`

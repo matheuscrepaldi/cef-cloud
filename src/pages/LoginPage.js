@@ -40,10 +40,6 @@ const Row = styled.div`
 	margin: 10px;
 `;
 
-const Title = styled.h1`
-	/* font-size: 18px; */
-`;
-
 const Version = styled.span`
 	position: absolute;
 	bottom: 10px;

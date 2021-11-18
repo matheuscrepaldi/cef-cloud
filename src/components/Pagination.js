@@ -13,21 +13,21 @@ export default function Pagination(props) {
 	const [selected, setSelected] = useState(1);
 	const { count } = props;
 
-	const size = Math.ceil(count / 2);
+	const size = Math.ceil(count / 10);
 	let buttons = [];
 
 	for (let i = 1; i <= size; i++) {
 		buttons.push(i);
 	}
 
-	const handleButtonChange = (id) => {
+	const handlePaginationChange = (id) => {
 		if (selected === id) {
 			return;
 		}
 
 		setSelected(id);
-
-		props.handleButtonChange && props.handleButtonChange(id);
+		const filter = `page=${id - 1}`;
+		props.handlePaginationChange && props.handlePaginationChange(filter);
 	};
 
 	return (
@@ -35,22 +35,23 @@ export default function Pagination(props) {
 			<Button
 				small
 				disabled={selected === 1}
-				onClick={() => handleButtonChange(1)}
+				onClick={() => handlePaginationChange(1)}
 			>
 				<BsChevronDoubleLeft size={20} />
 			</Button>
 			<Button
 				small
 				disabled={selected === 1}
-				onClick={() => handleButtonChange(selected - 1)}
+				onClick={() => handlePaginationChange(selected - 1)}
 			>
 				<BsChevronLeft size={20} />
 			</Button>
-			{buttons.map((button) => {
+			{buttons.map((button, key) => {
 				return (
 					<Button
+						key={key}
 						className={selected === button && "selected"}
-						onClick={() => handleButtonChange(button)}
+						onClick={() => handlePaginationChange(button)}
 						small
 					>
 						{button}
@@ -59,15 +60,15 @@ export default function Pagination(props) {
 			})}
 			<Button
 				small
-				disabled={selected === size}
-				onClick={() => handleButtonChange(selected + 1)}
+				disabled={selected === size || count === 0}
+				onClick={() => handlePaginationChange(selected + 1)}
 			>
 				<BsChevronRight size={20} />
 			</Button>
 			<Button
 				small
-				disabled={selected === size}
-				onClick={() => handleButtonChange(buttons.length)}
+				disabled={selected === size || count === 0}
+				onClick={() => handlePaginationChange(buttons.length)}
 			>
 				<BsChevronDoubleRight size={20} />
 			</Button>

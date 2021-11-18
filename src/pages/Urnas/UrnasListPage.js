@@ -71,6 +71,7 @@ function UrnasListPage(props) {
 	const [filterLength, setFilterLength] = useState(0);
 	const [fornecedores, setFornecedores] = useState([]);
 	const [count, setCount] = useState(0);
+	const [filter, setFilter] = useState("");
 
 	useEffect(() => {
 		setLoading(true);
@@ -79,7 +80,7 @@ function UrnasListPage(props) {
 			.get("listarUrnas/search")
 			.then(function (response) {
 				setData(response.data);
-				setCount(response.data[0].count);
+				setCount(response?.data[0]?.count);
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -112,16 +113,19 @@ function UrnasListPage(props) {
 		setShowFilter(!showFilter);
 	};
 
-	const handleConfirmFilter = (filter, size) => {
+	const handleConfirmFilter = (fields, size) => {
 		setLoading(true);
 		setShowFilter(false);
-
 		setFilterLength(size);
 
+		const url = handleFilterUrl(fields, "fil");
+		setFilter(url);
+
 		axios
-			.get(`listarUrnas/${filter}`)
+			.get(`listarUrnas/search${url}`)
 			.then(function (response) {
 				setData(response.data);
+				setCount(response?.data[0]?.count);
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -133,9 +137,27 @@ function UrnasListPage(props) {
 	const handleResetFilter = () => {
 		setLoading(true);
 		setFilterLength(0);
+		setFilter("");
 
 		axios
 			.get("listarUrnas/search")
+			.then(function (response) {
+				setData(response.data);
+				setCount(response?.data[0]?.count);
+				setLoading(false);
+			})
+			.catch(function (error) {
+				console.log(error);
+				setLoading(false);
+			});
+	};
+
+	const handlePaginationChange = (page) => {
+		const url = handleFilterUrl(page, "pag");
+		setFilter(url);
+
+		axios
+			.get(`listarUrnas/search${url}`)
 			.then(function (response) {
 				setData(response.data);
 				setLoading(false);
@@ -144,6 +166,19 @@ function UrnasListPage(props) {
 				console.log(error);
 				setLoading(false);
 			});
+	};
+
+	const handleFilterUrl = (fields, type) => {
+		let url = "?";
+
+		if (filter === "") {
+			url += fields;
+		} else {
+			url = filter;
+			url += `&${fields}`;
+		}
+		console.log(url);
+		return url;
 	};
 
 	const filterColumns = [
@@ -155,6 +190,8 @@ function UrnasListPage(props) {
 		{ id: "tamanho_urna", value: "Tamanho" },
 		{ id: "classe_urna", value: "Tipo" },
 	];
+
+	// console.log(filter);
 
 	return (
 		<>
@@ -237,7 +274,10 @@ function UrnasListPage(props) {
 				) : (
 					<NoData>Sem dados</NoData>
 				)}
-				<Pagination count={count} />
+				<Pagination
+					count={count}
+					handlePaginationChange={handlePaginationChange}
+				/>
 			</Container>
 		</>
 	);
