@@ -13,6 +13,7 @@ import Filter from "../../components/Filter";
 import Container from "../../components/Container";
 import { convertDate } from "../../utils/convertDate";
 import Pagination from "../../components/Pagination";
+import generatePDF from "../../components/Report";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -213,6 +214,7 @@ function UrnasListPage(props) {
 					showNewButton
 					filterLength={filterLength}
 					handleResetFilter={handleResetFilter}
+					handleReport={() => generatePDF(data)}
 				/>
 
 				<TableRow className="header">

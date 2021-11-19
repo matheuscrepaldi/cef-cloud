@@ -82,7 +82,7 @@ const Header = (props) => {
 			{props.showNewButton && (
 				<>
 					<RightPanel className="showBigButton">
-						<Button small>
+						<Button small onClick={props.handleReport}>
 							<BsPrinter size={24} onClick={props.handlePrint} />
 						</Button>
 						<ButtonLeft
