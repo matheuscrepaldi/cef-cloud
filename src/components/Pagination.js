@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	BsChevronLeft,
 	BsChevronDoubleLeft,
@@ -20,6 +20,10 @@ export default function Pagination(props) {
 		buttons.push(i);
 	}
 
+	useEffect(() => {
+		setSelected(1);
+	}, [count]);
+
 	const handlePaginationChange = (id) => {
 		if (selected === id) {
 			return;
@@ -34,14 +38,14 @@ export default function Pagination(props) {
 		<Row style={{ justifyContent: "flex-end" }}>
 			<Button
 				small
-				disabled={selected === 1}
+				disabled={selected === 1 || buttons.length === 1}
 				onClick={() => handlePaginationChange(1)}
 			>
 				<BsChevronDoubleLeft size={20} />
 			</Button>
 			<Button
 				small
-				disabled={selected === 1}
+				disabled={selected === 1 || buttons.length === 1}
 				onClick={() => handlePaginationChange(selected - 1)}
 			>
 				<BsChevronLeft size={20} />
@@ -50,7 +54,10 @@ export default function Pagination(props) {
 				return (
 					<Button
 						key={key}
-						className={selected === button && "selected"}
+						className={
+							(selected === button || buttons.length === 1) &&
+							"selected"
+						}
 						onClick={() => handlePaginationChange(button)}
 						small
 					>
@@ -60,14 +67,18 @@ export default function Pagination(props) {
 			})}
 			<Button
 				small
-				disabled={selected === size || count === 0}
+				disabled={
+					selected === size || count === 0 || buttons.length === 1
+				}
 				onClick={() => handlePaginationChange(selected + 1)}
 			>
 				<BsChevronRight size={20} />
 			</Button>
 			<Button
 				small
-				disabled={selected === size || count === 0}
+				disabled={
+					selected === size || count === 0 || buttons.length === 1
+				}
 				onClick={() => handlePaginationChange(buttons.length)}
 			>
 				<BsChevronDoubleRight size={20} />

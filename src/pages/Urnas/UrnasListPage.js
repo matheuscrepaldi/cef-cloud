@@ -72,6 +72,7 @@ function UrnasListPage(props) {
 	const [fornecedores, setFornecedores] = useState([]);
 	const [count, setCount] = useState(0);
 	const [filter, setFilter] = useState("");
+	const [pagination, setPagination] = useState("");
 
 	useEffect(() => {
 		setLoading(true);
@@ -118,8 +119,8 @@ function UrnasListPage(props) {
 		setShowFilter(false);
 		setFilterLength(size);
 
-		const url = handleFilterUrl(fields, "fil");
-		setFilter(url);
+		const url = buildUrl(fields, "page=0");
+		setFilter(fields);
 
 		axios
 			.get(`listarUrnas/search${url}`)
@@ -138,6 +139,7 @@ function UrnasListPage(props) {
 		setLoading(true);
 		setFilterLength(0);
 		setFilter("");
+		setPagination("");
 
 		axios
 			.get("listarUrnas/search")
@@ -153,8 +155,9 @@ function UrnasListPage(props) {
 	};
 
 	const handlePaginationChange = (page) => {
-		const url = handleFilterUrl(page, "pag");
-		setFilter(url);
+		setLoading(true);
+		const url = buildUrl(filter, page);
+		setPagination(page);
 
 		axios
 			.get(`listarUrnas/search${url}`)
@@ -168,16 +171,19 @@ function UrnasListPage(props) {
 			});
 	};
 
-	const handleFilterUrl = (fields, type) => {
-		let url = "?";
+	const buildUrl = (filter, pagination) => {
+		let url = "";
 
-		if (filter === "") {
-			url += fields;
-		} else {
-			url = filter;
-			url += `&${fields}`;
+		if (filter === "" && pagination === "") {
+			return;
+		} else if (filter === "" && pagination !== "") {
+			url = `?${pagination}`;
+		} else if (filter !== "" && pagination === "") {
+			url = `?${filter}`;
+		} else if (filter !== "" && pagination !== "") {
+			url = `?${filter}&${pagination}`;
 		}
-		console.log(url);
+
 		return url;
 	};
 
@@ -190,8 +196,6 @@ function UrnasListPage(props) {
 		{ id: "tamanho_urna", value: "Tamanho" },
 		{ id: "classe_urna", value: "Tipo" },
 	];
-
-	// console.log(filter);
 
 	return (
 		<>
