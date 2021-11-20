@@ -96,6 +96,7 @@ function LoginPage(props) {
 						token: data.Token,
 						owner: isAdmin ? "" : data.Owner,
 						role: data.Role,
+						funeraria: data.Funeraria,
 					};
 
 					sessionStorage.setItem("session", JSON.stringify(session));

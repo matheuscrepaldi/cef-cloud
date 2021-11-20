@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 import axios from "axios";
 import Header from "../../components/Header";
@@ -188,6 +189,41 @@ function UrnasListPage(props) {
 		return url;
 	};
 
+	const handleReportButtonClick = async () => {
+		const size = Math.ceil(count / 10);
+		let list = [];
+		let updatedData = [];
+
+		for (let i = 0; i < size; i++) {
+			list.push(i);
+		}
+
+		for (const [idx, item] of list.entries()) {
+			setLoading(true);
+
+			const url = buildUrl(filter, `page=${item}`);
+
+			await axios
+				.get(`listarUrnas/search${url}`)
+				.then((response) => {
+					setLoading(false);
+					updatedData = [...updatedData, ...response.data];
+
+					if (idx === list.length - 1) {
+						generatePDF(
+							["Id", "Referência", "Nome", "Quantidade"],
+							updatedData,
+							"Urnas"
+						);
+					}
+				})
+				.catch((err) => {
+					setLoading(false);
+					toast.error(`Erro ao baixar relatório`);
+				});
+		}
+	};
+
 	const filterColumns = [
 		{ id: "cor_urna", value: "Cor" },
 		{ id: "dt_hr_entrada", value: "Data" },
@@ -214,13 +250,7 @@ function UrnasListPage(props) {
 					showNewButton
 					filterLength={filterLength}
 					handleResetFilter={handleResetFilter}
-					handleReport={() =>
-						generatePDF(
-							["Id", "Referência", "Nome", "Quantidade"],
-							data,
-							"Urnas"
-						)
-					}
+					handleReport={() => handleReportButtonClick()}
 				/>
 
 				<TableRow className="header">

@@ -1,9 +1,11 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-import { isLogin } from "../routes/isLoggedIn";
+import { isLogin, getOwner } from "../routes/isLoggedIn";
 
 const session = isLogin();
+const funeraria = getOwner();
+
 const today = new Date().toLocaleString("pt-BR");
 
 const generatePDF = (tableColumns, data, report) => {
@@ -31,7 +33,7 @@ const generatePDF = (tableColumns, data, report) => {
 	/////////////////// HEADER ///////////////////
 
 	//linha 1
-	doc.text("Funerária teste", 14, 15);
+	doc.text(funeraria.nome_owner, 14, 15);
 
 	//muda fonte
 	doc.setFontSize(12);
@@ -46,23 +48,45 @@ const generatePDF = (tableColumns, data, report) => {
 	doc.text("Telefone: ", 14, 35);
 
 	//linha 5
+	doc.text("Email: ", 14, 40);
+
+	//linha 6
 	doc.setFontSize(10);
-	doc.text("Usuário logado: ", 14, 43);
+	doc.text("Usuário logado: ", 14, 48);
 	const widthUser = doc.getTextWidth("Usuário logado: ");
-	doc.text(session.user, widthUser + 14, 43);
+	doc.text(session.user, widthUser + 14, 48);
 
 	const widthToday = doc.getTextWidth(today);
-	doc.text(today, pageWidth - widthToday - 14, 43);
+	doc.text(today, pageWidth - widthToday - 14, 48);
 
 	//muda cor da fonte
 	doc.setTextColor(100);
 	doc.setFontSize(12);
 	const widthAddress = doc.getTextWidth("Endereço: ");
-	doc.text("toma toma", widthAddress + 14, 25);
+	doc.text(funeraria.end_owner, widthAddress + 14, 25);
+	doc.text(
+		` - ${funeraria.bairro_owner}`,
+		doc.getTextWidth(funeraria.end_owner) + widthAddress + 14,
+		25
+	);
+
+	const widthCity = doc.getTextWidth("Cidade: ");
+	doc.text(funeraria.cidade_owner, widthCity + 14, 30);
+	doc.text(
+		`, ${funeraria.estado_owner}`,
+		doc.getTextWidth(funeraria.cidade_owner) + widthCity + 14,
+		30
+	);
+
+	const widthPhone = doc.getTextWidth("Telefone: ");
+	doc.text(funeraria.tel_owner, widthPhone + 14, 35);
+
+	const widthEmail = doc.getTextWidth("Email: ");
+	doc.text(funeraria.email_owner, widthEmail + 14, 40);
 
 	// doc.setDrawColor(89, 191, 255);
 	doc.setLineWidth(0.5);
-	doc.line(14, 45, pageWidth - 14, 45);
+	doc.line(14, 50, pageWidth - 14, 50);
 
 	doc.setFontSize(18);
 	doc.setTextColor(28, 28, 28);
@@ -72,7 +96,7 @@ const generatePDF = (tableColumns, data, report) => {
 
 	//starta a tabela
 	doc.autoTable(tableColumns, tableRows, {
-		startY: 65,
+		startY: 70,
 		headStyles: {
 			fillColor: [89, 191, 255],
 			fontSize: 14,
