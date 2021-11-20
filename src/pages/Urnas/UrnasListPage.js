@@ -214,7 +214,13 @@ function UrnasListPage(props) {
 					showNewButton
 					filterLength={filterLength}
 					handleResetFilter={handleResetFilter}
-					handleReport={() => generatePDF(data)}
+					handleReport={() =>
+						generatePDF(
+							["Id", "Referência", "Nome", "Quantidade"],
+							data,
+							"Urnas"
+						)
+					}
 				/>
 
 				<TableRow className="header">
