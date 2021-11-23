@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 import { isLogin, getOwner } from "../routes/isLoggedIn";
+import { convertDate } from "../utils/convertDate";
 
 const session = isLogin();
 const funeraria = getOwner();
@@ -18,17 +19,31 @@ const generatePDF = (tableColumns, data, report) => {
 	// valores das colunas
 	const tableRows = [];
 
-	// popular dados no array
-	data.forEach((item) => {
-		const itemData = [
-			item.id_urna,
-			item.ref_urna,
-			item.nome_urna,
-			item.quantidade,
-		];
+	if (report === "Urnas") {
+		data.forEach((item) => {
+			const itemData = [
+				item.ref_urna,
+				item.nome_urna,
+				item.classe_urna,
+				item.cor_urna,
+				item.quantidade,
+			];
 
-		tableRows.push(itemData);
-	});
+			tableRows.push(itemData);
+		});
+	} else if (report === "Movimentações") {
+		data.forEach((item) => {
+			const itemData = [
+				item.tipo_mov,
+				item.ref_urna,
+				item.cor_urna,
+				item.qtde_mov,
+				convertDate(item.dt_hr_mov),
+			];
+
+			tableRows.push(itemData);
+		});
+	}
 
 	/////////////////// HEADER ///////////////////
 

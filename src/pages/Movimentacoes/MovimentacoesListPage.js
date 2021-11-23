@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 import axios from "axios";
 import Header from "../../components/Header";
@@ -13,6 +14,7 @@ import { convertDate } from "../../utils/convertDate";
 import Filter from "../../components/Filter";
 import Container from "../../components/Container";
 import Pagination from "../../components/Pagination";
+import generatePDF from "../../components/Report";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -182,6 +184,48 @@ function MovimentacoesListPage(props) {
 		return url;
 	};
 
+	const handleReportButtonClick = async () => {
+		const size = Math.ceil(count / 10);
+		let list = [];
+		let updatedData = [];
+
+		for (let i = 0; i < size; i++) {
+			list.push(i);
+		}
+
+		for (const [idx, item] of list.entries()) {
+			setLoading(true);
+
+			const url = buildUrl(filter, `page=${item}`);
+
+			await axios
+				.get(`listarMovimentacoes/search${url}`)
+				.then((response) => {
+					setLoading(false);
+					updatedData = [...updatedData, ...response.data];
+
+					if (idx === list.length - 1) {
+						generatePDF(
+							[
+								"Movimentação",
+								"Referência",
+								"Cor",
+								"Quantidade",
+								"Data/Hora",
+							],
+							updatedData,
+							"Movimentações"
+						);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					setLoading(false);
+					toast.error(`Erro ao baixar relatório`);
+				});
+		}
+	};
+
 	const filterColumns = [
 		{ id: "cor_urna", value: "Cor" },
 		{ id: "dt_hr_mov", value: "Data" },
@@ -212,6 +256,7 @@ function MovimentacoesListPage(props) {
 					handleFilter={handleToggleModal}
 					filterLength={filterLength}
 					handleResetFilter={handleResetFilter}
+					handleReport={() => handleReportButtonClick()}
 				/>
 
 				<TableRow className="header">

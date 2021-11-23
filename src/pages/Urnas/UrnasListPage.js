@@ -211,7 +211,7 @@ function UrnasListPage(props) {
 
 					if (idx === list.length - 1) {
 						generatePDF(
-							["Id", "Referência", "Nome", "Quantidade"],
+							["Referência", "Nome", "Tipo", "Cor", "Quantidade"],
 							updatedData,
 							"Urnas"
 						);
