@@ -38,14 +38,14 @@ export default function Pagination(props) {
 		<Row style={{ justifyContent: "flex-end" }}>
 			<Button
 				small
-				disabled={selected === 1 || buttons.length === 1}
+				disabled={selected === 1 || buttons.length <= 1}
 				onClick={() => handlePaginationChange(1)}
 			>
 				<BsChevronDoubleLeft size={20} />
 			</Button>
 			<Button
 				small
-				disabled={selected === 1 || buttons.length === 1}
+				disabled={selected === 1 || buttons.length <= 1}
 				onClick={() => handlePaginationChange(selected - 1)}
 			>
 				<BsChevronLeft size={20} />
@@ -55,7 +55,7 @@ export default function Pagination(props) {
 					<Button
 						key={key}
 						className={
-							(selected === button || buttons.length === 1) &&
+							(selected === button || buttons.length <= 1) &&
 							"selected"
 						}
 						onClick={() => handlePaginationChange(button)}
@@ -68,7 +68,7 @@ export default function Pagination(props) {
 			<Button
 				small
 				disabled={
-					selected === size || count === 0 || buttons.length === 1
+					selected === size || count === 0 || buttons.length <= 1
 				}
 				onClick={() => handlePaginationChange(selected + 1)}
 			>
@@ -77,7 +77,7 @@ export default function Pagination(props) {
 			<Button
 				small
 				disabled={
-					selected === size || count === 0 || buttons.length === 1
+					selected === size || count === 0 || buttons.length <= 1
 				}
 				onClick={() => handlePaginationChange(buttons.length)}
 			>
