@@ -15,6 +15,7 @@ import Container from "../../components/Container";
 import { convertDate } from "../../utils/convertDate";
 import Pagination from "../../components/Pagination";
 import generatePDF from "../../components/Report";
+import { isLogin, getOwner } from "../../routes/isLoggedIn";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -75,6 +76,8 @@ function UrnasListPage(props) {
 	const [count, setCount] = useState(0);
 	const [filter, setFilter] = useState("");
 	const [pagination, setPagination] = useState("");
+	const [session, setSession] = useState({});
+	const [funeraria, setFuneraria] = useState({});
 
 	useEffect(() => {
 		setLoading(true);
@@ -106,6 +109,9 @@ function UrnasListPage(props) {
 			.catch(function (error) {
 				console.log(error);
 			});
+
+		setSession(isLogin());
+		setFuneraria(getOwner());
 	}, []);
 
 	const handleCardClick = (id) => {
@@ -213,7 +219,9 @@ function UrnasListPage(props) {
 						generatePDF(
 							["Referência", "Nome", "Tipo", "Cor", "Quantidade"],
 							updatedData,
-							"Urnas"
+							"Urnas",
+							session,
+							funeraria
 						);
 					}
 				})

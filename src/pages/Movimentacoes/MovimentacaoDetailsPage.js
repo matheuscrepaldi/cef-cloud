@@ -41,6 +41,7 @@ function MovimentacaoDetailsPage(props) {
 				.then(function (response) {
 					setFields(response.data);
 					setLoading(false);
+					getUrnas();
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -49,6 +50,7 @@ function MovimentacaoDetailsPage(props) {
 		}
 
 		async function getUrnas() {
+			setLoading(true);
 			axios
 				.get(`listarUrnas/`)
 				.then(function (response) {
@@ -61,12 +63,10 @@ function MovimentacaoDetailsPage(props) {
 				});
 		}
 
-		setLoading(true);
-		getUrnas();
-
 		if (!isNew) {
 			getMovimentacao();
 		} else {
+			getUrnas();
 			setFields({ dt_hr_mov: today(), qtde_mov: 0 });
 		}
 	}, [id, setFields, isNew]);
@@ -188,7 +188,10 @@ function MovimentacaoDetailsPage(props) {
 	};
 
 	const handlePost = () => {
-		if (
+		if (fields.qtde_mov <= 0) {
+			toast.error("Quantidade digitada inválida");
+			return;
+		} else if (
 			fields.tipo_mov === "Saída" &&
 			fields.quantidade < fields.qtde_mov
 		) {

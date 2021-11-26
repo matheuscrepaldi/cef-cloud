@@ -15,6 +15,7 @@ import Filter from "../../components/Filter";
 import Container from "../../components/Container";
 import Pagination from "../../components/Pagination";
 import generatePDF from "../../components/Report";
+import { isLogin, getOwner } from "../../routes/isLoggedIn";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -75,6 +76,8 @@ function MovimentacoesListPage(props) {
 	const [count, setCount] = useState(0);
 	const [filter, setFilter] = useState("");
 	const [pagination, setPagination] = useState("");
+	const [session, setSession] = useState({});
+	const [funeraria, setFuneraria] = useState({});
 
 	useEffect(() => {
 		setLoading(true);
@@ -101,6 +104,9 @@ function MovimentacoesListPage(props) {
 				console.log(error);
 				setLoading(false);
 			});
+
+		setSession(isLogin());
+		setFuneraria(getOwner());
 	}, []);
 
 	const handleCardClick = (id) => {
@@ -214,7 +220,9 @@ function MovimentacoesListPage(props) {
 								"Data/Hora",
 							],
 							updatedData,
-							"Movimentações"
+							"Movimentações",
+							session,
+							funeraria
 						);
 					}
 				})

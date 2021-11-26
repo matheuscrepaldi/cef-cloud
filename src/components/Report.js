@@ -1,15 +1,11 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-import { isLogin, getOwner } from "../routes/isLoggedIn";
 import { convertDate } from "../utils/convertDate";
-
-const session = isLogin();
-const funeraria = getOwner();
 
 const today = new Date().toLocaleString("pt-BR");
 
-const generatePDF = (tableColumns, data, report) => {
+const generatePDF = (tableColumns, data, report, session, funeraria) => {
 	// starta o jsPDF
 	const doc = new jsPDF();
 
