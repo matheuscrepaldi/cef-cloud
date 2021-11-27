@@ -160,10 +160,8 @@ const generatePDF = (
 			finalAutoTable + 20
 		);
 	}
-	doc.setProperties({
-		title: `relatorio${report}`,
-	});
-	doc.output("dataurlnewwindow");
+
+	doc.output("dataurlnewwindow", { filename: `relatorio_de_${report}` });
 	// define nome do arquivo pdf
 	// doc.save(`relatorio${report}.pdf`);
 };
