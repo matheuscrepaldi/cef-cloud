@@ -12,11 +12,6 @@ const StyledLink = styled(Link)`
 	text-decoration: none;
 	margin: 0px 10px;
 
-	:hover {
-		cursor: pointer;
-		color: #d9d9d9;
-	}
-
 	@media (max-width: 1023px) {
 		padding: 15px;
 		text-decoration: none;
@@ -86,6 +81,7 @@ const List = styled.div`
 	display: flex;
 	align-items: center;
 	margin-right: 15px;
+	height: 100%;
 
 	@media (max-width: 1023px) {
 		display: none;
@@ -165,6 +161,63 @@ const MenuContent = styled.div`
 	margin-top: 30px;
 `;
 
+const Dropbtn = styled.button`
+	color: #ffffff;
+	height: 100%;
+	font-size: 16px;
+	border: none;
+	min-width: 120px;
+	cursor: pointer;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	outline: none;
+
+	:hover {
+		background: #0075bf;
+	}
+`;
+
+const DropbtnItem = styled.button`
+	color: #ffffff;
+	height: 100%;
+	padding: 5px 0px 5px 15px;
+	text-align: start;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	outline: none;
+
+	:hover {
+		background: #0075bf;
+		width: 100%;
+	}
+`;
+
+const DropdownContent = styled.div`
+	display: none;
+	position: absolute;
+	background: #59bfff;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+`;
+
+const Dropdown = styled.div`
+	position: relative;
+	display: inline-block;
+	height: 100%;
+
+	:hover ${DropdownContent} {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+`;
+
 function Menu() {
 	const session = isLogin();
 	const isAdmin = session && session.role === "ROLE_ADMIN";
@@ -223,29 +276,54 @@ function Menu() {
 						</Title>
 					</Logo>
 					<List>
-						<StyledLink to={"/home"}>Home</StyledLink>
+						<Dropbtn>
+							<StyledLink to={"/home"}>Home</StyledLink>
+						</Dropbtn>
 						{isAdmin && (
 							<>
-								<StyledLink to={"/funerarias"}>
-									Funerárias
-								</StyledLink>
-								<StyledLink to={"/usuarios"}>
-									Usuários
-								</StyledLink>
+								<Dropbtn>
+									<StyledLink to={"/funerarias"}>
+										Funerárias
+									</StyledLink>
+								</Dropbtn>
+								<Dropbtn>
+									<StyledLink to={"/usuarios"}>
+										Usuários
+									</StyledLink>
+								</Dropbtn>
 							</>
 						)}
 
-						<StyledLink to={"/urnas"}>Urnas</StyledLink>
-						<StyledLink to={"/movimentacoes"}>
-							Movimentações
-						</StyledLink>
-						<StyledLink to={"/clientes"}>Clientes</StyledLink>
-						<StyledLink to={"/fornecedores"}>
-							Fornecedores
-						</StyledLink>
-						<StyledLink to={""} onClick={handleLogout}>
-							Sair
-						</StyledLink>
+						<Dropdown>
+							<Dropbtn>
+								<StyledLink to={""}>Gerenciar</StyledLink>
+							</Dropbtn>
+							<DropdownContent>
+								<DropbtnItem>
+									<StyledLink to={"/clientes"}>
+										Clientes
+									</StyledLink>
+								</DropbtnItem>
+								<DropbtnItem>
+									<StyledLink to={"/fornecedores"}>
+										Fornecedores
+									</StyledLink>
+								</DropbtnItem>
+								<DropbtnItem>
+									<StyledLink to={"/movimentacoes"}>
+										Movimentações
+									</StyledLink>
+								</DropbtnItem>
+								<DropbtnItem>
+									<StyledLink to={"/urnas"}>Urnas</StyledLink>
+								</DropbtnItem>
+							</DropdownContent>
+						</Dropdown>
+						<Dropbtn>
+							<StyledLink to={""} onClick={handleLogout}>
+								Sair
+							</StyledLink>
+						</Dropbtn>
 					</List>
 				</Row>
 			</Navbar>
@@ -269,17 +347,17 @@ function Menu() {
 						</>
 					)}
 
-					<StyledLink onClick={showMenu} to={"/urnas"}>
-						Urnas
-					</StyledLink>
-					<StyledLink onClick={showMenu} to={"/movimentacoes"}>
-						Movimentações
-					</StyledLink>
 					<StyledLink onClick={showMenu} to={"/clientes"}>
 						Clientes
 					</StyledLink>
 					<StyledLink onClick={showMenu} to={"/fornecedores"}>
 						Fornecedores
+					</StyledLink>
+					<StyledLink onClick={showMenu} to={"/movimentacoes"}>
+						Movimentações
+					</StyledLink>
+					<StyledLink onClick={showMenu} to={"/urnas"}>
+						Urnas
 					</StyledLink>
 					<StyledLink to={""} onClick={handleLogout}>
 						Sair
