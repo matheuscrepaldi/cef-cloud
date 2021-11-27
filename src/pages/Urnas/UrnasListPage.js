@@ -16,6 +16,7 @@ import { convertDate } from "../../utils/convertDate";
 import Pagination from "../../components/Pagination";
 import generatePDF from "../../components/Report";
 import { isLogin, getOwner } from "../../routes/isLoggedIn";
+import ReportModal from "../../components/ReportModal";
 
 const TableColumn = styled(Column)`
 	margin: 10px;
@@ -78,6 +79,8 @@ function UrnasListPage(props) {
 	const [pagination, setPagination] = useState("");
 	const [session, setSession] = useState({});
 	const [funeraria, setFuneraria] = useState({});
+	const [showReportModal, setShowReportModal] = useState(false);
+	const [checkbox, setCheckbox] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -120,6 +123,10 @@ function UrnasListPage(props) {
 
 	const handleToggleModal = () => {
 		setShowFilter(!showFilter);
+	};
+
+	const handleToggleModalReport = () => {
+		setShowReportModal(!showReportModal);
 	};
 
 	const handleConfirmFilter = (fields, size) => {
@@ -221,7 +228,8 @@ function UrnasListPage(props) {
 							updatedData,
 							"Urnas",
 							session,
-							funeraria
+							funeraria,
+							checkbox
 						);
 					}
 				})
@@ -230,6 +238,12 @@ function UrnasListPage(props) {
 					toast.error(`Erro ao baixar relatório`);
 				});
 		}
+	};
+
+	const handleConfirmModalButton = () => {
+		handleToggleModalReport();
+		setCheckbox(false);
+		handleReportButtonClick();
 	};
 
 	const filterColumns = [
@@ -250,7 +264,16 @@ function UrnasListPage(props) {
 				fields={filterColumns}
 				handleConfirmFilter={handleConfirmFilter}
 			/>
-			<Container showModal={showFilter}>
+			<ReportModal
+				title="Gerar relatório"
+				subtitle="Selecione abaixo para incluir o balanço"
+				showModal={showReportModal}
+				onChange={() => setCheckbox(!checkbox)}
+				checked={checkbox}
+				handleToggleModal={handleToggleModalReport}
+				handleConfirmModalButton={handleConfirmModalButton}
+			/>
+			<Container showModal={showFilter || showReportModal}>
 				<Header
 					title="Lista de Urnas"
 					handleNew={() => props.history.push("/urnas/new")}
@@ -258,7 +281,7 @@ function UrnasListPage(props) {
 					showNewButton
 					filterLength={filterLength}
 					handleResetFilter={handleResetFilter}
-					handleReport={() => handleReportButtonClick()}
+					handleReport={handleToggleModalReport}
 				/>
 
 				<TableRow className="header">

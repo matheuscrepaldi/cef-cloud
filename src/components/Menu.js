@@ -296,7 +296,9 @@ function Menu() {
 
 						<Dropdown>
 							<Dropbtn>
-								<StyledLink to={""}>Gerenciar</StyledLink>
+								<StyledLink to={""}>
+									Gerenciar &#x25BC;
+								</StyledLink>
 							</Dropbtn>
 							<DropdownContent>
 								<DropbtnItem>

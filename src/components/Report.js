@@ -5,7 +5,14 @@ import { convertDate } from "../utils/convertDate";
 
 const today = new Date().toLocaleString("pt-BR");
 
-const generatePDF = (tableColumns, data, report, session, funeraria) => {
+const generatePDF = (
+	tableColumns,
+	data,
+	report,
+	session,
+	funeraria,
+	checkbox
+) => {
 	// starta o jsPDF
 	const doc = new jsPDF();
 
@@ -14,6 +21,8 @@ const generatePDF = (tableColumns, data, report, session, funeraria) => {
 
 	// valores das colunas
 	const tableRows = [];
+	let estoqueTotal = 0;
+	let valorTotal = 0;
 
 	if (report === "Urnas") {
 		data.forEach((item) => {
@@ -24,7 +33,8 @@ const generatePDF = (tableColumns, data, report, session, funeraria) => {
 				item.cor_urna,
 				item.quantidade,
 			];
-
+			estoqueTotal += item.quantidade;
+			valorTotal += item.val_total;
 			tableRows.push(itemData);
 		});
 	} else if (report === "Movimentações") {
@@ -130,8 +140,32 @@ const generatePDF = (tableColumns, data, report, session, funeraria) => {
 		doc.putTotalPages(totalPagesExp);
 	}
 
+	let finalAutoTable = doc.previousAutoTable.finalY;
+
+	if (checkbox) {
+		const fixedTotalValue = valorTotal.toLocaleString("pt-br", {
+			style: "currency",
+			currency: "BRL",
+		});
+
+		doc.setLineWidth(0.5);
+		doc.line(14, finalAutoTable + 10, pageWidth - 14, finalAutoTable + 10);
+		doc.setFontSize(16);
+		doc.text(`Estoque total: ${estoqueTotal}`, 14, finalAutoTable + 20);
+		const totalValue = `Valor total: ${fixedTotalValue}`;
+		const widthTotalValue = doc.getTextWidth(totalValue);
+		doc.text(
+			totalValue,
+			pageWidth - widthTotalValue - 14,
+			finalAutoTable + 20
+		);
+	}
+	doc.setProperties({
+		title: `relatorio${report}`,
+	});
+	doc.output("dataurlnewwindow");
 	// define nome do arquivo pdf
-	doc.save(`relatorio${report}.pdf`);
+	// doc.save(`relatorio${report}.pdf`);
 };
 
 export default generatePDF;
