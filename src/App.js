@@ -24,6 +24,7 @@ import ClientesListPage from "./pages/Clientes/ClientesListPage";
 import ClienteDetailsPage from "./pages/Clientes/ClienteDetailsPage";
 import FornecedoresListPage from "./pages/Fornecedores/FornecedoresListPage";
 import FornecedorDetailsPage from "./pages/Fornecedores/FornecedorDetailsPage";
+import ParametrosPage from "./pages/Parametros/ParametrosPage";
 
 function App() {
 	return (
@@ -106,14 +107,11 @@ function App() {
 							path="/fornecedores/:id"
 							exact
 						/>
-						{/* <Route
+						<PrivateRoute
+							component={ParametrosPage}
+							path="/parametros"
 							exact
-							path="/db/settings/computers"
-							name="ComputersListPage"
-							component={ComputersListPage}
 						/>
-
-						<Route component={NotFoundPage} /> */}
 					</Switch>
 				</Layout>
 			</Switch>

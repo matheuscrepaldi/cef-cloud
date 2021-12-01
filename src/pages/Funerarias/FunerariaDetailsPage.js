@@ -265,6 +265,18 @@ function FunerariaDetailsPage(props) {
 								onChange={handleInputChange}
 							/>
 						</Column>
+						<Column>
+							<Text>Plano:</Text>
+							<Select
+								id={"plano_owner"}
+								value={fields.plano_owner}
+								onChange={handleInputChange}
+							>
+								<option value="basic">Basic</option>
+								<option value="premium">Premium</option>
+								<option value="enterprise">Enterprise</option>
+							</Select>
+						</Column>
 					</Row>
 					<Row style={{ justifyContent: "center" }}>
 						<ButtonGroup>

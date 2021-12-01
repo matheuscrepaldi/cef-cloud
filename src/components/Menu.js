@@ -167,7 +167,6 @@ const Dropbtn = styled.button`
 	font-size: 16px;
 	border: none;
 	min-width: 120px;
-	cursor: pointer;
 	background-color: transparent;
 	background-repeat: no-repeat;
 	overflow: hidden;
@@ -279,21 +278,6 @@ function Menu() {
 						<Dropbtn>
 							<StyledLink to={"/home"}>Home</StyledLink>
 						</Dropbtn>
-						{isAdmin && (
-							<>
-								<Dropbtn>
-									<StyledLink to={"/funerarias"}>
-										Funerárias
-									</StyledLink>
-								</Dropbtn>
-								<Dropbtn>
-									<StyledLink to={"/usuarios"}>
-										Usuários
-									</StyledLink>
-								</Dropbtn>
-							</>
-						)}
-
 						<Dropdown>
 							<Dropbtn>
 								<StyledLink to={""}>
@@ -321,6 +305,25 @@ function Menu() {
 								</DropbtnItem>
 							</DropdownContent>
 						</Dropdown>
+						{isAdmin && (
+							<>
+								<Dropbtn>
+									<StyledLink to={"/funerarias"}>
+										Funerárias
+									</StyledLink>
+								</Dropbtn>
+								<Dropbtn>
+									<StyledLink to={"/usuarios"}>
+										Usuários
+									</StyledLink>
+								</Dropbtn>
+								<Dropbtn>
+									<StyledLink to={"/parametros"}>
+										Parâmetros
+									</StyledLink>
+								</Dropbtn>
+							</>
+						)}
 						<Dropbtn>
 							<StyledLink to={""} onClick={handleLogout}>
 								Sair
@@ -338,17 +341,6 @@ function Menu() {
 					<StyledLink onClick={showMenu} to={"/home"}>
 						Home
 					</StyledLink>
-					{isAdmin && (
-						<>
-							<StyledLink onClick={showMenu} to={"/funerarias"}>
-								Funerárias
-							</StyledLink>
-							<StyledLink onClick={showMenu} to={"/usuarios"}>
-								Usuários
-							</StyledLink>
-						</>
-					)}
-
 					<StyledLink onClick={showMenu} to={"/clientes"}>
 						Clientes
 					</StyledLink>
@@ -361,6 +353,19 @@ function Menu() {
 					<StyledLink onClick={showMenu} to={"/urnas"}>
 						Urnas
 					</StyledLink>
+					{isAdmin && (
+						<>
+							<StyledLink onClick={showMenu} to={"/funerarias"}>
+								Funerárias
+							</StyledLink>
+							<StyledLink onClick={showMenu} to={"/usuarios"}>
+								Usuários
+							</StyledLink>
+							<StyledLink onClick={showMenu} to={"/parametros"}>
+								Parâmetros
+							</StyledLink>
+						</>
+					)}
 					<StyledLink to={""} onClick={handleLogout}>
 						Sair
 					</StyledLink>

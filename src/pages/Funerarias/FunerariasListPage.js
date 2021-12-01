@@ -104,6 +104,9 @@ function FunerariasListPage(props) {
 				<TableColumn>
 					<Title>Telefone</Title>
 				</TableColumn>
+				<TableColumn>
+					<Title>Plano</Title>
+				</TableColumn>
 			</TableRow>
 
 			{loading ? (
@@ -133,6 +136,10 @@ function FunerariasListPage(props) {
 							<TableColumn>
 								<TableTitle>Telefone:</TableTitle>
 								<Text>{dt.tel_owner}</Text>
+							</TableColumn>
+							<TableColumn>
+								<TableTitle>Plano:</TableTitle>
+								<Text>{dt.plano_owner}</Text>
 							</TableColumn>
 						</TableRow>
 					);
