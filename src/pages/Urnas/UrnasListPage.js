@@ -24,6 +24,7 @@ const TableColumn = styled(Column)`
 	@media (max-width: 1024px) {
 		flex-direction: row;
 		justify-content: flex-start;
+		align-items: center;
 	}
 `;
 
