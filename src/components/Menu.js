@@ -192,7 +192,7 @@ const DropbtnItem = styled.button`
 
 	:hover {
 		background: #0075bf;
-		width: 100%;
+		/* width: 100%; */
 	}
 `;
 
@@ -201,6 +201,7 @@ const DropdownContent = styled.div`
 	position: absolute;
 	background: #59bfff;
 	min-width: 160px;
+	height: 40px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 1;
 `;
@@ -212,7 +213,7 @@ const Dropdown = styled.div`
 
 	:hover ${DropdownContent} {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
 		align-items: flex-start;
 	}
 `;

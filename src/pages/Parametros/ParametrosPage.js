@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import styled from "styled-components";
 
-import Header from "../../components/Header";
 import CardDetails from "../../components/CardDetails";
 import Row from "../../components/Row";
 import Column from "../../components/Column";
@@ -14,49 +14,36 @@ import Container from "../../components/Container";
 import Loading from "../../components/Loading";
 import ButtonGroup from "../../components/ButtonGroup";
 
-function ParametrosPage(props) {
+const LeftPanel = styled(Column)`
+	align-items: flex-end;
+	margin: 10px;
+`;
+
+const RightPanel = styled(Column)`
+	align-items: flex-start;
+	margin: 10px;
+`;
+
+function ParametrosPage() {
 	const { fields, setFields, handleInputChange } = useDynamicForm();
 	const [loading, setLoading] = useState(false);
-	const id = props.match.params.id;
-	const isNew = id === "new";
 	const session = JSON.parse(sessionStorage.getItem("session"));
 
 	useEffect(() => {
-		if (!isNew) {
-			setLoading(true);
-
-			axios
-				.get(`listarClienteById/${id}`)
-				.then(function (response) {
-					setFields(response.data);
-					setLoading(false);
-				})
-				.catch(function (error) {
-					console.log(error);
-					setLoading(false);
-				});
-		}
-	}, [id, setFields, isNew]);
-
-	const handlePost = () => {
-		const body = { ...fields };
-		body.cdOwner = session && session.owner;
-		delete body.id;
-
 		setLoading(true);
 
 		axios
-			.post(`cadastrarCliente`, body)
+			.get(`listarPlanos`)
 			.then(function (response) {
-				toast.success("Cliente cadastrado com sucesso");
-				props.history.push("/clientes");
+				setFields(response.data);
+
 				setLoading(false);
 			})
 			.catch(function (error) {
 				console.log(error);
 				setLoading(false);
 			});
-	};
+	}, [setFields]);
 
 	const handlePut = () => {
 		const body = { ...fields };
@@ -65,10 +52,9 @@ function ParametrosPage(props) {
 		setLoading(true);
 
 		axios
-			.put(`atualizarCliente/${id}`, body)
+			.put(`atualizarPlano/${fields.id_config}`, body)
 			.then(function (response) {
-				toast.success("Cliente atualizado com sucesso");
-				props.history.push("/clientes");
+				toast.success(response.data);
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -78,87 +64,116 @@ function ParametrosPage(props) {
 	};
 
 	const handleSaveUrna = () => {
-		if (isNew) {
-			handlePost();
-		} else {
-			handlePut();
-		}
+		handlePut();
 	};
 
 	return (
 		<Container>
-			<Row>Parâmetros</Row>
+			<Row style={{ justifyContent: "center" }}>
+				Parâmetros {`(${fields.plano_owner})`}
+			</Row>
 			<CardDetails>
 				<Loading loading={loading} absolute />
-				<Row>
-					<Text>Limite de usuários:</Text>
-					<Input
-						id={"limite_usu_config"}
-						type="text"
-						defaultValue={fields.limite_usu_config}
-						onChange={handleInputChange}
-						disabled
-					/>
+				<Row style={{ justifyContent: "center" }}>
+					<LeftPanel>
+						<Text>Limite de usuários:</Text>
+					</LeftPanel>
+					<RightPanel>
+						<Input
+							id={"limite_usu_config"}
+							type="text"
+							defaultValue={fields.limite_usu_config}
+							onChange={handleInputChange}
+							disabled={fields.plano_owner !== "enterprise"}
+						/>
+					</RightPanel>
 				</Row>
-				<Row>
-					<Text>Limite de urnas:</Text>
-					<Input
-						id={"limite_urna_config"}
-						type="text"
-						defaultValue={fields.limite_urna_config}
-						onChange={handleInputChange}
-						disabled
-					/>
+				<Row style={{ justifyContent: "center" }}>
+					<LeftPanel>
+						<Text>Limite de urnas:</Text>
+					</LeftPanel>
+					<RightPanel>
+						<Input
+							id={"limite_urna_config"}
+							type="text"
+							defaultValue={fields.limite_urna_config}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</RightPanel>
 				</Row>
-				<Row>
-					<Text>Relatório + balanço:</Text>
-					<Input
-						id={"relatorio_config"}
-						type="text"
-						defaultValue={fields.relatorio_config}
-						onChange={handleInputChange}
-						disabled
-					/>
+				<Row style={{ justifyContent: "center" }}>
+					<LeftPanel>
+						<Text>Relatório + balanço:</Text>
+					</LeftPanel>
+					<RightPanel>
+						<Input
+							id={"relatorio_config"}
+							type="text"
+							defaultValue={
+								fields.relatorio_config ? "Sim" : "Não"
+							}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</RightPanel>
 				</Row>
-				<Row>
-					<Text>Backup:</Text>
-					<Input
-						id={"backup_config"}
-						type="text"
-						defaultValue={fields.backup_config}
-						onChange={handleInputChange}
-						disabled
-					/>
+				<Row style={{ justifyContent: "center" }}>
+					<LeftPanel>
+						<Text>Backup(dias):</Text>
+					</LeftPanel>
+					<RightPanel>
+						<Input
+							id={"backup_config"}
+							type="text"
+							defaultValue={fields.backup_config}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</RightPanel>
 				</Row>
-				<Row>
-					<Text>Suporte:</Text>
-					<Input
-						id={"suporte_config"}
-						type="text"
-						defaultValue={fields.suporte_config}
-						onChange={handleInputChange}
-						disabled
-					/>
+				<Row style={{ justifyContent: "center" }}>
+					<LeftPanel>
+						<Text>Suporte(dias úteis):</Text>
+					</LeftPanel>
+					<RightPanel>
+						<Input
+							id={"suporte_config"}
+							type="text"
+							defaultValue={fields.suporte_config}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</RightPanel>
 				</Row>
-				<Row>
-					<Text>Desenvolvimento:</Text>
-					<Input
-						id={"dev_nova_func_config"}
-						type="text"
-						defaultValue={fields.dev_nova_func_config}
-						onChange={handleInputChange}
-						disabled
-					/>
+				<Row style={{ justifyContent: "center" }}>
+					<LeftPanel>
+						<Text>Desenvolvimento(horas):</Text>
+					</LeftPanel>
+					<RightPanel>
+						<Input
+							id={"dev_nova_func_config"}
+							type="number"
+							defaultValue={fields.dev_nova_func_config}
+							onChange={handleInputChange}
+						/>
+					</RightPanel>
 				</Row>
-				<Row>
-					<Text>Notificação(email):</Text>
-					<Input
-						id={"notifica_email_config"}
-						type="text"
-						defaultValue={fields.notifica_email_config}
-						onChange={handleInputChange}
-						disabled
-					/>
+				<Row style={{ justifyContent: "center" }}>
+					<LeftPanel>
+						<Text>Email:</Text>
+					</LeftPanel>
+					<RightPanel>
+						<Input
+							id={"notifica_email_config"}
+							type="text"
+							defaultValue={
+								fields.notifica_email_config ? "Sim" : "Não"
+							}
+							onChange={handleInputChange}
+							disabled
+						/>
+					</RightPanel>
 				</Row>
 				<Row style={{ justifyContent: "center" }}>
 					<ButtonGroup>
