@@ -1,9 +1,11 @@
-import { BsBoxArrowLeft, BsPlusLg, BsFilter } from "react-icons/bs";
-import HeaderTitle from "./HeaderTitle";
-import Button from "./Button";
 import styled from "styled-components";
 import { withRouter } from "react-router";
 import { BsX, BsPrinter } from "react-icons/bs";
+
+import { BsBoxArrowLeft, BsPlusLg, BsFilter } from "react-icons/bs";
+import HeaderTitle from "./HeaderTitle";
+import Button from "./Button";
+import { getOwner } from "../routes/isLoggedIn";
 
 const Container = styled.div`
 	display: flex;
@@ -69,6 +71,8 @@ const ButtonRight = styled(Button)`
 `;
 
 const Header = (props) => {
+	const funeraria = getOwner();
+
 	return (
 		<Container>
 			<LeftPanel style={{ width: !props.showNewButton && "100%" }}>
@@ -82,9 +86,15 @@ const Header = (props) => {
 			{props.showNewButton && (
 				<>
 					<RightPanel className="showBigButton">
-						<Button small onClick={props.handleReport}>
-							<BsPrinter size={24} onClick={props.handlePrint} />
-						</Button>
+						{funeraria.plano_owner !== "basic" && (
+							<Button small onClick={props.handleReport}>
+								<BsPrinter
+									size={24}
+									onClick={props.handlePrint}
+								/>
+							</Button>
+						)}
+
 						<ButtonLeft
 							title="Filtro"
 							onClick={props.handleFilter}

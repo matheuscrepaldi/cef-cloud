@@ -86,8 +86,10 @@ function UrnaDetailsPage(props) {
 				setLoading(false);
 			})
 			.catch(function (error) {
-				console.log(error);
 				setLoading(false);
+				if (error?.response?.status === 403) {
+					toast.error(error.response?.data);
+				}
 			});
 	};
 

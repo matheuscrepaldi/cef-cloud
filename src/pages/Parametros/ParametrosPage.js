@@ -36,7 +36,6 @@ function ParametrosPage() {
 			.get(`listarPlanos`)
 			.then(function (response) {
 				setFields(response.data);
-
 				setLoading(false);
 			})
 			.catch(function (error) {
@@ -110,9 +109,7 @@ function ParametrosPage() {
 						<Input
 							id={"relatorio_config"}
 							type="text"
-							defaultValue={
-								fields.relatorio_config ? "Sim" : "Não"
-							}
+							value={fields.relatorio_config ? "Sim" : "Não"}
 							onChange={handleInputChange}
 							disabled
 						/>
@@ -167,9 +164,7 @@ function ParametrosPage() {
 						<Input
 							id={"notifica_email_config"}
 							type="text"
-							defaultValue={
-								fields.notifica_email_config ? "Sim" : "Não"
-							}
+							value={fields.notifica_email_config ? "Sim" : "Não"}
 							onChange={handleInputChange}
 							disabled
 						/>
