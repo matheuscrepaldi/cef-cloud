@@ -180,7 +180,6 @@ const Dropbtn = styled.button`
 const DropbtnItem = styled.button`
 	color: #ffffff;
 	height: 100%;
-	padding: 5px 0px 5px 15px;
 	text-align: start;
 	font-size: 16px;
 	border: none;
@@ -192,7 +191,6 @@ const DropbtnItem = styled.button`
 
 	:hover {
 		background: #0075bf;
-		/* width: 100%; */
 	}
 `;
 
@@ -204,6 +202,7 @@ const DropdownContent = styled.div`
 	height: 40px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 1;
+	right: 0;
 `;
 
 const Dropdown = styled.div`
