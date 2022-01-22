@@ -119,6 +119,14 @@ const Header = (props) => {
 						</Button>
 					</RightPanel>
 					<RightPanel className="showSmallButton">
+						{funeraria.plano_owner !== "basic" && (
+							<Button small onClick={props.handleReport}>
+								<BsPrinter
+									size={24}
+									onClick={props.handlePrint}
+								/>
+							</Button>
+						)}
 						<ButtonLeft
 							className={props.filterLength > 0 && "left"}
 							title="Filtro"
